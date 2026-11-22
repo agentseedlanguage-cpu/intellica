@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+*.zip
+.course-key
+!site/training/arc42/example/*.zip
+out/
+dist/
+.wipay.json
+.pay.json
+.codes.log

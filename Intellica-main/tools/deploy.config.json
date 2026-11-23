@@ -1,0 +1,7 @@
+{
+  "note": "One Cloudflare Pages project serves everything on meeting-mind.com: the home site and every system in its own folder. tools/assemble.mjs builds dist/.",
+  "home": {
+    "dir": "dist",
+    "project": "intellica-web"
+  }
+}

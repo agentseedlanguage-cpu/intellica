@@ -1,4 +1,4 @@
-// Pure helpers for the Level 2 practice tools. Browser and tests both import this file (it is copied to the course as data.js).
+// Pure helpers for the Level 3 practice tools. Browser and tests both import this file (it is copied to the course as data.js).
 export const VAGUE = ['fast', 'quick', 'quickly', 'secure', 'user-friendly', 'easy', 'scalable', 'robust', 'reliable', 'high availability', 'highly available', 'good', 'flexible', 'efficient', 'modern', 'seamless', 'intuitive'];
 const UNIT = /\d[\d,.]*\s?(ms|milliseconds?|s|sec|seconds?|min|minutes?|hours?|days?|%|percent|orders?|requests?|users?|calls?|errors?|usd|us\$|tt\$|\$)\b|\bp9[0-9]\b|\b\d+(st|nd|th)\s+percentile\b/i;
 export function lintScenario(text) {

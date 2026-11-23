@@ -1,4 +1,4 @@
-// Level 2, lessons 7-11: Deciding well.
+// Level 3, lessons 7-11: Deciding well.
 export default [
 {
   n: 7, title: 'Decision Drivers and Constraints',

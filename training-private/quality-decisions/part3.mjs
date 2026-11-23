@@ -1,4 +1,4 @@
-// Level 2, lessons 12-15: Structure for change.
+// Level 3, lessons 12-15: Structure for change.
 export default [
 {
   n: 12, title: 'Modularity and Boundaries',

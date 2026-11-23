@@ -1,4 +1,4 @@
-// Level 2, lessons 16-20: Review and risk; decisions in the AI era.
+// Level 3, lessons 16-20: Review and risk; decisions in the AI era.
 // The two 2026 papers in lessons 19 and 20 were read on their arXiv pages on 2026-11-22; both are research results, not guarantees.
 export default [
 {

@@ -15,8 +15,8 @@ const CSS = ['/training/catalog.css'];
 
 for (const c of catalog.ladder.levels) {
   write(`training/${c.id}/index.html`, page({
-    title: `${c.title} | Level ${c.n} of 5 | Intellica Training`, description: c.lead, canonicalPath: c.path, ld: null, css: CSS,
-    body: coursePage(c, { catalog, levels, kindLabel: `Software architecture · Level ${c.n} of 5` }),
+    title: `${c.title} | Level ${c.n} of ${levels.length} | Intellica Training`, description: c.lead, canonicalPath: c.path, ld: null, css: CSS,
+    body: coursePage(c, { catalog, levels, kindLabel: `Software architecture · Level ${c.n} of ${levels.length}` }),
   }));
 }
 for (const c of catalog.series.courses) {

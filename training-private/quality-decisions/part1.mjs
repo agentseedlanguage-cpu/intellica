@@ -1,4 +1,4 @@
-// Level 2, lessons 1-6: Quality in numbers. Compact format: slides are [title, objective, principle, evidence, response, check].
+// Level 3, lessons 1-6: Quality in numbers. Compact format: slides are [title, objective, principle, evidence, response, check].
 // Facts about arc42, Q42 and ISO/IEC 25010 were read on their own pages on 2026-11-22. Cases marked "Illustrative" are invented.
 export default [
 {
@@ -27,13 +27,13 @@ export default [
       'Which leaves most deserve a decision record: High/High, or Low/Low?']
   ],
   guide: [
-    'A quality tree is the first Level 2 artefact because it forces the conversation most teams skip: what do we actually care about, and in what order? Start from the three to five quality goals in section 1.2 of your arc42 and give each a branch. Then split each branch until its leaves are things you could test.',
+    'A quality tree is the first Level 3 artefact because it forces the conversation most teams skip: what do we actually care about, and in what order? Start from the three to five quality goals in section 1.2 of your arc42 and give each a branch. Then split each branch until its leaves are things you could test.',
     'Use the published models as a prompt, not a template. Read the ISO 25010 characteristics and the Q42 list once, ask "does this matter here?", and cross out most of them. A tree with eight leaves that the team believes beats one with eighty it has never read.'
   ],
   case: 'Illustrative case. A small team builds an ordering app for street-food vendors. Their first list of qualities has fourteen adjectives. In a one-hour session they cross out all but five and build a tree: Performance (checkout stays fast at lunchtime), Availability (orders still work when mobile data is weak), Security (card data never touches our servers), Modifiability (a new vendor can be added without code changes) and Cost (hosting under US$200 a month). They rank each leaf H/M/L twice. Only "orders work with weak connectivity" is High on both. That single leaf drives their biggest decision, an offline-first design.',
   lab: {
     title: 'Build the quality tree for your system',
-    intro: 'Take the system you documented at Level 1. Read your section 1.2 quality goals and build the tree behind them.',
+    intro: 'Take the system you documented in Mastering arc42 (Level 2). Read your section 1.2 quality goals and build the tree behind them.',
     tasks: [
       'Copy your quality goals from section 1.2 and name the system in one sentence.',
       'Draw the tree: each goal splits into at least two leaves, each leaf specific enough to test.',

@@ -134,9 +134,9 @@ ${subnav(w, '')}
       <dl>${w.strip.map((s) => `<div><dt>${esc(s.k)}</dt><dd>${esc(s.v)}</dd></div>`).join('')}</dl>
     </section>
 
-    <section class="t-block lvl-wrap" aria-label="Level 1 of 5 in software architecture">
-      <p class="sub">This is Level 1 of Intellica\u2019s five-level software architecture path.</p>
-      ${levelPath(allLevels(catalog, w), 1)}
+    <section class="t-block lvl-wrap" aria-label="Level 2 of 6 in software architecture">
+      <p class="sub">This is Level 2 of Intellica\u2019s six-level software architecture path. The live workshop is arc42 in a Day; the online course is Mastering arc42.</p>
+      ${levelPath(allLevels(catalog, w), 2)}
     </section>
 
     <section class="t-block" id="twelve" aria-labelledby="twelve-t">
@@ -513,7 +513,7 @@ ${certificateBlock(catalog, 3)}
     </section>`;
   return page({
     title: 'Training | Intellica',
-    description: `Hands-on training from Intellica: software architecture in five levels and seven courses for the agentic era, each with a lab and a verifiable certificate. Next workshop: ${data.workshops[0].title}, ${data.workshops[0].dateLong}.`,
+    description: `Hands-on training from Intellica: software architecture in six levels and seven courses for the agentic era, each with a lab and a verifiable certificate. Next workshop: ${data.workshops[0].title}, ${data.workshops[0].dateLong}.`,
     canonicalPath: '/training/',
     ld: null,
     css: ['/training/catalog.css'],

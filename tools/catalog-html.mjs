@@ -1,18 +1,18 @@
-// HTML pieces for the course catalogue: the five-level architecture path, the agentic-era series, the certificate.
+// HTML pieces for the course catalogue: the six-level architecture path, the agentic-era series, the certificate.
 // Used by build-training.mjs (index page, arc42 page) and build-catalog.mjs (the course pages).
 import { esc, kicker, cols, site } from './training-shell.mjs';
 
 export const wa = (t) => `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(t)}`;
 export const lessonCount = (c) => c.modules.reduce((n, m) => n + m.lessons.length, 0);
 
-/* Level 1 is the arc42 workshop from training.json; levels 2 to 5 come from catalog.json. */
+/* Level 2, Mastering arc42, is the arc42 workshop and online course from training.json; levels 1 and 3 to 6 come from catalog.json. */
 export function allLevels(catalog, arc) {
-  const l1 = { n: 1, id: 'arc42', path: arc.path, title: arc.title, short: 'arc42 in a Day', lead: arc.lead, live: true, price: arc.course && arc.course.price ? arc.course.price.label : '' };
-  return [l1, ...catalog.ladder.levels];
+  const l2 = { n: 2, id: 'arc42', path: arc.path, title: 'Mastering arc42', short: 'Mastering arc42', lead: arc.lead, live: true, price: arc.course && arc.course.price ? arc.course.price.label : '' };
+  return [l2, ...catalog.ladder.levels].sort((a, b) => a.n - b.n);
 }
 
 export function levelPath(levels, current) {
-  return `<ol class="lvl-path" aria-label="The five levels">${levels.map((l) => `<li${l.n === current ? ' aria-current="step" class="is-here"' : ''}><a href="${l.path}"><b>${l.n}</b><span>${esc(l.short)}</span>${l.live ? '<i>Live workshop</i>' : ''}</a></li>`).join('')}</ol>`;
+  return `<ol class="lvl-path" aria-label="The ${levels.length} levels">${levels.map((l) => `<li${l.n === current ? ' aria-current="step" class="is-here"' : ''}><a href="${l.path}"><b>${l.n}</b><span>${esc(l.short)}</span>${l.live ? '<i>Live workshop</i>' : ''}</a></li>`).join('')}</ol>`;
 }
 
 const card = (c, tag) => `
@@ -40,7 +40,7 @@ export function catalogSections(catalog, arc, startN) {
       ${kicker(startN, 'Courses')}
       <h2 id="crs-t">Every course, online, yours to keep</h2>
       <p class="sub">${esc(catalog.coursesLead)}</p>
-      ${track('architecture', catalog.ladder.title, catalog.ladder.lead, levels, (l) => `Level ${l.n} of 5`)}
+      ${track('architecture', catalog.ladder.title, catalog.ladder.lead, levels, (l) => `Level ${l.n} of ${levels.length}`)}
       ${catalog.tracks.map((t) => track(t.id, t.title, t.lead, sr.courses.filter((c) => c.track === t.id), () => 'Online course')).join('')}
     </section>`;
 }
@@ -123,7 +123,8 @@ ${levels ? `
       <div class="syl">${c.modules.map((m, i) => `
         <div class="syl-m"><h3><span>Module ${i + 1}</span>${esc(m.title)}</h3><p class="muted">${esc(m.note)}</p>
           <ol>${m.lessons.map((l) => `<li>${esc(l)}</li>`).join('')}</ol></div>`).join('')}
-      </div>
+      </div>${c.honesty ? `
+      <p class="muted">${esc(c.honesty)}</p>` : ''}
     </section>
 
     <section class="t-block" id="lab" aria-labelledby="lab-t">

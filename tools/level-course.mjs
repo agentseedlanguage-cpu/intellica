@@ -1,4 +1,4 @@
-// The Level 2 course, "Architecture for Quality and Decisions": turns training-private/quality-decisions/part*.mjs and the "course"
+// The Level 3 course, "Quality, Decisions and Evaluation": turns training-private/quality-decisions/part*.mjs and the "course"
 // block of the quality-decisions entry in site/training/catalog.json (ladder.levels) into what build-course.mjs needs.
 // It reuses the cyber course's engine copy (cyber-course.mjs engineFiles) with its own storage prefix, health check and wording.
 import fs from 'node:fs';
@@ -55,7 +55,7 @@ export function load(SITE) {
 /* The lab: one growing decisions record. Section s<n> belongs to lesson n and holds that lesson's tasks. */
 function buildLab(src, lessons, idOf) {
   const sections = [{ key: 'head', title: 'Record header', short: 'Header', template: [
-    '| | |', '|---|---|', '| **System** | _One sentence: the system this record is about_ |', '| **Level 1 arc42** | _where your arc42 lives_ |', '| **Owner** | _the accountable person_ |', '| **Status** | Draft v0.1 |', '| **Date** | _today_ |', '',
+    '| | |', '|---|---|', '| **System** | _One sentence: the system this record is about_ |', '| **Mastering arc42 (Level 2)** | _where your arc42 lives_ |', '| **Owner** | _the accountable person_ |', '| **Status** | Draft v0.1 |', '| **Date** | _today_ |', '',
     '**Scope.** _What the record covers, and what it does not._'] }];
   const steps = [];
   src.forEach((l, i) => {
@@ -108,7 +108,7 @@ function writeTools(out, w) {
     <script type="module" src="${base}tools/scenario.js"></script>`;
   const field = (label, name, val, extra = '') => `<label>${label}<input type="${extra.includes('text') ? 'text' : 'number'}" name="${name}" value="${val}" step="any" ${extra.replace('text', '')}></label>`;
   const budget = `${nav('Budget calculator')}
-    <section class="t-hero t-hero-single"><div class="t-hero-copy"><p class="eyebrow">Practice tool</p><h1>Budget calculator</h1><p class="lead">Five small calculators for the arithmetic in Level 2: downtime and error budgets, dependencies in series, latency budgets, work in flight and the payback of technical debt.</p></div></section>
+    <section class="t-hero t-hero-single"><div class="t-hero-copy"><p class="eyebrow">Practice tool</p><h1>Budget calculator</h1><p class="lead">Five small calculators for the arithmetic in Level 3: downtime and error budgets, dependencies in series, latency budgets, work in flight and the payback of technical debt.</p></div></section>
     <div class="xt" data-budget>
       <h2>Availability and error budget</h2>
       <form class="calc grid" data-avail>${field('Availability target (%)', 'target', 99.9, 'min="0" max="100"')}${field('Requests in the period', 'reqs', 2500000, 'min="0"')}</form><p class="res" data-res aria-live="polite"></p>
@@ -123,8 +123,8 @@ function writeTools(out, w) {
       <p class="muted small">These are rough planning tools. Replace the inputs with your own measurements as soon as you have them.</p>
     </div>
     <script type="module" src="${base}tools/budget.js"></script>`;
-  put('scenario/index.html', page({ title: 'Scenario checker | Architecture for Quality and Decisions', description: 'Check whether a quality scenario is testable.', canonicalPath: `${base}scenario/`, body: scenario, css }));
-  put('budget/index.html', page({ title: 'Budget calculator | Architecture for Quality and Decisions', description: 'Downtime, error budgets, latency budgets, capacity and debt payback.', canonicalPath: `${base}budget/`, body: budget, css }));
+  put('scenario/index.html', page({ title: 'Scenario checker | Quality, Decisions and Evaluation', description: 'Check whether a quality scenario is testable.', canonicalPath: `${base}scenario/`, body: scenario, css }));
+  put('budget/index.html', page({ title: 'Budget calculator | Quality, Decisions and Evaluation', description: 'Downtime, error budgets, latency budgets, capacity and debt payback.', canonicalPath: `${base}budget/`, body: budget, css }));
 }
 
 export function writeEngine(out, w, SITE) {

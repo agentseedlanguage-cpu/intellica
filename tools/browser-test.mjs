@@ -669,12 +669,13 @@ await step('industries: the five sector pages exist, link to each other, and car
     const r = await fetch(HOME + href); assert.equal(r.status, 200, t + ' link is dead');
   }
 });
-await step('training: five architecture levels and seven agentic-era courses, each with its own page, lab and certificate section', async () => {
+await step('training: six architecture levels and seven agentic-era courses, each with its own page, lab and certificate section', async () => {
   const cat = JSON.parse(fs.readFileSync('site/training/catalog.json', 'utf8'));
   const idx = await open(`${HOME}/training/`);
-  assert.equal(await idx.locator('#track-architecture .cat-card').count(), 5, 'five architecture levels');
+  assert.equal(await idx.locator('#track-architecture .cat-card').count(), 6, 'six architecture levels');
   assert.equal(await idx.locator('#track-build .cat-card, #track-run .cat-card').count(), 7, 'seven agentic-era courses');
-  assert.match(await idx.locator('#track-architecture .cat-card').first().innerText(), /arc42 in a Day/i);
+  assert.match(await idx.locator('#track-architecture .cat-card').first().innerText(), /Software Architecture Foundations/i);
+  assert.match(await idx.locator('#track-architecture .cat-card').nth(1).innerText(), /Mastering arc42/i);
   assert.equal(await idx.locator('.cat-status').count(), 1, 'only the arc42 card mentions a live workshop');
   assert.ok(!/opening soon|open now/i.test(await idx.locator('main').innerText()), 'no soon/open split: every course is presented as one catalogue');
   assert.ok(await idx.locator('#courses').count() && await idx.locator('#live').count(), 'courses and live workshops are separate sections');
@@ -695,9 +696,9 @@ await step('training: five architecture levels and seven agentic-era courses, ea
     assert.deepEqual(p.problems, []);
   }
   const lvl = await open(`${HOME}/training/agentic-architecture/`);
-  assert.equal(await lvl.locator('.lvl-path li').count(), 5); assert.match(await lvl.locator('.lvl-path .is-here').innerText(), /Agentic AI Systems/);
+  assert.equal(await lvl.locator('.lvl-path li').count(), 6); assert.match(await lvl.locator('.lvl-path .is-here').innerText(), /Agentic AI/);
   const arc = await open(`${HOME}${WS}`);
-  assert.match(await arc.locator('.lvl-path .is-here').innerText(), /arc42 in a Day/); assert.ok(await arc.locator('#certificate').count(), 'arc42 page has the certificate section');
+  assert.match(await arc.locator('.lvl-path .is-here').innerText(), /Mastering arc42/); assert.ok(await arc.locator('#certificate').count(), 'arc42 page has the certificate section');
 });
 await step('certificate: claim card follows the criteria, issues once, and the certificate page verifies, shares and adds to LinkedIn', async () => {
   const w = JSON.parse(fs.readFileSync('site/training/training.json', 'utf8')).workshops[0];
@@ -1080,7 +1081,7 @@ await step('cybersecurity practice tools: the policy tester scores eight predict
   assert.equal((await fetch(CY + 'lab/files/policy-cases.json')).status, 200);
 });
 
-/* ---------- Level 2: Architecture for Quality and Decisions ---------- */
+/* ---------- Level 3: Quality, Decisions and Evaluation ---------- */
 const Q2 = HOME + '/training/quality-decisions/course/';
 const q2Code = (name) => mkCode(name, deriveKey(courseKey, 'quality-decisions'));
 await step('level 2: course page lists 20 lessons in five modules with its own wording, and the level page offers the free lessons', async () => {
@@ -1169,7 +1170,7 @@ await step('level 2 practice tools: the scenario checker grades text and six cas
 /* ---------- one place to enter a code ---------- */
 await step('training: header tiles link to every course, and "I have an access code" is one click from the first screen', async () => {
   const p = await open(`${HOME}/training/`);
-  assert.equal(await p.locator('.hero-tiles .tile').count(), 12, 'five levels and seven courses');
+  assert.equal(await p.locator('.hero-tiles .tile').count(), 13, 'six levels and seven courses');
   assert.equal(await p.locator('.hero-tiles a[href="/training/cybersecurity/"]').count(), 1);
   await p.click('a:has-text("I have an access code")');
   await p.waitForURL('**/training/my-courses/');

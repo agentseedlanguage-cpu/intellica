@@ -105,7 +105,7 @@ assert.equal((await call('GET', '/api/pay/region')).body.tt, false);
   const { OFFERS } = await import('../worker/pay-api.js');
   assert.equal(cat.ttd, OFFERS.cybersecurity.ttd, 'catalog TT$ price matches the payment API'); assert.equal(cat.label, 'US$' + OFFERS.cybersecurity.usd);
 }
-// Level 2, Quality and Decisions
+// Level 3, Quality, Decisions and Evaluation
 {
   const q = (await call('POST', '/api/pay/order', { body: { course: 'quality-decisions', name: 'Q Buyer', email: 'q@example.com' } })).body;
   assert.equal(q.amount, 1399);
@@ -118,5 +118,23 @@ assert.equal((await call('GET', '/api/pay/region')).body.tt, false);
   const cat = JSON.parse((await import('node:fs')).readFileSync('site/training/catalog.json', 'utf8')).ladder.levels.find((x) => x.id === 'quality-decisions').course.price;
   const { OFFERS } = await import('../worker/pay-api.js');
   assert.equal(cat.ttd, OFFERS['quality-decisions'].ttd); assert.equal(cat.label, 'US$' + OFFERS['quality-decisions'].usd);
+}
+// owner phone alerts (ntfy): one message when a receipt is held, one when a sale passes, none without a topic
+{
+  const sent = [], real = globalThis.fetch;
+  globalThis.fetch = async (u, i) => { sent.push([String(u), i]); return { ok: true }; };
+  try {
+    const on = await order('Nia Notify'); reading = 'junk';
+    await call('POST', '/api/pay/receipt?o=' + on.id, { raw: img(201), e: { DB, SECRETS: { ...SECRETS, ntfyTopic: 'secret-topic' }, AI } });
+    assert.equal(sent.length, 1); assert.equal(sent[0][0], 'https://ntfy.sh/secret-topic');
+    assert.equal(sent[0][1].headers.Title, 'Check this receipt'); assert.equal(sent[0][1].headers.Priority, '4'); assert.match(sent[0][1].body, /Nia Notify/); assert.match(sent[0][1].body, /OPEN/);
+    assert.equal((await call('GET', '/api/pay/claim?o=' + on.id)).body.provisional, true);
+    const om = await order('Mo Money'); reading = good({ reference: om.ref });
+    await call('POST', '/api/pay/receipt?o=' + om.id, { raw: img(202), e: { DB, SECRETS: { ...SECRETS, ntfyTopic: 'secret-topic' }, AI } });
+    assert.equal(sent.length, 2); assert.equal(sent[1][1].headers.Title, 'New sale');
+    const oq = await order('Quiet Q'); reading = 'junk';
+    await call('POST', '/api/pay/receipt?o=' + oq.id, { raw: img(203) });
+    assert.equal(sent.length, 2, 'no topic set: nothing sent');
+  } finally { globalThis.fetch = real; }
 }
 console.log('payment api: all checks passed');

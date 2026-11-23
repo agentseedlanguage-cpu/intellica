@@ -65,6 +65,6 @@ console.log('certificate api: all checks passed');
   assert.equal((await call('POST', '/api/cert/issue', { ...q, record: { ...q.record, checks: 5 } }, e2)).status, 422);
   assert.equal((await call('POST', '/api/cert/issue', { ...q, proof: proof(master.toString('base64url')) }, e2)).status, 403);
   const total = JSON.parse((await import('node:fs')).readFileSync('site/training/quality-decisions/course/data/board-index.json', 'utf8')).total;
-  assert.equal(total, 60, 'quiz total in the Level 2 course matches the certificate rule');
+  assert.equal(total, 60, 'quiz total in the Level 3 course matches the certificate rule');
 }
 console.log('certificate api (cybersecurity, quality-decisions): ok');

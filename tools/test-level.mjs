@@ -1,4 +1,4 @@
-// Unit tests for the Level 2 practice tools and the health check.
+// Unit tests for the Level 3 practice tools and the health check.
 import assert from 'node:assert/strict';
 import * as D from './level-tools/data.mjs';
 import { healthChecks, MAIN } from './level-health.js';

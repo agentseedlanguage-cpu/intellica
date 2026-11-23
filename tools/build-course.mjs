@@ -830,7 +830,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     COPY = cy.COPY;
     buildOne({ w: built.w, c: built.c, deck: built.deck, quiz: built.quiz, lab: built.lab, key: deriveKey(master, 'cybersecurity'), engine: (out) => cy.writeEngine(out, built.w, SITE), reading: built.reading });
   }
-  // Level 2, Architecture for Quality and Decisions: built from training-private/quality-decisions (see tools/level-course.mjs)
+  // Level 3, Quality, Decisions and Evaluation: built from training-private/quality-decisions (see tools/level-course.mjs)
   const q2 = await import('./level-course.mjs');
   const lv = q2.load(SITE);
   if (lv) {

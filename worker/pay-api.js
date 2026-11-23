@@ -6,7 +6,7 @@
 export const BANK = { name: 'Royal Bank (Trinidad and Tobago) Limited', branch: 'St Augustine Shopping Centre, St Augustine', account: '110000005001825' };
 export const OFFERS = { arc42: { ttd: 899, usd: 129, title: 'arc42 in a Day, online course', welcome: '/training/arc42/course/welcome/', learn: '/training/arc42/course/learn/' },
   cybersecurity: { ttd: 2799, usd: 399, title: 'Cybersecurity for the Agentic Era, online course', welcome: '/training/cybersecurity/course/welcome/', learn: '/training/cybersecurity/course/learn/' },
-  'quality-decisions': { ttd: 1399, usd: 199, title: 'Architecture for Quality and Decisions, online course', welcome: '/training/quality-decisions/course/welcome/', learn: '/training/quality-decisions/course/learn/' } };
+  'quality-decisions': { ttd: 1399, usd: 199, title: 'Quality, Decisions and Evaluation, online course', welcome: '/training/quality-decisions/course/welcome/', learn: '/training/quality-decisions/course/learn/' } };
 
 // arc42 uses the master key itself; every other course has its own key derived from it, so one course's codes never open another.
 export async function courseKeyFor(masterB64u, course) {
@@ -87,6 +87,20 @@ async function createOrder(db, body, now) {
   return json({ id, ref, amount: offer.ttd, bank: BANK });
 }
 
+// Phone notification to the owner through ntfy.sh (free, no account). The topic is a long random name kept in the secrets; if it is not set, nothing is sent.
+export async function notify(S, { title, message, priority = 3, tags = '', click = '' }) {
+  if (!S || !S.ntfyTopic) return false;
+  try {
+    const headers = { Title: title, Priority: String(priority) };
+    if (tags) headers.Tags = tags;
+    if (click) headers.Click = click;
+    const r = await fetch('https://ntfy.sh/' + encodeURIComponent(S.ntfyTopic), { method: 'POST', headers, body: message, signal: AbortSignal.timeout(3000) });
+    return r.ok;
+  } catch { return false; }
+}
+const money = (o) => `TT$${o.amount}`;
+const courseName = (o) => (OFFERS[o.course] && OFFERS[o.course].title) || o.course;
+
 async function receipt(db, env, id, bytes, now) {
   const order = await orderOf(db, id);
   if (!order) return bad('We could not find that order.', 404);
@@ -109,9 +123,11 @@ async function receipt(db, env, id, bytes, now) {
     .bind(id, hash, v.txn, btoa(String.fromCharCode(...bytes)), JSON.stringify(read), v.pass ? 'pass' : 'hold', JSON.stringify(reasons), now).run();
   if (v.pass) {
     await db.prepare("UPDATE orders SET status = 'paid', decided = ?, note = 'auto' WHERE id = ?").bind(now, id).run();
+    await notify(env.SECRETS, { title: 'New sale', message: `${order.name} <${order.email}> paid ${money(order)} for ${courseName(order)}. Ref ${order.ref}. The receipt passed the automatic check and the course is open.`, priority: 3, tags: 'moneybag' });
     return json({ status: 'paid' });
   }
   await db.prepare("UPDATE orders SET status = 'review' WHERE id = ? AND status != 'paid'").bind(id).run();
+  await notify(env.SECRETS, { title: 'Check this receipt', message: `${order.name} <${order.email}> sent a receipt for ${money(order)} (${courseName(order)}), ref ${order.ref}. The automatic check could not confirm it (${reasons.join('; ') || 'unreadable'}). The course is OPEN for them now. Confirm the deposit in your bank, or revoke access on the orders page.`, priority: 4, tags: 'warning', click: 'https://meeting-mind.com' + (OFFERS[order.course] ? OFFERS[order.course].learn.replace(/learn\/$/, 'admin/') : '/') });
   return json({ status: 'review' });
 }
 

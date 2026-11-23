@@ -29,4 +29,4 @@ Every site (home and five products) looks and behaves the same: same header, tab
 See `INSTALL.md`, `CHECKPOINTS.md`, `CONTENT-TODO.md`.
 
 ## Training
-`site/training/` holds the Training section (arc42 in a Day). Edit `site/training/training.json`, then `npm run sync`. The private slides live in the unlisted `deck-*` folder; see INSTALL.md.
+`site/training/` holds the Training section: the six-level architecture path and the agentic-era courses. Level 2 (Mastering arc42, with the live workshop arc42 in a Day) is in `site/training/training.json`; every other course is in `site/training/catalog.json`. Edit, then `npm run sync`. The private slides live in the unlisted `deck-*` folder; see INSTALL.md.

@@ -1,0 +1,26 @@
+{
+  "note": "Ledger of the numbers and claims the Cybersecurity course makes. tools/check-cyber-claims.mjs compares it with what the build produces and fails on any difference.",
+  "counts": { "lessons": 28, "modules": 7, "slides": 304, "quizQuestions": 84, "labSteps": 28, "healthChecks": 5, "free": [1, 5], "practiceTools": 3 },
+  "certificate": { "lessons": 28, "sections": 28, "checks": 5, "questions": 84, "passMark": 0.7, "attests": "That the holder's browser reported finishing all 28 lessons and lab sections, passing the health check, and scoring at least 70% on the 84 questions. The record is self-reported and is not proctored or independently assessed." },
+  "healthCheck": { "does": "Checks structure and effort: headings present, sections started, tasks answered with 12 words or more, no placeholders, nothing that looks like a secret.", "doesNot": "Judge whether a security design is correct." },
+  "labClaims": { "attackTesting": "The course teaches how to plan and score authorised attack tests (lessons 16, 21, 26). It does not run attacks on the learner's systems. The local reference kit runs example attacks on synthetic data only." },
+  "standards": {
+    "mcpSpec": { "version": "2026-07-28", "readOn": "2026-11-23" },
+    "owaspAgentic": { "name": "OWASP Top 10 for Agentic Applications 2026", "published": "2025-12-09", "readOn": "2026-11-23" }
+  },
+  "unverified": ["The Rego policy and agent_guardrail_test.rego have not been executed with OPA in the build environment; CI installs OPA and runs them."],
+  "reviewed": { "default": "2026-11-21", "4": "2026-11-23", "6": "2026-11-23", "7": "2026-11-23", "14": "2026-11-23", "26": "2026-11-23", "27": "2026-11-23", "28": "2026-11-23" },
+  "changelog": [
+    { "date": "2026-11-23", "title": "Checkpoint 35", "items": [
+      "New: a local reference lab kit with 18 seeded flaws from lessons 14 and 22 to 28, a reference control and an unsafe baseline for each.",
+      "New: OWASP Agentic Top 10 (ASI01 to ASI10) mapped to the course lessons, in lesson 4.",
+      "New: MCP is stateless in the 2026-07-28 specification, so state-handle hijacking replaces session hijacking, and a confused-deputy note for proxy servers (lesson 6).",
+      "New: sender-constrained tokens (DPoP, RFC 9449) and token exchange (RFC 8693) (lesson 7).",
+      "New: approval binding to exact arguments, and the time-of-check to time-of-use gap (lesson 14).",
+      "Fixed: the course page now describes the real 28-section lab and the five real health checks, and no longer claims the health check judges your design.",
+      "Fixed: the how-to-buy answer now describes the real bank-deposit and receipt flow.",
+      "Added: a last-reviewed date on every lesson and this changelog."
+    ] },
+    { "date": "2026-11-21", "title": "Lessons 21 to 28", "items": ["Frontier research module and the protocols, skills and identity module added (lessons 21 to 28)."] }
+  ]
+}

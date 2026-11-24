@@ -12,7 +12,7 @@
     },
     {
       "title": "Check your work",
-      "text": "Questions bring back what you learned on a schedule, and a health check tells you if your lab work holds up."
+      "text": "Questions bring back what you learned on a schedule, and a health check confirms your lab work is complete and free of placeholders."
     },
     {
       "title": "Stay current",
@@ -27,7 +27,7 @@
       "Answer at least 70% of the check questions correctly, on the first try or in review"
     ],
     "text": "When you meet the criteria you can claim a certificate with its own credential ID and a public page anyone can open to verify it. Add it to LinkedIn in one click, share it, or save it as a PDF.",
-    "scope": "Intellica certificates show that you finished this course. They are not accredited qualifications and do not lead to any outside certification."
+    "scope": "Intellica certificates show that you finished this course, as reported by your own browser and checked against the course's completion rules. The record is self-reported: it is not proctored, and your lab work is not marked by Intellica. They are not accredited qualifications and do not lead to any outside certification."
   },
   "ladder": {
     "title": "Software architecture, in six levels",
@@ -678,8 +678,8 @@
             "text": "Design identity, tool access, sandboxing and approvals so a manipulated model still cannot do harm."
           },
           {
-            "title": "Test it like an attacker",
-            "text": "Plan and run authorised red-team tests against agents, and judge the results."
+            "title": "Plan attack tests",
+            "text": "Design authorised red-team and adaptive evaluations for an agent (lessons 16 and 21), write the test plan for an MCP server (lesson 26), and judge results fairly. You run the example attacks in the local reference kit; running tests on live systems is your own authorised work."
           },
           {
             "title": "Detect, respond and govern",
@@ -694,7 +694,8 @@
               "Anatomy of agentic systems",
               "Threat modelling autonomous systems",
               "Agentic threat landscape and attack patterns"
-            ]
+            ],
+            "note": "What an agentic system is, how it is attacked and where to start."
           },
           {
             "title": "Attack surfaces",
@@ -704,7 +705,8 @@
               "Agentic identity and access management",
               "Memory, RAG and data security",
               "Multi-agent security and trust propagation"
-            ]
+            ],
+            "note": "Prompt injection, tools and MCP, identity, memory and multi-agent trust."
           },
           {
             "title": "Containment and supply chain",
@@ -712,7 +714,8 @@
               "Code execution, sandboxing and isolation",
               "AI supply chain and model security",
               "Cloud, network and infrastructure security"
-            ]
+            ],
+            "note": "Sandboxing, code execution and the AI supply chain."
           },
           {
             "title": "Secure design and operations",
@@ -722,7 +725,8 @@
               "Monitoring, detection and digital forensics",
               "Agentic red teaming and security evaluation",
               "Incident response, containment and recovery"
-            ]
+            ],
+            "note": "Cloud, zero-trust architecture, runtime policy, monitoring and red teaming."
           },
           {
             "title": "Governance and capstone",
@@ -730,7 +734,8 @@
               "Governance, regulation and enterprise risk",
               "Securing agentic AI in critical industries",
               "Capstone: design and assure a secure agentic enterprise"
-            ]
+            ],
+            "note": "Incident response, governance, sector profiles and the capstone."
           },
           {
             "title": "Frontier research, 2026",
@@ -754,22 +759,46 @@
           }
         ],
         "lab": {
-          "title": "Design and assure a secure agentic system",
-          "text": "Take one agent from a threat model to an assurance report: policy outside the model, contained execution, monitoring, and an authorised attack test.",
+          "title": "Write the assurance pack for one agent system",
+          "text": "Across the course you write one assurance pack for an agent system you know: one lab section per lesson, 28 in all. The labs are design and planning work, with a model solution and a rubric for each. You do not attack your own systems in the course; practice tools and a local reference kit let you run example controls and attacks on synthetic data.",
           "steps": [
-            "Map the agent’s tools, data and authority",
-            "Threat-model it and rank the risks",
-            "Write the policy that decides which actions may run",
-            "Contain code execution and credentials",
-            "Add monitoring, alerts and a kill switch",
-            "Run an authorised attack test and write the assurance report"
+            "Lesson 1: Draw the system boundary and assign security ownership",
+            "Lesson 2: Build a component, identity and data-flow map",
+            "Lesson 3: Produce an agentic threat model and risk register",
+            "Lesson 4: Map attack patterns to controls and test cases",
+            "Lesson 5: Run a safe prompt-injection defense tabletop",
+            "Lesson 6: Review an MCP server's trust and authorization posture",
+            "Lesson 7: Design delegated identity and least-privilege grants",
+            "Lesson 8: Design a secure RAG and memory lifecycle",
+            "Lesson 9: Specify secure inter-agent contracts and delegation",
+            "Lesson 10: Write a sandbox security profile and test plan",
+            "Lesson 11: Create an AI supply-chain inventory and release gate",
+            "Lesson 12: Design cloud guardrails for an agent runtime",
+            "Lesson 13: Create a secure reference architecture and ADR",
+            "Lesson 14: Specify and test a runtime authorization policy",
+            "Lesson 15: Build an agentic audit event and detection plan",
+            "Lesson 16: Design a reproducible agent security evaluation",
+            "Lesson 17: Run an agentic incident-response tabletop",
+            "Lesson 18: Build an agent governance and assurance pack",
+            "Lesson 19: Create sector assurance profiles",
+            "Lesson 20: Capstone: design, test and defend a secure agentic enterprise",
+            "Lesson 21: Write an adaptive evaluation plan for one control",
+            "Lesson 22: Map sources to sinks and write sink policies",
+            "Lesson 23: Write a containment spec and run a drill",
+            "Lesson 24: Plan an exposure measurement and write-path controls",
+            "Lesson 25: Write three runtime rules and a fair detection test",
+            "Lesson 26: Write the authorization test plan for an MCP server",
+            "Lesson 27: Build a skill and tool register with review rules",
+            "Lesson 28: Design agent identity, delegation and revocation"
           ],
           "checks": [
-            "Every tool has an owner and least privilege",
-            "The model cannot approve its own actions",
-            "Evidence shows each control is tested, monitored and recoverable"
+            "All 28 section headings are present",
+            "Every section has been started",
+            "Every task in a started section has a real answer (12 words or more)",
+            "No placeholder text is left in started sections",
+            "Nothing in the pack looks confidential"
           ],
-          "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
+          "intro": "One pack, built in steps after each lesson. Each step has instructions, a model solution and a rubric to mark your own work, and saves on your device. The health check confirms the pack is complete and free of placeholders and secrets. It does not judge whether your security design is right; that needs a human reviewer."
         },
         "path": "/training/cybersecurity/",
         "track": "build",
@@ -785,11 +814,11 @@
           "method": [
             {
               "title": "Short lessons you control",
-              "text": "Twelve slides a lesson, each with a transcript. Move at your own pace and go back whenever you like."
+              "text": "Short slide lessons, each with a transcript. Move at your own pace and go back whenever you like."
             },
             {
               "title": "One growing assurance pack",
-              "text": "After every lesson a lab asks you to produce real security work for your own agent system: threat model, identity design, containment plan, detection rules, incident runbook. The twenty-eight answers join into one pack you download at the end."
+              "text": "After every lesson a lab asks you to write real security work for your own agent system: threat model, identity design, containment plan, detection rules, incident runbook. The 28 sections join into one pack you download at the end."
             },
             {
               "title": "Frontier research, with sources",
@@ -797,7 +826,7 @@
             },
             {
               "title": "Practice tools you can run",
-              "text": "A policy tester and a trace spotter let you try deterministic guardrails and find injected flaws in an agent log, in your browser, with fixtures to download."
+              "text": "A policy tester and a trace spotter run in your browser, and a local reference lab kit (one Node file, no network, synthetic data) mounts seeded flaws against a reference control and an unsafe baseline. Fixtures and the Rego policy download with them."
             },
             {
               "title": "A worked case and a field guide",
@@ -805,7 +834,7 @@
             },
             {
               "title": "Mark your own work",
-              "text": "Each lab has a model solution and a four-criterion rubric. Score yourself 0, 1 or 2 on each, then close the gaps."
+              "text": "Each lab has a model solution and a four-criterion rubric. Score yourself 0, 1 or 2 on each, then close the gaps. The health check only confirms the pack is complete."
             },
             {
               "title": "Pause and recall",
@@ -822,7 +851,7 @@
             },
             {
               "q": "How do I get access?",
-              "a": "Message sales on WhatsApp. We reply with how to pay and send your access code when payment is confirmed."
+              "a": "Pay by bank deposit from the buy button on this page, then upload a photo of the receipt. If the automatic check reads it cleanly, your course opens at once. If it cannot read the receipt, your course still opens at once as provisional access and the owner is told to check it against the bank statement; if the payment cannot be confirmed, access is closed again. Your access code is a decryption key and cannot be recalled once issued, so keep it private."
             },
             {
               "q": "Can I share my code?",
@@ -830,11 +859,11 @@
             },
             {
               "q": "Will it be updated?",
-              "a": "Yes. The field moves quickly. We amend the course as standards and incidents change, and you keep every update."
+              "a": "Yes. The field moves quickly, so each lesson shows the date it was last reviewed and the course keeps a changelog. Updates are free to buyers. Because the content is encrypted per course, updates are delivered on the page you already use; keep your access code."
             },
             {
               "q": "What about refunds?",
-              "a": "Refund terms are confirmed in writing when you enquire, before you pay."
+              "a": "Refund terms are not published yet. Ask before you pay and get the answer in writing."
             }
           ],
           "preview": {
@@ -1329,7 +1358,7 @@
     "points": [
       "28 lessons, from threat modelling to incident response, a capstone, and a frontier-research module",
       "Tools and MCP, identity, memory, multi-agent trust, sandboxing, runtime enforcement",
-      "A lab where you build and attack your own agent setup, and a certificate you can verify"
+      "A lab where you write the security design and test plans for your own agent system, practice tools and a local kit to run example attacks, and a certificate you can verify"
     ]
   }
 }

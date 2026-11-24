@@ -1079,6 +1079,8 @@ await step('cybersecurity practice tools: the policy tester scores eight predict
   assert.deepEqual(t.problems, []);
   await t.context().close();
   assert.equal((await fetch(CY + 'lab/files/policy-cases.json')).status, 200);
+  for (const f of ['lab/kit/', 'lab/changelog/', 'lab/files/agent-lab-kit.mjs', 'lab/files/agent_guardrail_test.rego']) assert.equal((await fetch(CY + f)).status, 200, f);
+  assert.match(await (await fetch(CY + 'lab/kit/')).text(), /node agent-lab-kit\.mjs/);
 });
 
 /* ---------- Level 3: Quality, Decisions and Evaluation ---------- */

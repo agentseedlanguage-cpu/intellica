@@ -113,6 +113,21 @@ function scopedCss(css) {
   return out.join('\n');
 }
 
+/* ---------- wording computed from the data, so a page never contradicts the course ---------- */
+
+const NUM_WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+export const numWord = (n) => NUM_WORDS[n] || String(n);
+const listNums = (a) => a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`;
+/* "the first two" when the free lessons open the course, otherwise "lessons 1 and 5". */
+export function freeWording(lessons) {
+  const nums = lessons.filter((l) => l.free).map((l) => l.num).sort((a, b) => a - b);
+  const opening = nums.length > 0 && nums.every((n, i) => n === i + 1);
+  const count = numWord(nums.length);
+  const lessonsAre = opening ? `The first ${nums.length === 1 ? 'lesson is' : count + ' lessons are'}` : `${nums.length === 1 ? 'Lesson' : 'Lessons'} ${listNums(nums)} ${nums.length === 1 ? 'is' : 'are'}`;
+  const short = opening ? `the first ${nums.length === 1 ? 'one' : count} free` : `${count} free (${nums.length === 1 ? 'lesson' : 'lessons'} ${listNums(nums)})`;
+  return { nums, opening, short, sentence: `${lessonsAre} free and need no code.` };
+}
+
 /* ---------- lessons ---------- */
 
 function buildLessons(deck, freeIds, skip = []) {
@@ -314,7 +329,7 @@ const labFor = (l) => (LAB ? LAB.steps.find((x) => x.id === l.id) : null);
 function modulesHtml(w, c, byId) {
   return c.modules.map((m, mi) => `
         <section class="module" aria-labelledby="m${mi}" data-module>
-          <header><h3 id="m${mi}">${esc(m.title)}</h3><p>${esc(m.note)}</p></header>
+          <header><h3 id="m${mi}">${esc(m.title)}</h3>${m.note ? `<p>${esc(m.note)}</p>` : ''}</header>
           <ol class="lessons" start="${m.lessons.length ? byId[m.lessons[0]].num : 1}">
 ${m.lessons.map((id) => { const l = byId[id]; return `            <li data-lesson="${l.id}" data-min="${l.minutes}" class="lesson${l.free ? ' is-free' : ''}">
               <a href="${w.path}course/${l.id}/"><span class="ln">${l.num}</span><span class="lt"><strong>${esc(l.title)}</strong><span class="lm">${l.titles.length} slides, about ${l.minutes} min${l.optional ? ', optional' : ''}${labFor(l) ? ` · lab ${labFor(l).minutes} min` : ''}</span></span></a>
@@ -359,7 +374,7 @@ ${subnav(w, 'course/')}
         <figcaption>A real slide from “${esc(pl.title)}”. Every lesson is slides you can pause, read and replay.</figcaption>
         <div class="c-incl">
           <ul>
-            <li>${lessons.length} lessons, the first two free</li>
+            <li>${lessons.length} lessons, ${freeWording(lessons).short}</li>
             <li>A transcript for every slide</li>
             ${LAB ? `<li>${LAB.steps.length} hands-on lab steps: write ${COPY.own}</li>` : ''}
             <li>Recall cards and spaced review</li>
@@ -419,8 +434,8 @@ ${c.method.map((m) => `        <div><h3>${esc(m.title)}</h3><p>${esc(m.text)}</p
 
     <section class="t-block" aria-labelledby="les-t">
       <p class="kicker"><span class="kn">04</span>Syllabus</p>
-      <h2 id="les-t">${lessons.length} lessons in four modules</h2>
-      <p class="sub">Study in order or jump to what you need. The first two lessons are free and need no code.</p>
+      <h2 id="les-t">${lessons.length} lessons in ${numWord(c.modules.length)} modules</h2>
+      <p class="sub">Study in order or jump to what you need. ${freeWording(lessons).sentence}</p>
       <p class="progress" data-progress hidden></p>
       <div class="modules">${modules}
       </div>

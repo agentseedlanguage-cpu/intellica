@@ -10,7 +10,10 @@ const catalog = JSON.parse(fs.readFileSync(path.join(SITE, 'training', 'catalog.
 const training = JSON.parse(fs.readFileSync(path.join(SITE, 'training', 'training.json'), 'utf8'));
 const arc = training.workshops[0];
 const levels = allLevels(catalog, arc);
-const write = (rel, html) => { const f = path.join(SITE, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, html); };
+const write = (rel, html) => {
+  const visible = html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ');
+  for (const bad of [/\bundefined\b/, /\bNaN\b/, /\[object /, /(^|\s)null(\s|$)/]) if (bad.test(visible)) throw new Error(`${rel} would publish a template failure (${bad}). Fix the data or the template.`);
+  const f = path.join(SITE, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, html); };
 const CSS = ['/training/catalog.css'];
 
 for (const c of catalog.ladder.levels) {

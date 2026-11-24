@@ -121,7 +121,7 @@ ${levels ? `
       ${kicker(++n, 'Syllabus')}
       <h2 id="syl-t">${lessons} lessons in ${c.modules.length} modules</h2>
       <div class="syl">${c.modules.map((m, i) => `
-        <div class="syl-m"><h3><span>Module ${i + 1}</span>${esc(m.title)}</h3><p class="muted">${esc(m.note)}</p>
+        <div class="syl-m"><h3><span>Module ${i + 1}</span>${esc(m.title)}</h3>${m.note ? `<p class="muted">${esc(m.note)}</p>` : ''}
           <ol>${m.lessons.map((l) => `<li>${esc(l)}</li>`).join('')}</ol></div>`).join('')}
       </div>${c.honesty ? `
       <p class="muted">${esc(c.honesty)}</p>` : ''}

@@ -42,10 +42,17 @@ gh release list -R agentseedlanguage-cpu/agentseed
 - [ ] Put Cloudflare Access in front of `/training/arc42/deck-*` if the slides must not be reachable by anyone with the link
 
 
+## Cybersecurity course (checkpoint 35)
+- [ ] Decide whether Level 3, Quality, Decisions and Evaluation, stays purchasable. It is built and in `worker/pay-api.js` OFFERS, so three courses can be bought, not two.
+- [ ] Deploy with your own `.course-key` so the updated lesson text is re-encrypted; until then buyers see the previous lesson text.
+- [ ] Confirm CI runs `opa test` on `agent_guardrail_test.rego` (it was not executed where this was written).
+- [ ] Decide whether the certificate needs human-marked lab review (R21). Today it attests a self-reported record.
+- [ ] After deploy, open /training/cybersecurity/ and the course tools (policy, trace, kit, changelog) and confirm they match the repo.
+
 ## Online course
 - [ ] **Course price** (`workshops[0].course.price` in `training.json`, for example `{"label": "TT$499", "amount": 499, "currency": "TTD"}`). Until set, the page says "Price confirmed when you enquire".
 - [ ] **How you take payment** (`course.methods`, for example `["bank transfer", "PayPal"]`). Stripe does not operate in Trinidad and Tobago; PayPal works with a T&T account, Payoneer is for receiving, and Republic Bank EPay or PowerTranz are local card acquirers (confirm USD settlement with them).
-- [ ] **Refund terms**, in writing, before you take the first payment.
+- [ ] **Refund terms**, in writing, before you take the first payment. The cybersecurity FAQ now says refund terms are not published yet; replace it once you decide. Nothing has been invented.
 - [ ] **Back up `.course-key`** (password manager). Never commit it.
 - [ ] **Slides address**: put `/training/arc42/deck-*` behind Cloudflare Access, or leave the folder out of deploys, because it holds all the course content.
 - [ ] Optional: record your voice per slide (see INSTALL.md) for the lessons you care most about.

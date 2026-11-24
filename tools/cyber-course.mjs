@@ -5,6 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { page, esc as xesc } from './training-shell.mjs';
 import * as XT from './cyber-tools/data.mjs';
+import { regoTests } from './cyber-tools/rego-tests.mjs';
+import { CHECKS } from './cyber-tools/lab-kit.mjs';
 
 export const ID = 'cybersecurity';
 // Frontier lessons 21+ and "2026 update" notes live in training-private/frontier.mjs (compact format, see that file).
@@ -18,10 +20,12 @@ export function fromCompact(l) {
     rubric: l.rubric.map(([criterion, missing, partial, competent]) => ({ criterion, missing, partial, competent })),
     quiz: l.quiz.map(([q, o, a, why]) => ({ q, o, a, why })), sources: l.sources || [] };
 }
-export const COPY = { noun: 'assurance pack', own: 'your own assurance pack', doc: 'Your assurance pack', file: 'assurance-pack.md', extra: 'A model solution for every lab, and a rubric to mark your own work', labFor: 'Build your own agent security assurance pack' };
+export const COPY = { tools: [['course/lab/policy/', 'Policy tester'], ['course/lab/trace/', 'Trace spotter'], ['course/lab/kit/', 'Reference lab kit'], ['course/lab/changelog/', 'Changelog']], noun: 'assurance pack', own: 'your own assurance pack', doc: 'Your assurance pack', file: 'assurance-pack.md', extra: 'A model solution for every lab, and a rubric to mark your own work', labFor: 'Build your own agent security assurance pack' };
 export const slug = (s) => s.toLowerCase().replace(/[§·]/g, ' ').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 export const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+const CLAIMS = (() => { try { return JSON.parse(fs.readFileSync(path.resolve('training-private/cybersecurity-claims.json'), 'utf8')); } catch { return { reviewed: { default: '2026-11-21' }, changelog: [] }; } })();
+const reviewedOn = (n) => CLAIMS.reviewed[n] || CLAIMS.reviewed.default;
 export function load(SITE) {
   const srcFile = path.resolve('training-private/cybersecurity-source.json');
   const catFile = path.join(SITE, 'training', 'catalog.json');
@@ -62,6 +66,7 @@ export function load(SITE) {
       { h: 'Field guide', ps: l.guide },
       { h: 'Worked case', ps: [l.case] },
       ...(FRONTIER && FRONTIER.UPDATES[l.n] ? [{ h: '2026 update', ps: [FRONTIER.UPDATES[l.n]] }] : []),
+      { h: 'Last reviewed', ps: [`${reviewedOn(l.n)}. See the course changelog for what changed.`] },
       { h: 'How your lab is assessed', ps: ['Mark your own work against these four criteria. Score each 0, 1 or 2.'], head: ['Criterion', '0: Missing', '1: Partial', '2: Competent'], rows: l.rubric.map((r) => [r.criterion, r.missing, r.partial, r.competent]) },
       ...(l.sources && l.sources.length ? [{ h: 'Sources', ps: l.sources }] : []),
     ];
@@ -101,6 +106,8 @@ function writeTools(out, w) {
   const src = path.resolve('tools/cyber-tools');
   for (const f of ['data.mjs', 'policy.js', 'trace.js', 'tools.css']) put(`tools/${f === 'data.mjs' ? 'data.js' : f}`, fs.readFileSync(path.join(src, f), 'utf8'));
   put('files/agent_guardrail.rego', XT.REGO);
+  put('files/agent_guardrail_test.rego', regoTests());
+  put('files/agent-lab-kit.mjs', fs.readFileSync(path.join(src, 'lab-kit.mjs'), 'utf8'));
   put('files/policy-cases.json', JSON.stringify(XT.SCENARIOS.map((s) => ({ title: s.title, input: XT.toRegoInput(s.input), expected: XT.evaluate(s.input).allow ? 'allow' : 'deny' })), null, 2));
   put('files/trace-benign.jsonl', XT.TRACE_GOOD.map((e) => JSON.stringify(e)).join('\n') + '\n');
   put('files/trace-compromised.jsonl', XT.TRACE_BAD.map((e) => JSON.stringify(e)).join('\n') + '\n');
@@ -142,6 +149,32 @@ function writeTools(out, w) {
       ${dl(['trace-compromised.jsonl', 'trace-benign.jsonl'])}
     </div>
     <script type="module" src="${base}tools/trace.js"></script>`;
+  const kit = `${nav('Reference lab kit')}
+    <section class="t-hero t-hero-single"><div class="t-hero-copy"><p class="eyebrow">Practice kit</p><h1>Reference lab kit</h1><p class="lead">One file, run locally with Node, no packages and no network. It mounts ${CHECKS.length} seeded flaws from lessons 14 and 22 to 28 against a reference control and an unsafe baseline, so you can see what a working control catches and what a common shortcut misses.</p></div></section>
+    <div class="xt">
+      <h2>Run it</h2>
+      <pre><code>node agent-lab-kit.mjs</code></pre>
+      <p class="muted">Exit code 0 means the reference blocked every seeded flaw and the unsafe baseline missed every one. Add <code>--json</code> for machine-readable output you can use in CI.</p>
+      ${dl(['agent-lab-kit.mjs', 'agent_guardrail.rego', 'agent_guardrail_test.rego'])}
+      <h2>What it contains</h2>
+      <ul>
+        <li>A mock MCP resource server with seeded flaws: wrong audience, token passthrough, a discovery fetch to a private address, a loose issuer check, an unbound state handle, over-broad scope.</li>
+        <li>A mock identity and delegation service with expiry, narrowing-only delegation and cascading revocation.</li>
+        <li>A containment harness with an egress allow-list and path limits.</li>
+        <li>Poisoned memory and tool-description fixtures.</li>
+        <li>A tool register that catches a rug pull and a shadowed tool name.</li>
+        <li>Approvals bound to the exact arguments, with expiry, and a trace monitor for tainted egress.</li>
+      </ul>
+      <h2>The checks</h2>
+      <table class="tbl"><thead><tr><th>Check</th><th>Lesson</th><th>Seeded flaw</th></tr></thead><tbody>${CHECKS.map((c) => `<tr><td>${c.id}</td><td>${c.lesson}</td><td>${xesc(c.flaw)}</td></tr>`).join('')}</tbody></table>
+      <p class="muted small">Everything is synthetic and runs inside one process. The mocks teach the controls; they are not a scanner and they do not test your real systems. To use the kit on your own work, replace a reference function with your implementation and run it again.</p>
+      <p class="muted small">The Rego policy and its test file run with <code>opa test</code>. Open Policy Agent was not available when this course was built, so the Rego has been checked structurally against the browser tool and not executed here. Run <code>opa test .</code> yourself to confirm.</p>
+    </div>`;
+  const changelog = `${nav('Changelog')}
+    <section class="t-hero t-hero-single"><div class="t-hero-copy"><p class="eyebrow">Course</p><h1>Changelog</h1><p class="lead">What changed in the course and when. Every lesson also shows the date it was last reviewed. Updates are free to buyers.</p></div></section>
+    <div class="xt">${CLAIMS.changelog.map((c) => `<h2>${xesc(c.date)} · ${xesc(c.title)}</h2><ul>${c.items.map((i) => `<li>${xesc(i)}</li>`).join('')}</ul>`).join('')}</div>`;
+  put('changelog/index.html', page({ title: 'Changelog | Cybersecurity for the Agentic Era', description: 'What changed in the course and when.', canonicalPath: `${base}changelog/`, body: changelog, css }));
+  put('kit/index.html', page({ title: 'Reference lab kit | Cybersecurity for the Agentic Era', description: 'A local, Node-only kit with seeded agent security flaws, a reference control and an unsafe baseline.', canonicalPath: `${base}kit/`, body: kit, css }));
   put('policy/index.html', page({ title: 'Policy tester | Cybersecurity for the Agentic Era', description: 'Explore and test a deterministic agent guardrail policy in the browser.', canonicalPath: `${base}policy/`, body: policy, css }));
   put('trace/index.html', page({ title: 'Trace spotter | Cybersecurity for the Agentic Era', description: 'Find taint, approval drift, audience and passthrough violations in an agent execution trace.', canonicalPath: `${base}trace/`, body: trace, css }));
 }

@@ -22,3 +22,6 @@
 | R18 | A buyer shares their access code | Name shown on every lesson; re-encrypt with a new key and re-issue codes if it spreads (needs `COURSE_KEY` rotation) |
 | R19 | The course key is lost, or changed by accident | Back it up when first created; changing it locks out every existing buyer. Stored in `.course-key` (git-ignored) or the `COURSE_KEY` secret |
 | R20 | Browser read-aloud voices are poor on some devices | Offer recorded audio per slide (`course/audio/<lesson>/NN.mp3`); the transcript is always there |
+| R21 | A certificate is read as proof of skill, but it attests a self-reported record (ADR-34) | The scope statement says self-reported, not proctored and not accredited; the test fails if it is removed. If employers start relying on it, add human-marked lab review before claiming more |
+| R22 | Revoking a buyer or rotating the course key is not possible per buyer: the access code is the decryption key | Name on every lesson; rotate the key and re-issue codes only if a code spreads. Documented in R18 and R19 |
+| R23 | The Rego policy for the cybersecurity course is mirrored in JavaScript and could drift | `tools/test-cyber.mjs` checks decisions against a hand-written table and the Rego structurally; CI installs OPA and runs `opa test`. Not executed in the authoring environment |

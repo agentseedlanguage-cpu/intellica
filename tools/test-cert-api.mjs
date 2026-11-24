@@ -67,4 +67,15 @@ console.log('certificate api: all checks passed');
   const total = JSON.parse((await import('node:fs')).readFileSync('site/training/quality-decisions/course/data/board-index.json', 'utf8')).total;
   assert.equal(total, 60, 'quiz total in the Level 3 course matches the certificate rule');
 }
+{
+  // Policy: what a certificate attests is a self-reported record. The public copy and the ledger must say so, and the worker must not claim more.
+  const fs = await import('node:fs');
+  const cat = JSON.parse(fs.readFileSync('site/training/catalog.json', 'utf8'));
+  assert.match(cat.certificate.scope, /self-reported/, 'the certificate scope says the record is self-reported');
+  assert.match(cat.certificate.scope, /not accredited/, 'the certificate scope says it is not accredited');
+  const claims = JSON.parse(fs.readFileSync('training-private/cybersecurity-claims.json', 'utf8'));
+  assert.match(claims.certificate.attests, /self-reported/, 'the claims ledger says what the certificate attests');
+  const w = fs.readFileSync('worker/cert-api.js', 'utf8');
+  assert.ok(!/proctor|independently (assessed|verified)|accredited by/i.test(w.replace(/not (proctored|accredited)/gi, '')), 'the worker never claims proctoring or independent assessment');
+}
 console.log('certificate api (cybersecurity, quality-decisions): ok');

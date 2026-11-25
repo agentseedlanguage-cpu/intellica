@@ -1,36 +1,66 @@
-# Cybersecurity Academy checkpoints
+# Intellica training and Cybersecurity Academy checkpoints
 
-Own file, so it never collides with `CHECKPOINTS.md` (shared with the architecture chats).
+This log records updates to the public training experience and the Cybersecurity Academy. Shared training files are listed explicitly in each checkpoint manifest; architecture lesson source and the encrypted course-player payload are not changed unless stated.
 
-## How a checkpoint is applied (same flow as the architecture courses)
+## Applying a checkpoint
 
-From the repository root in Codespaces:
+These are overlay patches, not full repository archives. Apply them at the repository root on the stated baseline and preserve all files not listed in the manifest.
 
-1. Upload the zip and run `unzip -o intellica-cyb-N.zip`
-2. `npm run deploy -- home` (its gate runs `sync` and the site checks first)
-3. `git add -A && git commit -m "Cyber academy CYB-N" && git push`
+1. Confirm the repository includes Architecture Academy checkpoint 36 and Cybersecurity checkpoint CYB-2. If a newer architecture checkpoint has been applied, rebase this patch before uploading.
+2. Upload the checkpoint zip to the Codespaces repository root and extract it while preserving its folder paths.
+3. Run `npm run training` to rebuild the Training home page, catalogue/course landing pages and all 14 Cybersecurity Academy pages.
+4. Run `npm test` and `npm run check`.
+5. Before deployment, ensure the existing production course encryption key is available in the authorised Codespaces environment. Then use the normal deployment workflow.
 
-A checkpoint zip contains only files the cyber academy owns (listed in `CYB-N-MANIFEST.txt`). It never contains `package.json`, `catalog.json`, `training.json`, the worker files, `CHECKPOINTS.md` or any generated file shared with other chats (`sitemap.xml`, `site-manifest.json`). `sync` regenerates the sitemap and manifest on deploy.
+The zip intentionally excludes `.course-key`, `.env`, private course source, encrypted lesson payloads, learner data, `node_modules` and `dist/`. Never generate a replacement course key to make a build pass; preserve the production key and existing lesson identifiers. The public course landing page and academy pages can be rebuilt with `npm run training` without rebuilding the encrypted player.
 
-The academy tools are not part of `sync` or `check`, so nothing here can stop a deploy. The generated pages are committed output, like every other training page. To rebuild after editing the data: `node tools/build-cyber-academy.mjs`. To check it on demand: `node tools/check-cyber-academy.mjs`.
+The build pipeline now includes the Cybersecurity Academy:
+- `npm run training` runs `build-training.mjs`, `build-catalog.mjs` and `build-cyber-academy.mjs`.
+- `npm run sync` also regenerates the Cybersecurity Academy pages before assembling the site.
+- `npm test` includes `test-cyber-academy.mjs`.
+- `npm run check` includes `check-cyber-academy.mjs`.
 
-## CYB-2 (25 November 2026): both academies on the training page, placement check, NIST research
+## CYB-3 (25 November 2026): unified academy positioning, research refresh and professional training pages
 
-Based on checkpoint 36. Apply the zip on top of the current repository, then deploy as usual. This checkpoint changes five shared files from checkpoint 36 (listed in `CYB-2-MANIFEST.txt` under "shared files changed"). If the architecture chat has produced a newer checkpoint since 36, apply that first, then ask for this checkpoint to be rebuilt on it.
+**Baseline:** current Intellica repository containing Architecture Academy checkpoint 36 and Cybersecurity checkpoint CYB-2.
 
-- Training page: new "Academies" block with both academies; featured cybersecurity course links to its academy; the cybersecurity course page links back. Data: `academies` in `catalog.json`.
-- Cyber hub: same components and wording as the architecture hub; level cards, "How the academy works", "What the academy is not", "Enter access code".
-- New: Find your level, a 48-question placement check (8 per level), scored in the browser with no storage or network.
-- Research: OWASP Agentic Top 10, NIST AI RMF, SSDF verified; NIST Cyber AI Profile and SP 800-53 AI overlays added; gap G13 and lesson P13.
-- Parity review of both academies in `docs/cyber-academy/ACADEMY-PARITY.md`.
-- Tests: `node tools/test-cyber-academy.mjs` (placement script against a fake document) and `node tools/check-cyber-academy.mjs`. Neither is wired into `sync`, `check` or `test`.
+### Public experience
+- Repositioned the main Training page around the two professional academies: Software Architecture and Cybersecurity for Agentic Environments.
+- Added a custom agentic-security hero illustration and direct navigation to the Cybersecurity Academy.
+- Rewrote internal/process language on the Cybersecurity Academy pages into professional programme, curriculum and delivery-status language.
+- Added the original 28-lesson Cybersecurity for the Agentic Era course to the Academy hub and course page as the live technical core, aligned most directly to Level 2 (Agentic Application Security) and Level 3 (Agentic Security Architecture). The course's other lessons support Levels 1, 4, 5 and 6.
+- Made course completion, future academy assessments and external credentials distinct. The live course certificate remains self-reported and unproctored.
+- Distinguished live course pages from planned level outlines: planned levels no longer display course certificates or self-paced delivery claims.
+- Updated the Architecture Academy page language and added iSAQB CPSA-A AGENTA as an external benchmark for planned Level 4 Agentic AI Architecture. Added the iSAQB CPSA-F 2027.1 release-candidate review note and ISO/IEC/IEEE 42010:2022 context for arc42.
 
-## CYB-1 (24 November 2026)
+### Research and curriculum
+- Added 19 academic domains and selected 2024–2026 research literature, including AgentDojo, InjecAgent, ASB, AgentHarm, SEC-bench, AgentDyn, runtime-enforcement reviews, MCP vulnerability research and request-bound authorization work.
+- Added eight recent incident/disclosure case studies with explicit evidence labels: confirmed incidents, disclosed vulnerabilities, research demonstrations and attempted campaigns are not conflated.
+- Expanded the source register to 46 dated references covering OWASP AISVS 1.0, OWASP Agentic Top 10 2026, MITRE ATLAS, NIST AI RMF/Cyber AI Profile/COSIS/agent identity work, GIAC AI credentials, ISC2's AI Security pilot, ISO/IEC 17024:2026 and adjacent professional benchmarks.
+- Added a preliminary GAIPS objective alignment with explicit GIAC non-affiliation and version-specific exam facts.
+- Added research-backed learning-design guidance and a separate evidence review covering retrieval, spacing, interleaving, worked examples, active learning, feedback and deliberate practice.
+- Added competitor/accreditation research for iSAQB CPSA-F/CPSA-A AGENTA, TOGAF, SEI and ISO/IEC/IEEE 42010.
 
-New: the Academy (13 public pages under `/training/cybersecurity/academy/`), its builder, checker and data, Blueprint v3 and twelve lesson specifications.
+### Engineering and quality
+- Updated the build pipeline so the Cybersecurity Academy is generated by the standard training and sync commands.
+- Added the Cybersecurity Academy placement test to `npm test` and the academy checker to `npm run check`.
+- Updated the shared course templates so planned levels show proposed scope and do not imply live certificates or available labs.
+- No encrypted course-player source, production key, lesson IDs, access-code logic or learner progress was changed.
 
-- Pages: landing, six level pages, pathways, lesson map, GAIPS mapping, standards and sources, certification policy, roadmap and gap register.
-- Data: `tools/cyber-academy/levels.mjs`, `meta.mjs`, `sources.mjs`. Lesson titles, the free lessons and all counts are read from the live course when the pages are built.
-- Not touched: the course, its encrypted lessons, `.course-key`, payments, certificates, the cybersecurity catalogue page, `package.json`.
-- Not yet done: no link from the cybersecurity course page or the training index to the academy. The pages are reachable by address and appear in the sitemap after `sync`. Linking is a deliberate next step.
-- Rollback: delete `site/training/cybersecurity/academy/` (everything else in the zip is inert tooling and docs), or `git revert` the commit.
+### Validation performed
+- `npm run training` — passed.
+- `npm run assemble` — passed.
+- `npm run check` — passed; 188 pages checked, zero errors and zero warnings; Cybersecurity claims verified (28 lessons, 304 slides, 84 questions, 28 lab steps, 5 health checks); Cybersecurity Academy check passed (6 levels, 28 lessons mapped, 13 planned lessons, 14 pages).
+- `npm test` — passed, including Cybersecurity policy/lab tests and the Academy placement test.
+- OPA was not installed in this environment; the existing test reports this as a skip and performs structural Rego/JavaScript parity checks. Browser tests were not run because Playwright is not installed in the provided environment.
+
+### Files
+See `CYB-3-MANIFEST.txt` for the complete overlay list and SHA-256 checksums.
+
+## CYB-2 (25 November 2026): academy navigation, placement check and NIST research
+
+Based on Architecture Academy checkpoint 36. This checkpoint connected the existing Cybersecurity course to the Academy hub, added the placement check and expanded the research/source register. Its file list is retained in `CYB-2-MANIFEST.txt`.
+
+## CYB-1 (24 November 2026): Cybersecurity Academy foundation
+
+Created the initial Academy hub, six level pages, pathways, lesson map, GAIPS mapping, standards and sources, certification policy, roadmap and gap register. The original 20-lesson course was preserved; later releases extended the live course to 28 lessons.

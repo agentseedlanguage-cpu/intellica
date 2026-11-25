@@ -1,0 +1,6 @@
+INTELLICA CYB-3 REPAIR HOTFIX
+Apply at the repository root after CYB-3. This overlay only fixes the five catalogue/source lesson-title mismatches.
+
+FILES (SHA-256)
+ac165b1c53beba63510fae1c88dc0151d50de6acac4f86b13dec9178652f26e3  site/training/catalog.json
+b9984e467045e4b945b59c27465bbda874fc4e804f008b5f4523f6a71ea6bb21  CYB-3-REPAIR.md

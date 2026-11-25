@@ -1,0 +1,42 @@
+INTELLICA CYB-3 — CODESPACES UPLOAD INSTRUCTIONS
+
+This is an overlay checkpoint, not a complete repository. Extract it at the repository root.
+
+BASELINE
+- Intellica main repository with Architecture Academy checkpoint 36.
+- Cybersecurity Academy checkpoint CYB-2 already applied.
+- If a newer architecture checkpoint is present, rebase this patch before applying it.
+
+APPLY
+1. Upload `Intellica_CYB-3_Training_Academy_Checkpoint.zip` to the Codespaces repository.
+2. From the repository root, run:
+   unzip -o Intellica_CYB-3_Training_Academy_Checkpoint.zip -d .
+3. Rebuild the public training pages:
+   npm run training
+4. Run validation:
+   npm test
+   npm run check
+5. Review the resulting diff, then commit and push using your normal workflow.
+
+BUILD PIPELINE
+`npm run training` now rebuilds:
+- the main Training page and homepage training block;
+- the course catalogue and all public course/level landing pages;
+- the Cybersecurity Academy's 14 public pages.
+
+`npm run sync` also includes the Cybersecurity Academy builder. It additionally runs the course-player build and other site-generation steps.
+
+PRODUCTION COURSE KEY — IMPORTANT
+This checkpoint does not contain `.course-key`, `.env`, private lesson source, encrypted lesson payloads or learner data. Existing course-player pages, lesson IDs, access-code logic and learner progress have been left untouched.
+
+Do not create or generate a replacement course key. Before running the full deployment/sync workflow, make sure the existing production key is available in the authorised Codespaces environment. The public training-page build (`npm run training`) and the test/check commands do not require that key.
+
+CONTENTS
+- Main Training page, catalogue and academy copy updates.
+- Cybersecurity Academy public pages, research register and curriculum mappings.
+- Architecture Academy public copy and AGENTA / ISO 42010 references.
+- Learning-design research note.
+- Builder and npm script integration.
+- `CHECKPOINTS-CYBER.md` and `CYB-3-MANIFEST.txt`.
+
+The manifest lists every file included and its SHA-256 checksum. No `dist/`, `node_modules/` or generated deployment bundle is included.

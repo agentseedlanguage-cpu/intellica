@@ -38,10 +38,11 @@ export function catalogSections(catalog, arc, startN) {
   return `
     <section class="t-block" id="courses" aria-labelledby="crs-t">
       ${kicker(startN, 'Courses')}
-      <h2 id="crs-t">Every course, online, yours to keep</h2>
+      <h2 id="crs-t">Practical courses, built around real work</h2>
       <p class="sub">${esc(catalog.coursesLead)}</p>
       ${track('architecture', catalog.ladder.title, catalog.ladder.lead, levels, (l) => `Level ${l.n} of ${levels.length}`)}
       ${catalog.tracks.map((t) => track(t.id, t.title, t.lead, sr.courses.filter((c) => c.track === t.id), () => 'Online course')).join('')}
+      <p class="catalog-academy-note">The original <a href="/training/cybersecurity/">Cybersecurity for the Agentic Era course</a> is part of the <a href="/training/cybersecurity/academy/">Cyber Security Academy</a>, not a separate general-course category.</p>
     </section>`;
 }
 
@@ -65,7 +66,7 @@ export function academiesBlock(catalog, arc) {
   };
   return `<section class="t-block" id="academies" aria-labelledby="acad-t">
       <p class="eyebrow">Learning paths</p>
-      <h2 id="acad-t">${word} academies, learn a field level by level</h2>
+      <h2 id="acad-t">${word} academies. Clear paths. Practical work.</h2>
       <p class="sub">Each academy is one path through a field. Open levels are labelled open and planned levels are labelled planned, so you can see where the path goes. Join at the level that fits you.</p>
       <div class="cat-grid">${list.map(card).join('')}
       </div>
@@ -75,11 +76,11 @@ export function academiesBlock(catalog, arc) {
 export function featuredBlock(catalog) {
   const f = catalog.featured, c = catalog.series.courses.find((x) => x.id === f.id);
   return `<section class="t-block feat" aria-labelledby="feat-t">
-      <p class="eyebrow">${esc(f.kicker)}</p>
+      <p class="eyebrow">Featured course · Cyber Security Academy</p>
       <h2 id="feat-t"><a href="${c.path}">${esc(f.title)}</a></h2>
       <p class="feat-line">${esc(f.line)}</p>
       <ul class="facts-list">${f.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-      <div class="actions"><a class="btn btn-primary" href="${c.path}">See the course</a>${academyOf(catalog, c.id) ? `<a class="btn btn-ghost" href="${academyOf(catalog, c.id).path}">${esc(academyOf(catalog, c.id).title)}</a>` : ''}<a class="btn btn-ghost" href="#courses">All courses</a></div>
+      <div class="actions"><a class="btn btn-primary" href="${c.path}">Explore the course</a>${academyOf(catalog, c.id) ? `<a class="btn btn-ghost" href="${academyOf(catalog, c.id).path}">${esc(academyOf(catalog, c.id).title)}</a>` : ''}<a class="btn btn-ghost" href="#courses">All courses</a></div>
     </section>`;
 }
 
@@ -105,7 +106,7 @@ export function coursePage(c, { catalog, levels, kindLabel, series }) {
   const interest = wa(`Hello, I would like to hear when "${c.title}" opens.`);
   const nav = levels
     ? `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/#track-architecture">Software architecture</a><span aria-hidden="true"> / </span>Level ${c.n}</p>`
-    : `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/#track-${c.track || 'build'}">${c.track === 'run' ? 'Run and grow a business' : 'Build and secure agentic systems'}</a><span aria-hidden="true"> / </span>${esc(c.short)}</p>`;
+    : `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="${c.track === 'cyber-academy' ? '/training/cybersecurity/academy/' : '/training/#track-run'}">${c.track === 'cyber-academy' ? 'Cyber Security Academy' : 'Run and grow a business with agents'}</a><span aria-hidden="true"> / </span>${esc(c.short)}</p>`;
   let n = 0;
   return `
     <nav class="subnav" aria-label="${esc(c.title)}">
@@ -188,11 +189,14 @@ ${levels ? `
 /* Small boxes for the training header: every course one click away. */
 export function courseTiles(catalog, arc) {
   const levels = allLevels(catalog, arc);
+  const courses = catalog.series.courses;
+  const general = courses.filter((c) => c.id !== 'cybersecurity');
   const tile = (href, top, name, open) => `<a class="tile${open ? ' is-open' : ''}" href="${href}"><span class="tile-top">${esc(top)}</span><span class="tile-name">${esc(name)}</span></a>`;
-  const group = (label, tiles) => `<div class="tile-group"><p class="tile-label">${esc(label)}</p><div class="tiles">${tiles.join('')}</div></div>`;
-  return `<nav class="hero-tiles" aria-label="Jump to a course">
-        ${group(catalog.ladder.title, levels.map((l) => tile(l.path, `Level ${l.n}`, l.short, false)))}
-        ${catalog.tracks.map((t) => group(t.title, catalog.series.courses.filter((c) => c.track === t.id).map((c) => tile(c.path, 'Course', c.short, false)))).join('')}
+  const group = (label, note, tiles, className = '') => `<section class="tile-group ${className}" aria-label="${esc(label)}"><h2 class="tile-label">${esc(label)}</h2>${note ? `<p class="tile-note">${esc(note)}</p>` : ''}<div class="tiles">${tiles.join('')}</div></section>`;
+  return `<nav class="hero-tiles" aria-label="Explore Intellica learning paths">
+        ${group('Architecture Academy', 'Six levels in software architecture', levels.map((l) => tile(l.path, `Level ${l.n}`, l.short, false)), 'tile-architecture')}
+        ${group('Cyber Security Academy', 'The original professional course, within a six-level pathway', [tile('/training/cybersecurity/academy/', '6-level pathway', 'Explore the academy', false), tile('/training/cybersecurity/course/', 'Original 28-lesson course', 'Start the course', true)], 'tile-cyber')}
+        ${group('Run and grow a business with agents', 'Courses for building, analysing, operating and growing with AI', general.map((c) => tile(c.path, 'Course', c.short, false)), 'tile-general')}
       </nav>`;
 }
 

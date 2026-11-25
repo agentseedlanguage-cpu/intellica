@@ -473,7 +473,7 @@ function indexPage() {
         <p class="eyebrow">Intellica Training</p>
         <h1 id="ti-t">${esc(ix.headline)}</h1>
         <p class="lead">${esc(ix.lead)}</p>
-        <div class="actions"><a class="btn btn-primary" href="#courses">Browse the courses</a><a class="btn btn-ghost" href="#live">Next live workshop</a><a class="btn btn-link" href="/training/my-courses/">I have an access code</a></div>
+        <div class="actions"><a class="btn btn-primary" href="#academies">Explore the academies</a><a class="btn btn-ghost" href="#live">Upcoming workshop</a><a class="btn btn-link" href="/training/my-courses/">I have an access code</a></div>
       </div>
       ${courseTiles(catalog, data.workshops[0])}
     </section>
@@ -493,7 +493,7 @@ ${catalogSections(catalog, data.workshops[0], 1)}
 
     <section class="t-block" id="live" aria-labelledby="ws-t">
       ${kicker(2, 'Live workshops')}
-      <h2 id="ws-t">Learn it live, with us in the room</h2>
+      <h2 id="ws-t">Learn live, with expert guidance</h2>
       <p class="sub">The courses are always there. Workshops are the dated part, and the dates change: small rooms, one real system, a printed workbook and time to ask. Each one sits on top of its online course, so you can prepare before and keep going after.</p>
       <div class="ws-list">${cards}
       </div>
@@ -510,12 +510,12 @@ ${certificateBlock(catalog, 3)}
 
     <section class="t-block" aria-labelledby="team-t">
       ${kicker(5, 'For teams')}
-      <h2 id="team-t">Training a whole team?</h2>
-      <p class="sub">We can run a workshop on your own system, or build a learning path across several courses for your staff. <a href="/consulting/">See how we work with teams</a>, or message us on WhatsApp from the button on this page.</p>
+      <h2 id="team-t">Build capability across your team</h2>
+      <p class="sub">Bring a real system, a team challenge or a capability goal. We can tailor a workshop or map a learning path across the academies and courses. <a href="/consulting/">Explore team engagements</a>, or contact us to discuss your needs.</p>
     </section>`;
   return page({
     title: 'Training | Intellica',
-    description: `Hands-on training from Intellica: software architecture in six levels and seven courses for the agentic era, each with a lab and a verifiable certificate. Next workshop: ${data.workshops[0].title}, ${data.workshops[0].dateLong}.`,
+    description: `Intellica's Architecture Academy and Cyber Security Academy, plus practical courses for building, analysing, operating and growing with AI. Hands-on learning with clear course status and scope. Next workshop: ${data.workshops[0].title}, ${data.workshops[0].dateLong}.`,
     canonicalPath: '/training/',
     ld: null,
     css: ['/training/catalog.css'],

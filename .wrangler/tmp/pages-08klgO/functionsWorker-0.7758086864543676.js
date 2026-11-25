@@ -1066,8 +1066,9 @@ var onRequest = /* @__PURE__ */ __name((ctx) => handle({ request: ctx.request, e
 // ../worker/pay-api.js
 var BANK = { name: "Royal Bank (Trinidad and Tobago) Limited", branch: "St Augustine Shopping Centre, St Augustine", account: "110000005001825" };
 var OFFERS = {
-  arc42: { ttd: 899, usd: 129, title: "arc42 in a Day, online course", welcome: "/training/arc42/course/welcome/", learn: "/training/arc42/course/learn/" },
+  arc42: { ttd: 899, usd: 129, title: "Mastering arc42, online course", welcome: "/training/arc42/course/welcome/", learn: "/training/arc42/course/learn/" },
   cybersecurity: { ttd: 2799, usd: 399, title: "Cybersecurity for the Agentic Era, online course", welcome: "/training/cybersecurity/course/welcome/", learn: "/training/cybersecurity/course/learn/" },
+  "software-architecture-foundations": { ttd: 1049, usd: 149, title: "Software Architecture Foundations, online course", welcome: "/training/software-architecture-foundations/course/welcome/", learn: "/training/software-architecture-foundations/course/learn/" },
   "quality-decisions": { ttd: 1399, usd: 199, title: "Quality, Decisions and Evaluation, online course", welcome: "/training/quality-decisions/course/welcome/", learn: "/training/quality-decisions/course/learn/" }
 };
 async function courseKeyFor(masterB64u, course) {
@@ -1260,7 +1261,7 @@ async function handle2({ request, env: env2, now = Date.now() }) {
 __name(handle2, "handle");
 
 // ../worker/cert-api.js
-var ISSUABLE = { arc42: { lessons: 19, sections: 12, checks: 6, questions: 34 }, cybersecurity: { lessons: 28, sections: 28, checks: 5, questions: 84 }, "quality-decisions": { lessons: 20, sections: 20, checks: 6, questions: 60 } };
+var ISSUABLE = { arc42: { lessons: 19, sections: 12, checks: 6, questions: 34 }, cybersecurity: { lessons: 28, sections: 28, checks: 5, questions: 84 }, "software-architecture-foundations": { lessons: 14, sections: 14, checks: 6, questions: 70 }, "quality-decisions": { lessons: 20, sections: 20, checks: 6, questions: 60 } };
 var SCHEMA3 = [
   `CREATE TABLE IF NOT EXISTS certs (
     id TEXT PRIMARY KEY, course TEXT NOT NULL, name TEXT NOT NULL, issued INTEGER NOT NULL, record TEXT NOT NULL)`
@@ -1332,7 +1333,7 @@ var onRequest2 = /* @__PURE__ */ __name((ctx) => handle3({ request: ctx.request,
 // api/pay/[[route]].js
 var onRequest3 = /* @__PURE__ */ __name((ctx) => handle2({ request: ctx.request, env: { ...ctx.env, SECRETS } }), "onRequest");
 
-// ../.wrangler/tmp/pages-fISRxQ/functionsRoutes-0.9554326501873345.mjs
+// ../.wrangler/tmp/pages-08klgO/functionsRoutes-0.9672955781601829.mjs
 var routes = [
   {
     routePath: "/api/board/:route*",

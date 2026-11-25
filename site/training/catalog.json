@@ -672,7 +672,7 @@
       ],
       "levels": 6,
       "status": "Course open now",
-      "lead": "Secure AI agents, their tools, identities, memory and infrastructure, from foundations to governance. The online course is open today. The levels, pathways and assessments around it are published openly and marked as live, in design or planned."
+      "lead": "A six-level pathway for securing AI agents, their tools, identities, memory and infrastructure. The original 28-lesson cybersecurity course is part of this academy; levels and assessments are clearly marked by their current status."
     }
   ],
   "series": {
@@ -907,7 +907,7 @@
           "intro": "One pack, built in steps after each lesson. Each step has instructions, a model solution and a rubric to mark your own work, and saves on your device. The health check confirms the pack is complete and free of placeholders and secrets. It does not judge whether your security design is right; that needs a human reviewer."
         },
         "path": "/training/cybersecurity/",
-        "track": "build",
+        "track": "cyber-academy",
         "course": {
           "enabled": true,
           "headline": "Secure the agents you run, as a course you take at your own pace.",
@@ -1070,7 +1070,7 @@
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
         },
         "path": "/training/data-analytics/",
-        "track": "build"
+        "track": "run"
       },
       {
         "id": "software-development",
@@ -1158,7 +1158,7 @@
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
         },
         "path": "/training/software-development/",
-        "track": "build"
+        "track": "run"
       },
       {
         "id": "digital-marketing",
@@ -1445,17 +1445,12 @@
   },
   "tracks": [
     {
-      "id": "build",
-      "title": "Build and secure agentic systems",
-      "lead": "For people who ship the software, data and automation that agents act on, and who answer for what those agents are allowed to do."
-    },
-    {
       "id": "run",
       "title": "Run and grow a business with agents",
-      "lead": "For owners, managers and consultants who want agents doing real work in sales, projects and operations, with the controls to trust them."
+      "lead": "Practical courses for people building, analysing, operating and growing with AI—from software and data to business, marketing and delivery."
     }
   ],
-  "coursesLead": "Every course is a permanent online course: short lessons, a lab where you build the real thing, and a certificate you can verify. We amend each one as the research and the tools change, and you keep every update. Live workshops, below, are where we teach in person.",
+  "coursesLead": "Choose a learning path, then go deeper with a course. The academies organise the curriculum; the course pages show what is available now, what you will build, and what remains planned.",
   "featured": {
     "id": "cybersecurity",
     "kicker": "Featured course",

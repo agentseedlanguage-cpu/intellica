@@ -1,6 +1,6 @@
 // Cybersecurity for Agentic Environments Academy: the six levels (source: Blueprint v2 + CYB-1 reconciliation).
 // Edit the data, not the generated pages. Statuses are honest: "available" means lessons exist in the live course.
-export const REVIEWED = '2026-11-24';
+export const REVIEWED = '2026-11-25';
 
 export const LESSON_LEVEL = { // primary level for each of the 28 live lessons
   1: 1, 2: 1, 3: 1, 4: 1,
@@ -81,7 +81,8 @@ export const LEVELS = [
     mapping: [
       ['OWASP AISVS 1.0', 'Primary verification checklist and lab rubric source. Cite the version: 1.01 is in progress.'],
       ['ISC2 CSSLP', 'Secure software lifecycle benchmark. Published experience requirements apply to the credential.'],
-      ['GIAC GAIPS', 'Partial coverage today. See the GAIPS mapping page for the gaps we are closing.'],
+      ['GIAC GAIPS', 'Primary external platform-security benchmark; the published mapping identifies current coverage and the additional pipeline and model-customisation work.'],
+      ['ISC2 AI Security Certification', 'Emerging six-domain professional benchmark; pilot stage as of November 2026, not yet an operational credential.'],
     ],
     caveat: 'Completing this level does not meet any experience requirement of an external credential.',
   },
@@ -105,7 +106,8 @@ export const LEVELS = [
     assessment: 'Dossier review plus an oral design defence against changed assumptions.',
     mapping: [
       ['CSA CCZT', 'Zero-trust benchmark. Verify the current exam details before publishing any figure.'],
-      ['CSA CCSK and ISC2 CCSP', 'Cloud security benchmarks. A CSA certificate and an ISC2 credential are different things.'],
+      ['CSA CCSK', 'Cloud-security benchmark for cloud architecture, governance, risk and operational controls.'],
+      ['ISC2 CCSP', 'Cloud security architecture benchmark. Experience requirements apply.'],
       ['ISC2 CISSP (and ISSAP)', 'Broad architecture benchmark. Qualifying experience applies.'],
     ],
     caveat: 'The architecture level is assessed on a defended design, not on a multiple-choice score.',
@@ -130,6 +132,7 @@ export const LEVELS = [
     mapping: [
       ['CompTIA CySA+', 'Defensive analysis benchmark. Pin the exam version at release.'],
       ['MITRE ATLAS', 'Technique language for detections and playbooks. Cite a release version.'],
+      ['GIAC GASAE', 'AI and security-automation benchmark across offensive, defensive and cloud operations; verify current exam status.'],
     ],
     caveat: 'Incident simulations run only in the academy lab, on synthetic data.',
   },
@@ -151,7 +154,8 @@ export const LEVELS = [
     capstone: 'A scoped red-team engagement against a purpose-built target, with an evidence pack, reproducible tests and a remediation retest.',
     assessment: 'Observed engagement in the lab and a written report reviewed against a published rubric.',
     mapping: [
-      ['GIAC GAIPT', 'The closest external offensive benchmark we found: seven published objectives covering agents, orchestration and MCP servers.'],
+      ['GIAC GAIPT', 'Offensive AI testing benchmark with published objectives for direct and indirect injection, RAG, agents, MCP, API security and architecture flaws; verify presale status.'],
+      ['GIAC GOAA', 'Related offensive AI analyst benchmark with practical AI-enabled offensive operations; distinct from agent-platform assurance.'],
       ['CompTIA PenTest+', 'General penetration-testing benchmark. Pin the exam version at release.'],
     ],
     caveat: 'Offensive work is taught only in isolated lab environments with synthetic data, disposable credentials and audit logs. Nothing here is a route to testing systems you do not have written permission to test.',
@@ -175,6 +179,7 @@ export const LEVELS = [
     assessment: 'Programme review and an oral defence before independent assessors.',
     mapping: [
       ['IAPP AIGP', 'AI governance benchmark. Not a hands-on security engineering credential.'],
+      ['ISC2 AI Security Certification', 'Emerging six-domain benchmark spanning AI concepts, governance, data and model security, architecture, operations and testing; pilot stage as of November 2026.'],
       ['ISACA CISM, CRISC and CISA', 'Management, risk and audit benchmarks. Experience and continuing-education requirements apply.'],
       ['ISO/IEC 42001 and 27001', 'Teach implementation and audit readiness. A learner credential does not make an organisation certified.'],
     ],

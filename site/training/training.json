@@ -3,23 +3,23 @@
   "note": "Source of truth for /training/. Pages are generated from this file by tools/build-training.mjs (npm run sync). Edit here, never in the generated HTML.",
   "index": {
     "title": "Training",
-    "headline": "Hands-on training, built from current research.",
-    "lead": "Software architecture in six levels, and seven courses for the agentic era. Each is lessons, a lab you build step by step, and a certificate you can verify. Courses are built from current research, with sources you can open, and revised when the evidence changes.",
+    "headline": "Build the skills to design, secure and lead in the AI era.",
+    "lead": "Two focused academies take you from foundations to professional practice in software architecture and agentic cybersecurity. Practical courses help you build, analyse, operate and grow with AI. Learn at your pace, make real work, and see clearly what is available today.",
     "principles": [
       {
-        "title": "See it done",
-        "text": "Every skill starts with a finished example, so you know what good looks like before you start."
+        "title": "Learn from a clear example",
+        "text": "See the standard before you practise. Lessons break complex work into steps, with examples you can inspect and adapt."
       },
       {
-        "title": "Do it yourself",
-        "text": "Early exercises are mostly filled in. Later ones give you a template, then a blank page. The support fades as you grow."
+        "title": "Build something real",
+        "text": "Apply each skill to a practical artefact, design or workflow—not just a quiz or a promise."
       },
       {
-        "title": "Check with others",
-        "text": "You swap work with peers against a short checklist, and measure your own progress instead of taking our word for it."
+        "title": "Know where you stand",
+        "text": "Course pages distinguish available content from planned work and explain what each certificate does and does not represent."
       }
     ],
-    "honesty": "Every course states its scope up front: what you will leave with, what it builds on, and where the research is still developing. You plan with full information."
+    "honesty": "Intellica publishes the scope, prerequisites and current status of each learning path. You can decide what fits your goals before you enrol."
   },
   "workshops": [
     {

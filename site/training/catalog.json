@@ -654,6 +654,27 @@
       }
     ]
   },
+  "academies": [
+    {
+      "id": "architecture",
+      "title": "Architecture Academy",
+      "tag": "Software architecture",
+      "path": "/training/architecture-academy/",
+      "lead": "One path from the foundations of software architecture to leading architecture for an organisation, built from current research and kept up to date."
+    },
+    {
+      "id": "cybersecurity",
+      "title": "Cybersecurity Academy",
+      "tag": "Cybersecurity for agents",
+      "path": "/training/cybersecurity/academy/",
+      "courses": [
+        "cybersecurity"
+      ],
+      "levels": 6,
+      "status": "Course open now",
+      "lead": "Secure AI agents, their tools, identities, memory and infrastructure, from foundations to governance. The online course is open today. The levels, pathways and assessments around it are published openly and marked as live, in design or planned."
+    }
+  ],
   "series": {
     "title": "Skills for the agentic era",
     "lead": "Seven courses for people who work with AI agents. Each is built from current research, with sources you can open, and has lessons, a lab you build step by step, check questions and a certificate.",

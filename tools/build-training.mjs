@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { researchHtml, boardHtml } from './lab-html.mjs';
 import { page, esc, kicker, cols, base } from './training-shell.mjs';
-import { courseTiles, featuredBlock, catalogSections, certificateBlock, allLevels, levelPath } from './catalog-html.mjs';
+import { courseTiles, featuredBlock, academiesBlock, catalogSections, certificateBlock, allLevels, levelPath } from './catalog-html.mjs';
 
 const SITE = path.resolve('site');
 const catalog = JSON.parse(fs.readFileSync(path.join(SITE, 'training', 'catalog.json'), 'utf8'));
@@ -486,6 +486,8 @@ function indexPage() {
     </dl></section>
 
 ${featuredBlock(catalog)}
+
+${academiesBlock(catalog, data.workshops[0])}
 
 ${catalogSections(catalog, data.workshops[0], 1)}
 

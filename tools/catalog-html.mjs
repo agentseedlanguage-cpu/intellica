@@ -45,6 +45,33 @@ export function catalogSections(catalog, arc, startN) {
     </section>`;
 }
 
+/* The academies on the training page: one card each, with an honest status. Data: catalog.json "academies". */
+export function academiesBlock(catalog, arc) {
+  const list = catalog.academies || [];
+  if (!list.length) return '';
+  const word = ['', 'One', 'Two', 'Three', 'Four'][list.length] || String(list.length);
+  const levels = allLevels(catalog, arc);
+  const nOpen = levels.filter((l) => Boolean(l.live || (l.course && l.course.enabled))).length;
+  const card = (a) => {
+    const n = a.id === 'architecture' ? levels.length : a.levels;
+    const status = a.id === 'architecture' ? `${nOpen} of ${levels.length} levels open` : a.status;
+    return `
+        <article class="cat-card">
+          <p class="cat-tag">${esc(a.tag)} \u00b7 ${n} levels<span class="cat-status is-live">${esc(status)}</span></p>
+          <h3><a href="${a.path}">${esc(a.title)}</a></h3>
+          <p>${esc(a.lead)}</p>
+          <a class="cat-go" href="${a.path}">See the academy <span aria-hidden="true">\u2192</span></a>
+        </article>`;
+  };
+  return `<section class="t-block" id="academies" aria-labelledby="acad-t">
+      <p class="eyebrow">Learning paths</p>
+      <h2 id="acad-t">${word} academies, learn a field level by level</h2>
+      <p class="sub">Each academy is one path through a field. Open levels are labelled open and planned levels are labelled planned, so you can see where the path goes. Join at the level that fits you.</p>
+      <div class="cat-grid">${list.map(card).join('')}
+      </div>
+    </section>`;
+}
+
 export function featuredBlock(catalog) {
   const f = catalog.featured, c = catalog.series.courses.find((x) => x.id === f.id);
   return `<section class="t-block feat" aria-labelledby="feat-t">
@@ -52,7 +79,7 @@ export function featuredBlock(catalog) {
       <h2 id="feat-t"><a href="${c.path}">${esc(f.title)}</a></h2>
       <p class="feat-line">${esc(f.line)}</p>
       <ul class="facts-list">${f.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-      <div class="actions"><a class="btn btn-primary" href="${c.path}">See the course</a><a class="btn btn-ghost" href="#courses">All courses</a></div>
+      <div class="actions"><a class="btn btn-primary" href="${c.path}">See the course</a>${academyOf(catalog, c.id) ? `<a class="btn btn-ghost" href="${academyOf(catalog, c.id).path}">${esc(academyOf(catalog, c.id).title)}</a>` : ''}<a class="btn btn-ghost" href="#courses">All courses</a></div>
     </section>`;
 }
 
@@ -69,6 +96,9 @@ export function certificateBlock(catalog, n, { id = 'certificate' } = {}) {
       <p class="muted">${esc(c.scope)}</p>
     </section>`;
 }
+
+/* The academy a catalogue course belongs to, if catalog.json "academies" lists it (by "courses"). */
+const academyOf = (catalog, id) => (catalog.academies || []).find((a) => (a.courses || []).includes(id));
 
 export function coursePage(c, { catalog, levels, kindLabel, series }) {
   const lessons = lessonCount(c);
@@ -90,7 +120,8 @@ export function coursePage(c, { catalog, levels, kindLabel, series }) {
         <p class="lead">${esc(c.lead)}</p>
         ${c.course && c.course.enabled ? `<div class="actions"><a class="btn btn-primary" href="${c.path}course/">Start the free lessons</a><a class="btn btn-ghost" href="${c.path}course/#get-t">Buy the course, ${esc(c.course.price.label)}</a><a class="btn btn-ghost" href="#syllabus">See the syllabus</a></div>
         <p class="fine">Lesson${c.course.free.length > 1 ? 's' : ''} ${c.course.free.join(' and ')} ${c.course.free.length > 1 ? 'are' : 'is'} free to open now. ${esc(c.course.price.note)} Questions? <a href="${esc(wa(`Hello, I would like to ask about "${c.title}".`))}" rel="noopener">Contact sales</a>.</p>` : `<div class="actions"><a class="btn btn-primary" href="${esc(interest)}" rel="noopener">Contact sales</a><a class="btn btn-ghost" href="#syllabus">See the syllabus</a></div>
-        <p class="fine">Enrol by message. We confirm what is ready today, send every module as it is released, and you keep every update to this edition.</p>`}
+        <p class="fine">Enrol by message. We confirm what is ready today, send every module as it is released, and you keep every update to this edition.</p>`}${academyOf(catalog, c.id) ? `
+        <p class="fine">Part of the <a href="${academyOf(catalog, c.id).path}">${esc(academyOf(catalog, c.id).title)}</a>: where this course sits, the levels around it and what is planned.</p>` : ''}
       </div>
     </section>
 ${levels ? `

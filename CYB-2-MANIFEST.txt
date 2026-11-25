@@ -1,0 +1,39 @@
+CYB-2 manifest. Built on checkpoint 36.
+Apply from the repo root: unzip -o intellica-cyb-2.zip && npm run deploy -- home
+
+== shared files changed (whole files, based on checkpoint 36) ==
+site/training/catalog.json
+site/training/cybersecurity/index.html
+site/training/index.html
+tools/build-training.mjs
+tools/catalog-html.mjs
+
+== new or updated files owned by the cyber academy ==
+CHECKPOINTS-CYBER.md
+docs/cyber-academy/ACADEMY-PARITY.md
+docs/cyber-academy/BLUEPRINT-v3.md
+docs/cyber-academy/LESSON-SPECS.md
+site/training/cybersecurity/academy/academy.css
+site/training/cybersecurity/academy/certification/index.html
+site/training/cybersecurity/academy/gaips/index.html
+site/training/cybersecurity/academy/index.html
+site/training/cybersecurity/academy/lessons/index.html
+site/training/cybersecurity/academy/level-1/index.html
+site/training/cybersecurity/academy/level-2/index.html
+site/training/cybersecurity/academy/level-3/index.html
+site/training/cybersecurity/academy/level-4/index.html
+site/training/cybersecurity/academy/level-5/index.html
+site/training/cybersecurity/academy/level-6/index.html
+site/training/cybersecurity/academy/paths/index.html
+site/training/cybersecurity/academy/placement/index.html
+site/training/cybersecurity/academy/placement/placement.js
+site/training/cybersecurity/academy/roadmap/index.html
+site/training/cybersecurity/academy/standards/index.html
+tools/build-cyber-academy.mjs
+tools/check-cyber-academy.mjs
+tools/cyber-academy/levels.mjs
+tools/cyber-academy/meta.mjs
+tools/cyber-academy/placement.mjs
+tools/cyber-academy/questions.mjs
+tools/cyber-academy/sources.mjs
+tools/test-cyber-academy.mjs

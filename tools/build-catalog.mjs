@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { page, esc, SITE } from './training-shell.mjs';
-import { allLevels, coursePage, lessonCount, academyPage } from './catalog-html.mjs';
+import { allLevels, coursePage, lessonCount } from './catalog-html.mjs';
 
 const catalog = JSON.parse(fs.readFileSync(path.join(SITE, 'training', 'catalog.json'), 'utf8'));
 const training = JSON.parse(fs.readFileSync(path.join(SITE, 'training', 'training.json'), 'utf8'));
@@ -28,11 +28,6 @@ for (const c of catalog.series.courses) {
     body: coursePage(c, { catalog, levels: null, kindLabel: c.id === 'cybersecurity' ? 'Cyber Security Academy · Level 2' : 'The agentic era' }),
   }));
 }
-
-write('training/architecture-academy/index.html', page({
-  title: 'Architecture Academy | Intellica Training', description: catalog.ladder.lead, canonicalPath: '/training/architecture-academy/', ld: null, css: CSS,
-  body: academyPage(catalog, arc),
-}));
 
 // the certificate page: verifies a credential and offers the share actions (training/certificate/certificate.js fills it in)
 const titles = Object.fromEntries([[arc.id, arc.title], ...[...catalog.ladder.levels, ...catalog.series.courses].map((c) => [c.id, c.title])]);

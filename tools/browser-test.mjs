@@ -1099,8 +1099,11 @@ await step('level 1: the level page offers free lessons, a free lesson plays, a 
   await l.waitForSelector('[data-locked]:not([hidden])');
   await l.context().close();
   const a = await open(`${HOME}/training/architecture-academy/`);
-  assert.equal(await a.locator('.cat-card').count(), 6);
-  assert.match(await a.locator('main').innerText(), /not an iSAQB course/);
+  assert.equal(await a.locator('.ac-card:has(a[href*="/level-"])').count(), 6);
+  assert.match(await a.locator('main').innerText(), /independent of iSAQB/);
+  const l1 = await open(`${HOME}/training/architecture-academy/level-1/`);
+  assert.match(await l1.locator('main').innerText(), /not an iSAQB course/);
+  await l1.context().close();
   assert.deepEqual(a.problems, []);
   await a.context().close();
 });

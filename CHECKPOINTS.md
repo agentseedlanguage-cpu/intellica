@@ -1,3 +1,11 @@
+# Checkpoint 37: Training polish (fonts, hero, cards) and the Architecture Academy rebuilt to match the Cyber Security Academy
+
+**Fonts.** The font files in `site/assets/fonts` were never loaded: no `@font-face` existed, so every visitor saw their own device font. `site/kit/shell.css` now declares IBM Plex Sans (text), Bricolage Grotesque (headings) and IBM Plex Mono (labels), all self-hosted, with `font-display: swap`. `tokens.css` has `--font-sans`, `--font-display`, `--font-mono`. Kit files and the font files are copied to every product site by `tools/sync-kit.mjs`.
+**Training page.** Hero cards are now three equal panels with compact link rows (no dead space, no mid-word breaks, mobile-friendly). Shorter academy and course copy. Planned levels say "Planned" and "See the outline". Two wide academy cards. Trust strip no longer wraps.
+**Architecture Academy.** One thin page became 13 pages in the same layout as the Cyber Security Academy: overview, six levels, pathways, lesson map, iSAQB curriculum mapping (including the 2027.1 release candidate, read 2026-11-25), standards and sources, certification policy, roadmap and gap register. Data in `tools/arch-academy/`, builder `tools/build-arch-academy.mjs`, checker `tools/check-arch-academy.mjs` (in `npm run check`). Lesson titles, counts and free lessons are read from the live catalogue. Wired into `npm run training` and `npm run sync`.
+**Breadcrumbs.** Architecture level pages now link to the Architecture Academy and the matching academy level page.
+**Not changed.** No course content, lesson text, encrypted data, payments, keys or certificates.
+
 # Checkpoint 36: Level 1 Software Architecture Foundations built, Architecture Academy page, refund terms
 
 **Level 1 is a live online course** (`software-architecture-foundations`, US$149 / TT$1,049). 14 lessons in six modules, 8 slides each (112), 5 quiz questions per lesson (70), a field guide, worked case, lab (14 sections) and rubric per lesson, one health check of 6 items, and a certificate rule in `worker/cert-api.js` (14 lessons, 14 sections, 6 checks, 70 questions). Free lessons: 1 and 10. Source in `training-private/foundations/`; the topic list in `curriculum-map.json` follows the iSAQB CPSA-F curriculum 2025.1 (read 2026-11-24). It is independent self-study, not an iSAQB course; Intellica is not an accredited provider.

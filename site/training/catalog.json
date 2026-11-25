@@ -31,14 +31,14 @@
   },
   "ladder": {
     "title": "Software architecture, in six levels",
-    "lead": "A six-level professional pathway in software architecture—from foundations and documentation through quality analysis, agentic systems, governance and enterprise leadership. Available courses develop practical judgement through worked examples, architecture artefacts and structured self-review; planned levels are identified separately.",
+    "lead": "A six-level professional pathway in software architecture, from foundations and documentation to quality analysis, agentic systems, governance and enterprise leadership. Each live course builds real architecture artefacts through worked examples and structured self-review.",
     "levels": [
       {
         "n": 1,
         "id": "software-architecture-foundations",
         "title": "Software Architecture Foundations",
         "short": "Foundations",
-        "lead": "The first level: what software architecture is, how to find the requirements that shape it, design a structure, describe it and test it. Fourteen lessons, a lab that builds one architecture file for a system you know, three timed mock exams and a curriculum map, with exam readiness built in if you plan to sit the iSAQB CPSA-F exam.",
+        "lead": "What software architecture is and how to practise it: requirements, quality, design, documentation and analysis. Fourteen lessons, a hands-on lab, three timed mock exams and readiness guidance for the iSAQB Foundation exam.",
         "why": "Most people learn architecture by absorbing it from the one or two systems they have worked on. This level gives you the shared vocabulary and the working method first: requirements and constraints, structure, patterns, views, evaluation, and how to decide when and how to use AI. It follows the topics of the iSAQB Foundation Level curriculum, so it is also a way to prepare for that exam.",
         "needs": "No earlier level. Some experience building or maintaining software helps, and basic UML and object-oriented ideas are assumed.",
         "honesty": "This level follows the topics of the iSAQB CPSA-F curriculum (version 2025.1). It is Intellica self-study, not an iSAQB course, and Intellica is not an accredited training provider. The exam is booked separately with an iSAQB certification body; training is not required to sit it. Check the current exam format with the certification body before you book.",
@@ -670,20 +670,20 @@
       "title": "Architecture Academy",
       "tag": "Software architecture",
       "path": "/training/architecture-academy/",
-      "lead": "A six-level professional pathway in software architecture, from foundations and documentation to agentic systems, governance and enterprise leadership. Three courses are currently available, including a 14-lesson foundation course with guided architecture work and three original timed mock exams.",
+      "lead": "Six levels from foundations to architecture leadership. Three courses are live today, including a 14-lesson foundations course with three timed mock exams.",
       "status": "Three courses available"
     },
     {
       "id": "cybersecurity",
       "title": "Cyber Security Academy",
-      "tag": "Cyber Security for agents",
+      "tag": "Cyber security",
       "path": "/training/cybersecurity/academy/",
       "courses": [
         "cybersecurity"
       ],
       "levels": 6,
       "status": "28-lesson Level 2 course available",
-      "lead": "A six-level professional pathway for cyber security in agentic environments, spanning foundations, application security, architecture, operations, adversarial assurance and governance. Level 2 is the complete 28-lesson Application Cyber Security for Agentic Environments course; lessons also support selected outcomes across the wider pathway."
+      "lead": "Six levels for securing agentic systems, from foundations to governance. Level 2 is the complete 28-lesson Application Cyber Security for Agentic Environments course."
     }
   ],
   "series": {

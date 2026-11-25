@@ -42,6 +42,13 @@ gh release list -R agentseedlanguage-cpu/agentseed
 - [ ] Put Cloudflare Access in front of `/training/arc42/deck-*` if the slides must not be reachable by anyone with the link
 
 
+## Level 1 Foundations (checkpoint 36)
+- Have a person review the question bank (124 items). It was written and machine-checked, not human-reviewed; correct options tend to be longest. Grow towards the blueprint's larger bank and more choose-N and allocation items.
+- Confirm the title of curriculum goal 04-04 against the official curriculum.
+- Re-read the curriculum when the 2027.1 release is final (adds AI topics).
+- Refund terms are now on every course FAQ (7 days). Check them with a lawyer if you want legal certainty; none found as law for Trinidad and Tobago online purchases.
+- OPA (Cybersecurity) is still unverified in this environment.
+
 ## Cybersecurity course (checkpoint 35)
 - [ ] Decide whether Level 3, Quality, Decisions and Evaluation, stays purchasable. It is built and in `worker/pay-api.js` OFFERS, so three courses can be bought, not two.
 - [ ] Deploy with your own `.course-key` so the updated lesson text is re-encrypted; until then buyers see the previous lesson text.

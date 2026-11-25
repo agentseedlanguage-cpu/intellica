@@ -31,7 +31,7 @@ export function catalogSections(catalog, arc, startN) {
   const track = (id, title, lead, items, tag) => `
       <div class="track" id="track-${id}">
         <h3>${esc(title)}</h3>
-        <p class="sub">${esc(lead)}</p>
+        <p class="sub">${esc(lead)}${id === 'architecture' ? ' <a href="/training/architecture-academy/">See the whole Architecture Academy</a>.' : ''}</p>
         <div class="cat-grid">${items.map((l) => card(l, tag(l))).join('')}
         </div>
       </div>`;
@@ -163,4 +163,58 @@ export function courseTiles(catalog, arc) {
         ${group(catalog.ladder.title, levels.map((l) => tile(l.path, `Level ${l.n}`, l.short, false)))}
         ${catalog.tracks.map((t) => group(t.title, catalog.series.courses.filter((c) => c.track === t.id).map((c) => tile(c.path, 'Course', c.short, false)))).join('')}
       </nav>`;
+}
+
+/* The Architecture Academy page: the six levels with honest statuses, and what is and is not available. */
+export function academyPage(catalog, arc) {
+  const levels = allLevels(catalog, arc);
+  const open = (l) => Boolean(l.live || (l.course && l.course.enabled));
+  const price = (l) => l.price || (l.course && l.course.price && l.course.price.label) || '';
+  const row = (l) => `
+        <article class="cat-card">
+          <p class="cat-tag">Level ${l.n}${price(l) ? `<span class="cat-price">${esc(price(l))}</span>` : ''}<span class="cat-status">${open(l) ? 'Available now' : 'Planned'}</span></p>
+          <h3><a href="${l.path}">${esc(l.title)}</a></h3>
+          <p>${esc(l.lead)}</p>
+          <a class="cat-go" href="${l.path}">${open(l) ? 'See the course' : 'See the plan'} <span aria-hidden="true">→</span></a>
+        </article>`;
+  const nOpen = levels.filter(open).length;
+  return `
+    <nav class="subnav" aria-label="Architecture Academy">
+      <p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span>Architecture Academy</p>
+      <a class="sn-code" href="/training/my-courses/">Enter access code</a>
+    </nav>
+
+    <section class="t-hero t-hero-single" aria-labelledby="ac-title">
+      <div class="t-hero-copy">
+        <p class="cat-tag"><span>Software architecture · ${levels.length} levels</span></p>
+        <h1 id="ac-title">Intellica Architecture Academy</h1>
+        <p class="lead">${esc(catalog.ladder.lead)} Today ${nOpen} of the ${levels.length} levels are open. The rest are planned and are marked that way, so you can see where the path goes without being sold something that does not exist yet.</p>
+      </div>
+    </section>
+
+    <section class="cat-section" aria-labelledby="ac-levels">
+      <h2 id="ac-levels">The path, level by level</h2>
+      ${levelPath(levels, 0)}
+      <div class="cat-grid">${levels.map(row).join('')}
+      </div>
+    </section>
+
+    <section class="cat-section" aria-labelledby="ac-how">
+      <h2 id="ac-how">How the academy works</h2>
+      <div class="cols">
+        <div><h3>Hands on at every level</h3><p>Each open course has a lab that builds a real artefact, such as one architecture file for a system, and checks that work with tools you run yourself, not only quizzes.</p></div>
+        <div><h3>Free lessons first</h3><p>Every open course has lessons you can read before you pay, so you can judge the teaching before you decide.</p></div>
+        <div><h3>Join at your level</h3><p>Start at Level 1, or join where your experience fits. Each level page lists what it covers and what it expects you to know.</p></div>
+      </div>
+    </section>
+
+    <section class="cat-section" aria-labelledby="ac-honest">
+      <h2 id="ac-honest">What the academy is not</h2>
+      <ul class="plain">
+        <li>Level 1 is independent self-study that follows the topics of the iSAQB Certified Professional for Software Architecture, Foundation Level curriculum. It is not an iSAQB course, and Intellica is not an accredited training provider. The iSAQB exam is separate and is taken through a certification body; check its current rules there.</li>
+        <li>The mock exams are original practice questions written by Intellica. They are not real exam questions and do not guarantee a pass.</li>
+        <li>An Intellica certificate shows that you completed an Intellica course and met its published rule. Intellica's own assessed credentials for the higher levels are planned, not available.</li>
+        <li>Levels marked Planned have no open course yet. Message us on WhatsApp to hear when they open.</li>
+      </ul>
+    </section>`;
 }

@@ -691,7 +691,7 @@
           },
           {
             "q": "How do I get access?",
-            "a": "Message sales on WhatsApp. We reply with how to pay, and send your access code when payment is confirmed."
+            "a": "Pay by bank deposit from the buy button on this page, then upload a photo of the receipt. If the automatic check reads it cleanly, your course opens at once. If it cannot read the receipt, your course still opens at once as provisional access and the owner is told to check it against the bank statement; if the payment cannot be confirmed, access is closed again. Your access code is a decryption key and cannot be recalled once issued, so keep it private."
           },
           {
             "q": "Can I share my code?",
@@ -703,7 +703,7 @@
           },
           {
             "q": "What about refunds?",
-            "a": "Refund terms are confirmed in writing when you enquire, before you pay."
+            "a": "Free lessons come first, so you can try before you pay. You can ask for a refund within 7 days of payment by WhatsApp, saying why, and we repay the account you paid from within 10 business days. After a refund your access code is withdrawn and you agree to stop using the course. No refund once you have claimed a certificate. If the course does not work as described and we cannot fix it, you get a full refund even after 7 days."
           }
         ],
         "skip": [

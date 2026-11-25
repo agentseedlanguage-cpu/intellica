@@ -38,108 +38,193 @@
         "id": "software-architecture-foundations",
         "title": "Software Architecture Foundations",
         "short": "Foundations",
-        "lead": "The first level: what software architecture is, how to find the requirements that shape it, design a structure, describe it and test it. Twenty lessons and a lab, with exam readiness built in if you plan to sit the iSAQB CPSA-F exam.",
+        "lead": "The first level: what software architecture is, how to find the requirements that shape it, design a structure, describe it and test it. Fourteen lessons, a lab that builds one architecture file for a system you know, three timed mock exams and a curriculum map, with exam readiness built in if you plan to sit the iSAQB CPSA-F exam.",
         "why": "Most people learn architecture by absorbing it from the one or two systems they have worked on. This level gives you the shared vocabulary and the working method first: requirements and constraints, structure, patterns, views, evaluation, and how to decide when and how to use AI. It follows the topics of the iSAQB Foundation Level curriculum, so it is also a way to prepare for that exam.",
         "needs": "No earlier level. Some experience building or maintaining software helps, and basic UML and object-oriented ideas are assumed.",
         "honesty": "This level follows the topics of the iSAQB CPSA-F curriculum (version 2025.1). It is Intellica self-study, not an iSAQB course, and Intellica is not an accredited training provider. The exam is booked separately with an iSAQB certification body; training is not required to sit it. Check the current exam format with the certification body before you book.",
         "outcomes": [
           {
             "title": "Speak the language",
-            "text": "Use the core terms of architecture correctly: structure, building blocks, views, quality, decisions and the architect’s role."
+            "text": "Use the core terms correctly: structure, building blocks, views, quality, decisions and the architect’s role."
           },
           {
             "title": "Find what shapes the design",
-            "text": "Separate architecturally significant requirements from the rest, and capture stakeholders, constraints and quality goals."
+            "text": "Separate requirements from constraints, assumptions and preferences, and write quality goals as measurable scenarios."
           },
           {
             "title": "Design and describe",
-            "text": "Work top-down and iteratively, choose patterns with reasons, and describe the result in views others can read."
+            "text": "Decompose a system, choose patterns with reasons, define interfaces, runtime and deployment, and document it in views others can read."
           },
           {
-            "title": "Evaluate and be exam-ready",
-            "text": "Review a design against its goals, judge the use of AI in architecture work, and take a timed mock exam with a gap list."
+            "title": "Evaluate and prepare",
+            "text": "Test a design with evidence, verify AI-drafted architecture content, and take three timed mock exams with a readiness report."
           }
         ],
         "modules": [
           {
-            "title": "What architecture is",
-            "note": "Terms, roles and where architecture sits in a team.",
+            "title": "Basic concepts",
+            "note": "Definitions, goals, the architect’s role and the people around it.",
             "lessons": [
-              "What software architecture is and why it matters",
-              "The architect’s role and the people around it",
-              "Architecture, design and code: where one ends and the next begins"
+              "What Software Architecture Is and What Architects Do"
             ]
           },
           {
-            "title": "Requirements and constraints",
+            "title": "Requirements, constraints and quality",
             "note": "What shapes the design before you draw anything.",
             "lessons": [
-              "Stakeholders and their concerns",
-              "Architecturally significant requirements and quality goals",
-              "Constraints and influencing factors"
+              "Stakeholders, Requirements and Constraints",
+              "Quality Attributes and Measurable Scenarios"
             ]
           },
           {
-            "title": "Designing the solution",
-            "note": "Structure, principles, patterns and technology choices.",
+            "title": "Design and development",
+            "note": "Approaches, principles, patterns, interfaces, runtime, deployment and cross-cutting rules.",
             "lessons": [
-              "Top-down and iterative design",
-              "Design principles: abstraction, information hiding, coupling and cohesion",
-              "Architectural and design patterns, and choosing technology",
-              "Interfaces and cross-cutting concepts"
+              "Design Approaches and Decomposition",
+              "Design Principles and Patterns",
+              "Interfaces, Contracts and Data Models",
+              "Runtime Views and Distributed Systems",
+              "Deployment and Infrastructure",
+              "Cross-Cutting Concepts"
             ]
           },
           {
-            "title": "Specifying and communicating",
-            "note": "Views and documentation people will actually read.",
+            "title": "Specification and communication",
+            "note": "Views, notations, decision records and arc42 as one practical structure.",
             "lessons": [
-              "Views and viewpoints: context, building blocks, runtime, deployment",
-              "Documenting with arc42, a first look",
-              "Recording decisions",
-              "Diagrams that communicate"
+              "Documenting and Communicating Architecture"
             ]
           },
           {
-            "title": "Evaluating, risk and AI",
-            "note": "Test a design, name its risks and decide how to use AI.",
+            "title": "Analysis and a worked example",
+            "note": "Test a design with evidence, then trace three requirements end to end.",
             "lessons": [
-              "Evaluating an architecture: scenarios and reviews",
-              "Risks and technical debt",
-              "Deciding on AI in architecture work and verifying what it produces"
+              "Analysing and Assessing Architecture",
+              "Worked Example: The Integrated Case Study"
             ]
           },
           {
-            "title": "Exam readiness",
-            "note": "For the iSAQB CPSA-F exam. Also useful as a check of your own understanding.",
+            "title": "AI and exam readiness",
+            "note": "Verify what AI tools produce, then practise under exam conditions.",
             "lessons": [
-              "How the multiple-choice exam works",
-              "Reading questions: recall, understand and apply",
-              "A timed mock exam, your gap list and an exam-day plan"
+              "AI-Assisted Architecture Work",
+              "Exam Strategy and the Final Mock"
             ]
           }
         ],
         "lab": {
           "title": "Your architecture file for one system",
-          "text": "Pick a system you know. Across the lessons you build one short architecture file for it, then use the same file to prepare for the exam.",
+          "text": "Pick a system you know, or use the ClinicBook case. After every lesson one lab section adds to a single architecture file: 14 sections in all. The labs are design and writing work with a model solution and a rubric each. A health check confirms the file is complete and free of placeholders and secrets; it does not judge whether your design is right.",
           "steps": [
-            "Name the system, its purpose and its stakeholders",
-            "List five architecturally significant requirements with quality scenarios",
-            "Record constraints and influencing factors",
-            "Sketch context and building blocks, top-down",
-            "Choose a pattern and write down why",
-            "Write a runtime scenario and a deployment sketch",
-            "Review the design against your scenarios and list the risks",
-            "Take a timed mock exam, score it and write your gap list"
+            "Lesson 1: What Software Architecture Is and What Architects Do",
+            "Lesson 2: Stakeholders, Requirements and Constraints",
+            "Lesson 3: Quality Attributes and Measurable Scenarios",
+            "Lesson 4: Design Approaches and Decomposition",
+            "Lesson 5: Design Principles and Patterns",
+            "Lesson 6: Interfaces, Contracts and Data Models",
+            "Lesson 7: Runtime Views and Distributed Systems",
+            "Lesson 8: Deployment and Infrastructure",
+            "Lesson 9: Cross-Cutting Concepts",
+            "Lesson 10: Documenting and Communicating Architecture",
+            "Lesson 11: Analysing and Assessing Architecture",
+            "Lesson 12: Worked Example: The Integrated Case Study",
+            "Lesson 13: AI-Assisted Architecture Work",
+            "Lesson 14: Exam Strategy and the Final Mock"
           ],
           "checks": [
-            "Every requirement is tied to a stakeholder",
-            "Every quality goal has a scenario you could test",
-            "Every pattern choice has a stated reason",
-            "Every risk has an owner and a next step"
+            "All 14 section headings are present",
+            "Every section has been started",
+            "Every task in a started section has a real answer (12 words or more)",
+            "No placeholder text is left in started sections",
+            "Quality and analysis sections contain numbers",
+            "Nothing in the file looks confidential"
           ],
-          "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
+          "intro": "One file, built in steps after each lesson. Each step has instructions, a model solution and a rubric to mark your own work, and saves on your device."
         },
-        "path": "/training/software-architecture-foundations/"
+        "path": "/training/software-architecture-foundations/",
+        "course": {
+          "enabled": true,
+          "headline": "Learn to describe, design and test software architecture, with exam-style practice if you want it.",
+          "lead": "Fourteen lessons that follow the topics of the iSAQB Foundation curriculum. Each lesson has eight slides you control, a field guide, a worked case, five recall questions and a lab. Across the labs you build one architecture file for a system you know. Three timed mock exams and a curriculum map help if you plan to sit the iSAQB CPSA-F exam.",
+          "honesty": "This level follows the topics of the iSAQB CPSA-F curriculum (version 2025.1). It is Intellica self-study, not an iSAQB course, and Intellica is not an accredited training provider. The exam is booked separately with an iSAQB certification body; training is not required to sit it. Check the current exam format with the certification body before you book.",
+          "free": [
+            1,
+            10
+          ],
+          "method": [
+            {
+              "title": "Short lessons you control",
+              "text": "Eight slides a lesson, each with a transcript. Move at your own pace and go back whenever you like."
+            },
+            {
+              "title": "One growing architecture file",
+              "text": "After every lesson a lab asks you to write real architecture work for your own system or the ClinicBook case: context, quality scenarios, building blocks, interfaces, runtime and deployment views, decisions and a review. The 14 sections join into one file you download at the end."
+            },
+            {
+              "title": "Mapped to the public curriculum",
+              "text": "Every lesson is mapped to the learning goals of the iSAQB CPSA-F curriculum 2025.1. A curriculum map shows which lessons cover which goals and which goals are examined (R1), may be examined (R2) or are not (R3)."
+            },
+            {
+              "title": "Three timed mock exams",
+              "text": "Three different papers of 40 questions, balanced by chapter, with single choice, choose-several and allocation questions. They are original Intellica practice questions, not real exam questions. A report shows your score by chapter and learning goal, time used and confidence."
+            },
+            {
+              "title": "AI in architecture work",
+              "text": "One lesson covers where AI assistants help, where they mislead, how to verify what they produce and how to record provenance. It is Intellica extension content beyond the current curriculum."
+            },
+            {
+              "title": "Mark your own work",
+              "text": "Each lab has a model solution and a four-criterion rubric. Score yourself 0, 1 or 2 on each, then close the gaps. The health check only confirms the file is complete."
+            },
+            {
+              "title": "Pause and recall",
+              "text": "Five questions at the end of each lesson, with the reason for each answer. Your progress is stored in this browser only."
+            }
+          ],
+          "evidence": [
+            "Retrieval practice and spacing are among the best-studied learning techniques, so each lesson ends by asking what you remember before it shows you."
+          ],
+          "faq": [
+            {
+              "q": "Who is this for?",
+              "a": "Developers with some team experience who are new to architecture, and anyone preparing for the iSAQB Foundation exam who wants a structured path with practice."
+            },
+            {
+              "q": "Do I need an earlier level?",
+              "a": "No. This is Level 1. Some experience building or maintaining software helps, and basic object-oriented and UML ideas are assumed."
+            },
+            {
+              "q": "Is this an iSAQB course or the official exam?",
+              "a": "No. It is independent Intellica self-study that follows the topics of the iSAQB CPSA-F curriculum 2025.1. Intellica is not an accredited training provider. The exam is booked separately with an iSAQB certification body, and training is not required to sit it. Check the current exam format and rules with the certification body before you book."
+            },
+            {
+              "q": "Are the mock exams real exam questions?",
+              "a": "No. They are original Intellica practice questions written from the public curriculum topics. They do not predict your result. The question bank is a first edition and will grow."
+            },
+            {
+              "q": "How do I get access?",
+              "a": "Pay by bank deposit from the buy button on this page, then upload a photo of the receipt. If the automatic check reads it cleanly, your course opens at once. If it cannot read the receipt, your course still opens at once as provisional access and the owner is told to check it against the bank statement; if the payment cannot be confirmed, access is closed again. Your access code is a decryption key and cannot be recalled once issued, so keep it private."
+            },
+            {
+              "q": "Can I share my code?",
+              "a": "Please do not. The code is personal and your name appears on every lesson."
+            },
+            {
+              "q": "What about refunds?",
+              "a": "Free lessons come first, so you can try before you pay. You can ask for a refund within 7 days of payment by WhatsApp, saying why, and we repay the account you paid from within 10 business days. After a refund your access code is withdrawn and you agree to stop using the course. No refund once you have claimed a certificate. If the course does not work as described and we cannot fix it, you get a full refund even after 7 days."
+            }
+          ],
+          "preview": {
+            "lesson": 1,
+            "slide": 3
+          },
+          "price": {
+            "label": "US$149",
+            "ttd": 1049,
+            "note": "One payment. Visitors in Trinidad and Tobago pay TT$1,049 by bank deposit."
+          },
+          "priceNote": "Lifetime access to this edition and every update to it. Includes all lessons, all labs, the model solutions and three mock exams."
+        }
       },
       {
         "n": 3,
@@ -306,7 +391,7 @@
             },
             {
               "q": "How do I get access?",
-              "a": "Message sales on WhatsApp. We reply with how to pay and send your access code when payment is confirmed."
+              "a": "Pay by bank deposit from the buy button on this page, then upload a photo of the receipt. If the automatic check reads it cleanly, your course opens at once. If it cannot read the receipt, your course still opens at once as provisional access and the owner is told to check it against the bank statement; if the payment cannot be confirmed, access is closed again. Your access code is a decryption key and cannot be recalled once issued, so keep it private."
             },
             {
               "q": "Can I share my code?",
@@ -318,7 +403,7 @@
             },
             {
               "q": "What about refunds?",
-              "a": "Refund terms are confirmed in writing when you enquire, before you pay."
+              "a": "Free lessons come first, so you can try before you pay. You can ask for a refund within 7 days of payment by WhatsApp, saying why, and we repay the account you paid from within 10 business days. After a refund your access code is withdrawn and you agree to stop using the course. No refund once you have claimed a certificate. If the course does not work as described and we cannot fix it, you get a full refund even after 7 days."
             }
           ],
           "preview": {
@@ -863,7 +948,7 @@
             },
             {
               "q": "What about refunds?",
-              "a": "Refund terms are not published yet. Ask before you pay and get the answer in writing."
+              "a": "Free lessons come first, so you can try before you pay. You can ask for a refund within 7 days of payment by WhatsApp, saying why, and we repay the account you paid from within 10 business days. After a refund your access code is withdrawn and you agree to stop using the course. No refund once you have claimed a certificate. If the course does not work as described and we cannot fix it, you get a full refund even after 7 days."
             }
           ],
           "preview": {

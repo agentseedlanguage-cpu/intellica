@@ -119,6 +119,20 @@ assert.equal((await call('GET', '/api/pay/region')).body.tt, false);
   const { OFFERS } = await import('../worker/pay-api.js');
   assert.equal(cat.ttd, OFFERS['quality-decisions'].ttd); assert.equal(cat.label, 'US$' + OFFERS['quality-decisions'].usd);
 }
+// Level 1, Software Architecture Foundations
+{
+  const q = (await call('POST', '/api/pay/order', { body: { course: 'software-architecture-foundations', name: 'F Buyer', email: 'f@example.com' } })).body;
+  assert.equal(q.amount, 1049);
+  reading = good({ amount: 1049, reference: q.ref });
+  assert.equal((await call('POST', '/api/pay/receipt?o=' + q.id, { raw: img(79) })).body.status, 'paid');
+  const cl = await call('GET', '/api/pay/claim?o=' + q.id);
+  const want = crypto.createHmac('sha256', Buffer.from(KEY, 'base64url')).update('course:software-architecture-foundations').digest('base64url');
+  assert.equal(JSON.parse(Buffer.from(cl.body.code, 'base64url').toString()).k, want);
+  assert.match(cl.body.learn, /software-architecture-foundations/);
+  const cat = JSON.parse((await import('node:fs')).readFileSync('site/training/catalog.json', 'utf8')).ladder.levels.find((x) => x.id === 'software-architecture-foundations').course.price;
+  const { OFFERS } = await import('../worker/pay-api.js');
+  assert.equal(cat.ttd, OFFERS['software-architecture-foundations'].ttd); assert.equal(cat.label, 'US$' + OFFERS['software-architecture-foundations'].usd);
+}
 // owner phone alerts (ntfy): one message when a receipt is held, one when a sale passes, none without a topic
 {
   const sent = [], real = globalThis.fetch;

@@ -1083,6 +1083,53 @@ await step('cybersecurity practice tools: the policy tester scores eight predict
   assert.match(await (await fetch(CY + 'lab/kit/')).text(), /node agent-lab-kit\.mjs/);
 });
 
+/* ---------- Level 1: Software Architecture Foundations ---------- */
+const F1 = HOME + '/training/software-architecture-foundations/course/';
+const f1Code = (name) => mkCode(name, deriveKey(courseKey, 'software-architecture-foundations'));
+await step('level 1: the level page offers free lessons, a free lesson plays, a paid lesson is locked, and the academy page lists six levels', async () => {
+  const cat = await open(`${HOME}/training/software-architecture-foundations/`);
+  assert.match(await cat.locator('main').innerText(), /Lessons 1 and 10 are free/);
+  await cat.context().close();
+  const p = await open(F1 + 'what-software-architecture-is-and-what-architects-do/');
+  await p.waitForSelector('[data-stage] .s');
+  assert.match(await p.locator('[data-pos]').innerText(), /^1 \/ 8$/);
+  assert.deepEqual(p.problems, []);
+  await p.context().close();
+  const l = await open(F1 + 'runtime-views-and-distributed-systems/');
+  await l.waitForSelector('[data-locked]:not([hidden])');
+  await l.context().close();
+  const a = await open(`${HOME}/training/architecture-academy/`);
+  assert.equal(await a.locator('.cat-card').count(), 6);
+  assert.match(await a.locator('main').innerText(), /not an iSAQB course/);
+  assert.deepEqual(a.problems, []);
+  await a.context().close();
+});
+await step('level 1: with its own code all 14 lessons play without overflow, and the mock exams open, encrypted and wrong-code safe', async () => {
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+  await ctx.addInitScript((c) => localStorage.setItem('iwf-course-code', c), f1Code('F Buyer'));
+  const q = await ctx.newPage(); const errs = []; q.on('pageerror', (e) => errs.push(e.message));
+  const ids = (await (await fetch(F1 + 'data/lab-index.json')).json()).steps.map((x) => x.id);
+  assert.equal(ids.length, 14);
+  const bad = [];
+  for (const lid of ids) {
+    await q.goto(F1 + lid + '/'); await q.waitForSelector('[data-stage] .s', { timeout: 8000 });
+    for (let k = 0; k < 8; k++) {
+      const over = await q.evaluate(() => { const st = document.querySelector('[data-stage]'); const r = st.getBoundingClientRect(); return [...st.querySelectorAll('.s *')].some((e) => { const b = e.getBoundingClientRect(); return b.height > 0 && (b.bottom > r.bottom + 2 || b.right > r.right + 2); }); });
+      if (over) bad.push(lid + ' slide ' + (k + 1));
+      if (k < 7) await q.click('[data-next]');
+    }
+  }
+  assert.deepEqual(bad, [], 'slides overflow their stage');
+  assert.deepEqual(errs, []);
+  await q.goto(F1 + 'lab/mock/'); await q.waitForSelector('[data-forms] > *', { timeout: 8000 });
+  assert.ok(await q.locator('[data-forms] > *').count() >= 3, 'three mock exams are listed');
+  await ctx.close();
+  const raw = await (await fetch(F1 + 'data/mock-1.json')).text();
+  assert.ok(!/"stem"|clinic/i.test(raw), 'mock data is encrypted');
+  const plain = await (await fetch(F1 + 'lab/mock/')).text();
+  assert.ok(!/ClinicBook booking/.test(plain), 'no question text in the mock page');
+});
+
 /* ---------- Level 3: Quality, Decisions and Evaluation ---------- */
 const Q2 = HOME + '/training/quality-decisions/course/';
 const q2Code = (name) => mkCode(name, deriveKey(courseKey, 'quality-decisions'));

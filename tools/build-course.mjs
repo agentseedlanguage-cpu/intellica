@@ -845,6 +845,15 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     COPY = cy.COPY;
     buildOne({ w: built.w, c: built.c, deck: built.deck, quiz: built.quiz, lab: built.lab, key: deriveKey(master, 'cybersecurity'), engine: (out) => cy.writeEngine(out, built.w, SITE), reading: built.reading });
   }
+  // Level 1, Software Architecture Foundations: built from training-private/foundations (see tools/foundations-course.mjs)
+  const f1 = await import('./foundations-course.mjs');
+  const fd = await f1.load(SITE);
+  if (fd) {
+    EXAMPLES = {};
+    COPY = f1.COPY;
+    const fkey = deriveKey(master, f1.ID);
+    buildOne({ w: fd.w, c: fd.c, deck: fd.deck, quiz: fd.quiz, lab: fd.lab, key: fkey, engine: (out) => f1.writeEngine(out, fd.w, SITE, fkey, encrypt, fd), reading: fd.reading });
+  }
   // Level 3, Quality, Decisions and Evaluation: built from training-private/quality-decisions (see tools/level-course.mjs)
   const q2 = await import('./level-course.mjs');
   const lv = q2.load(SITE);

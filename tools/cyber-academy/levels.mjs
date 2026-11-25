@@ -1,4 +1,4 @@
-// Cybersecurity for Agentic Environments Academy: the six levels (source: Blueprint v2 + CYB-1 reconciliation).
+// Cyber Security for Agentic Environments Academy: the six levels (source: Blueprint v2 + CYB-1 reconciliation).
 // Edit the data, not the generated pages. Statuses are honest: "available" means lessons exist in the live course.
 export const REVIEWED = '2026-11-25';
 
@@ -36,14 +36,14 @@ export const AISVS_CH = {
 
 export const LEVELS = [
   {
-    n: 1, id: 'level-1', short: 'Understand', title: 'Agentic Cybersecurity Foundations',
+    n: 1, id: 'level-1', short: 'Understand', title: 'Agentic Cyber Security Foundations',
     tagline: 'The disciplined baseline: security principles, how agents are built, and the first threat model you can defend.',
     audience: 'Career changers, junior security practitioners, developers moving into security, and technical managers who need a baseline they can reason from.',
     prereq: 'None. An entry diagnostic decides whether a short networking, operating-systems or programming bridge comes first.',
     status: { key: 'partial', label: 'Core lessons live; bridge and assessment in design' },
     core: [1, 2, 3, 4], planned: ['P9', 'P11'],
     modules: [
-      ['Cybersecurity principles for agentic systems', 'Apply CIA, safety, trust boundaries, assets, threat, vulnerability and risk; explain defence in depth and shared responsibility.', 'Asset inventory and security boundary map'],
+      ['Cyber Security principles for agentic systems', 'Apply CIA, safety, trust boundaries, assets, threat, vulnerability and risk; explain defence in depth and shared responsibility.', 'Asset inventory and security boundary map'],
       ['Agentic system anatomy', 'Describe models, orchestration, tools, context, memory, retrieval, identity, execution and multi-agent workflows.', 'Annotated architecture and data-flow diagram'],
       ['Networking, operating systems and cloud essentials', 'Explain protocols, segmentation, endpoint security, containers, cloud responsibility, logging and secrets.', 'Hardened baseline and network trust map'],
       ['Identity, access and cryptography', 'Distinguish authentication from authorisation; apply least privilege, workload identity, key lifecycle and delegation.', 'Permission matrix and identity flow'],
@@ -61,11 +61,11 @@ export const LEVELS = [
     caveat: 'This level builds entry-level capability. It is not presented as sufficient preparation for CISSP, CSSLP, GAIPS or other experience-dependent credentials.',
   },
   {
-    n: 2, id: 'level-2', short: 'Build', title: 'Agentic Application Security Professional',
-    tagline: 'Move from knowing security concepts to engineering secure agentic applications.',
+    n: 2, id: 'level-2', short: 'Application Cyber Security', title: 'Application Cyber Security for Agentic Environments',
+    tagline: 'Build and verify secure applications in agentic environments, with the complete 28-lesson course as the Level 2 online course.',
     audience: 'Software and platform engineers, application security engineers and AI/ML engineers who ship agents.',
     prereq: 'Level 1 or the entry diagnostic. Working knowledge of one programming language and HTTP APIs.',
-    status: { key: 'available', label: 'Eight core lessons live; verification and pipeline modules planned' },
+    status: { key: 'available', label: '28-lesson Level 2 course available; academy assessment in development' },
     core: [5, 6, 7, 8, 10, 11, 26, 27], planned: ['P1', 'P2', 'P4'],
     modules: [
       ['Prompt and context security', 'Explain the limits of instruction hierarchy; separate trusted and untrusted context; track provenance and enforce policy.', 'Prompt-injection test corpus, context design and regression results'],

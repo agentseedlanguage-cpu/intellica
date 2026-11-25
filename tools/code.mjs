@@ -11,7 +11,7 @@ import { loadKey, deriveKey } from './build-course.mjs';
 
 export const COURSES = {
   arc42: { title: 'Mastering arc42, online course', path: '/training/arc42/course/', master: true },
-  cybersecurity: { title: 'Cybersecurity for the Agentic Era, online course', path: '/training/cybersecurity/course/' },
+  cybersecurity: { title: 'Application Cyber Security for Agentic Environments, online course', path: '/training/cybersecurity/course/' },
   'software-architecture-foundations': { title: 'Software Architecture Foundations, online course', path: '/training/software-architecture-foundations/course/' },
   'quality-decisions': { title: 'Quality, Decisions and Evaluation, online course', path: '/training/quality-decisions/course/' },
 };

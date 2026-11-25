@@ -64,17 +64,28 @@
 .feat h2 a:hover { text-decoration: underline; }
 .feat-line { font-family: var(--serif); font-size: 1.25rem; margin: 0 0 var(--s3); max-width: 46rem; }
 
-/* header tiles, access-code link, prices on cards */
-.t-hero-index { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
+/* Training hero: full-width introduction and three balanced portfolio cards. */
+.t-hero-index { display: block; }
+.t-hero-index .t-hero-copy { max-width: none; padding-bottom: var(--s5); }
+.t-hero-index h1 { max-width: 26ch; }
+.t-hero-index .lead { max-width: 76ch; }
 .t-hero-index .actions { align-items: center; }
-.hero-tiles { display: grid; gap: var(--s4); }
-.tile-label { margin: 0 0 var(--s2); font-family: var(--mono); font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); gap: var(--s2); }
-.tile { display: grid; gap: 2px; align-content: start; min-height: 64px; padding: var(--s2) var(--s3); border: 1px solid var(--line-hi); border-radius: 4px; background: var(--card); color: var(--text-hi); text-decoration: none; }
+.hero-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4); align-items: stretch; }
+.tile-group { display: flex; flex-direction: column; min-width: 0; height: 100%; padding: var(--s5); border: 1px solid var(--line-hi); border-top: 3px solid var(--accent); border-radius: 4px; background: var(--card); }
+.hero-card-kicker { margin: 0 0 var(--s2); font-family: var(--mono); font-size: var(--text-xs); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.hero-card-title { margin: 0 0 var(--s2); font-family: var(--serif); font-size: clamp(1.2rem, 1.8vw, 1.55rem); line-height: 1.2; color: var(--text-hi); }
+.hero-card-title a { color: inherit; text-decoration: none; }
+.hero-card-title a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.hero-card-lead { min-height: 4.2em; margin: 0 0 var(--s4); color: var(--muted); font-size: var(--text-sm); line-height: 1.5; }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: var(--s2); margin-top: auto; }
+.tile { display: grid; gap: 3px; align-content: start; min-width: 0; min-height: 68px; padding: var(--s3); border: 1px solid var(--line-hi); border-radius: 4px; background: var(--bg); color: var(--text-hi); text-decoration: none; }
 .tile:hover, .tile:focus-visible { border-color: var(--accent); }
-.tile.is-open { border-left: 3px solid var(--accent); }
-.tile-top { font-family: var(--mono); font-size: var(--text-xs); color: var(--muted); }
-.tile-name { font-size: var(--text-sm); line-height: 1.25; font-weight: 600; }
+.tile-top { font-family: var(--mono); font-size: 10px; line-height: 1.35; color: var(--muted); }
+.tile-name { font-size: var(--text-sm); line-height: 1.3; font-weight: 600; overflow-wrap: anywhere; }
+.tile-note { font-size: 10px; line-height: 1.35; color: var(--accent-ink); }
+.tile.is-course-level { border-left: 3px solid var(--accent); }
+@media (max-width: 1050px) { .hero-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile-group:last-child { grid-column: 1 / -1; } }
+@media (max-width: 680px) { .hero-tiles { grid-template-columns: minmax(0, 1fr); } .tile-group:last-child { grid-column: auto; } .hero-card-lead { min-height: 0; } }
 .btn-link { background: none; border: 0; color: var(--text); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; padding-inline: var(--s2); }
 .btn-link:hover { color: var(--accent); }
 .sn-code { font-size: var(--text-sm); color: var(--accent); white-space: nowrap; }
@@ -86,74 +97,12 @@
 .mine-list li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
 @media (max-width: 860px) { .t-hero-index { grid-template-columns: minmax(0, 1fr); } }
 
-/* Training landing page: balanced academy-led hero, no fragile hero artwork. */
-.t-hero-index {
-  grid-template-columns: minmax(0, 1fr);
-  align-items: start;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  padding-block: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem);
-}
-.t-hero-index .t-hero-copy {
-  width: 100%;
-  max-width: 900px;
-  margin-inline: auto;
-  align-items: center;
-  text-align: center;
-}
-.t-hero-index h1 { max-width: 19ch; margin-inline: auto; }
-.t-hero-index .lead { max-width: 72ch; margin-inline: auto; }
-.t-hero-index .actions { justify-content: center; }
-.hero-tiles {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
-  gap: var(--s4);
-}
-.tile-group {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 100%;
-  padding: clamp(1rem, 1.8vw, 1.5rem);
-  border: 1px solid var(--line-hi);
-  border-top: 3px solid var(--accent);
-  border-radius: 5px;
-  background: var(--card);
-}
-.tile-label {
-  color: var(--text-hi);
-  font-family: var(--serif);
-  font-size: clamp(1.1rem, 1.45vw, 1.35rem);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0;
-  text-transform: none;
-  margin: 0;
-}
-.tile-note { margin: var(--s2) 0 var(--s4); color: var(--muted); font-size: var(--text-sm); line-height: 1.45; }
-.tiles {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: start;
-  gap: var(--s2);
-  margin-top: auto;
-}
-.tile { min-height: 70px; padding: var(--s3); }
-.tile-top { letter-spacing: .04em; }
-.tile-name { overflow-wrap: anywhere; }
-.tile-cyber .tiles { grid-template-columns: minmax(0, 1fr); }
-.tile-cyber .tile { min-height: 82px; }
-.catalog-academy-note { margin: var(--s5) 0 0; max-width: 72ch; color: var(--muted); }
-.catalog-academy-note a { color: var(--text-hi); }
-@media (max-width: 1050px) {
-  .hero-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tile-general { grid-column: 1 / -1; }
-  .tile-general .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 680px) {
-  .hero-tiles { grid-template-columns: minmax(0, 1fr); }
-  .tile-general { grid-column: auto; }
-  .tile-general .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .t-hero-index .actions { align-items: stretch; }
-}
+/* Hero artwork intentionally omitted: the three academy/course cards are the primary navigation. */
+
+.learning-evidence { margin-top: var(--s6); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.learning-evidence > ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--s4); list-style: none; padding: 0; margin: var(--s3) 0 0; }
+.learning-evidence li { display: grid; align-content: start; gap: 4px; padding: var(--s3); border: 1px solid var(--line); border-radius: 5px; background: var(--card); }
+.learning-evidence li strong { color: var(--text-hi); }
+.learning-evidence li > span { color: var(--muted); font-size: var(--text-xs); }
+.learning-evidence li p { margin: var(--s1) 0; font-size: var(--text-sm); }
+.learning-evidence li a { font-size: var(--text-sm); text-underline-offset: 3px; }

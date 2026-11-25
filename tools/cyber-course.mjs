@@ -173,10 +173,10 @@ function writeTools(out, w) {
   const changelog = `${nav('Changelog')}
     <section class="t-hero t-hero-single"><div class="t-hero-copy"><p class="eyebrow">Course</p><h1>Changelog</h1><p class="lead">What changed in the course and when. Every lesson also shows the date it was last reviewed. Updates are free to buyers.</p></div></section>
     <div class="xt">${CLAIMS.changelog.map((c) => `<h2>${xesc(c.date)} · ${xesc(c.title)}</h2><ul>${c.items.map((i) => `<li>${xesc(i)}</li>`).join('')}</ul>`).join('')}</div>`;
-  put('changelog/index.html', page({ title: 'Changelog | Cybersecurity for the Agentic Era', description: 'What changed in the course and when.', canonicalPath: `${base}changelog/`, body: changelog, css }));
-  put('kit/index.html', page({ title: 'Reference lab kit | Cybersecurity for the Agentic Era', description: 'A local, Node-only kit with seeded agent security flaws, a reference control and an unsafe baseline.', canonicalPath: `${base}kit/`, body: kit, css }));
-  put('policy/index.html', page({ title: 'Policy tester | Cybersecurity for the Agentic Era', description: 'Explore and test a deterministic agent guardrail policy in the browser.', canonicalPath: `${base}policy/`, body: policy, css }));
-  put('trace/index.html', page({ title: 'Trace spotter | Cybersecurity for the Agentic Era', description: 'Find taint, approval drift, audience and passthrough violations in an agent execution trace.', canonicalPath: `${base}trace/`, body: trace, css }));
+  put('changelog/index.html', page({ title: 'Changelog | Application Cyber Security for Agentic Environments', description: 'What changed in the course and when.', canonicalPath: `${base}changelog/`, body: changelog, css }));
+  put('kit/index.html', page({ title: 'Reference lab kit | Application Cyber Security for Agentic Environments', description: 'A local, Node-only kit with seeded agent security flaws, a reference control and an unsafe baseline.', canonicalPath: `${base}kit/`, body: kit, css }));
+  put('policy/index.html', page({ title: 'Policy tester | Application Cyber Security for Agentic Environments', description: 'Explore and test a deterministic agent guardrail policy in the browser.', canonicalPath: `${base}policy/`, body: policy, css }));
+  put('trace/index.html', page({ title: 'Trace spotter | Application Cyber Security for Agentic Environments', description: 'Find taint, approval drift, audience and passthrough violations in an agent execution trace.', canonicalPath: `${base}trace/`, body: trace, css }));
 }
 
 export function engineFiles(out, w, SITE, cfg) {

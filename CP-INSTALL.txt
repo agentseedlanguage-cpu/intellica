@@ -1,0 +1,58 @@
+INTELLICA TRAINING PORTFOLIO REFRESH — CHECKPOINT
+
+BASELINE
+Apply this overlay to the Intellica main repository after CYB-2, CYB-3, and
+Intellica_CYB-3_Repair_Hotfix.zip have been applied. This checkpoint is based
+on those exact supplied files.
+
+WHAT THIS CHECKPOINT CHANGES
+- Rebuilds the Training hero as a full-width introduction with three equal,
+  responsive cards: Architecture Academy, Agentic Cyber Security, and Other
+  Courses.
+- Lists the six Architecture Academy levels, six Cyber Security Academy levels,
+  and six standalone courses in the hero.
+- Removes the hero's image dependency and removes the duplicate featured
+  cybersecurity-course block from the Training page. The original SVG asset is
+  retained; it is simply no longer referenced by the hero.
+- Makes the academy section heading future-proof: "Explore our academies".
+- Places the existing 28-lesson, seven-module Application Cyber Security for
+  Agentic Environments course as the online course for Level 2 of the Cyber
+  Security Academy.
+- Keeps the 28-lesson course as one product, with its existing ID, URL, lesson
+  IDs, module structure, course player, pricing and access flow. Its lesson
+  mappings can still support outcomes elsewhere in the academy.
+- Removes that course from the standalone-course lists; the remaining six
+  courses are shown in Other Courses and remain in their existing course
+  sections below.
+- Updates the relevant source generators and generated course/academy page
+  titles so future builds retain the changes.
+- Restores the six standalone course landing pages to their pre-refresh versions,
+  undoing the earlier over-broad marketing refresh if it was applied. This CP
+  does not rewrite those course pages.
+
+APPLY
+1. Extract this ZIP into the repository root, preserving folders and allowing
+   files to overwrite.
+2. Run: npm run training
+3. Run: npm test
+4. Confirm your existing production .course-key is present and is the original
+   key before any full sync or deployment. This checkpoint does not include or
+   replace the production key.
+5. Deploy with your supported command: npm run deploy -- home
+
+Do not use the old command `npm run deploy -- home . this`; those extra target
+arguments are not supported by the supplied deploy script.
+
+VALIDATION PERFORMED ON AN ISOLATED COPY
+- npm run training: passed
+- npm test: passed
+- node tools/assemble.mjs: passed
+- npm run check: passed (site, link, cybersecurity claims and academy checks)
+- node tools/build-cyber-academy.mjs --check: passed
+- Cybersecurity source validation: 28 lessons in 7 modules
+- Link checker: 188 pages checked
+
+SCOPE GUARD
+No product pages outside /training/ were changed. No course lesson teaching
+content, encrypted lesson payloads, learner records, prices, payment logic,
+access-code logic, or production course key were changed.

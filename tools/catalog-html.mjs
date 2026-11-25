@@ -1,6 +1,7 @@
 // HTML pieces for the course catalogue: the six-level architecture path, the agentic-era series, the certificate.
 // Used by build-training.mjs (index page, arc42 page) and build-catalog.mjs (the course pages).
 import { esc, kicker, cols, site } from './training-shell.mjs';
+import { LEVELS as CYBER_LEVELS } from './cyber-academy/levels.mjs';
 
 export const wa = (t) => `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(t)}`;
 export const lessonCount = (c) => c.modules.reduce((n, m) => n + m.lessons.length, 0);
@@ -28,6 +29,7 @@ const card = (c, tag) => `
 export function catalogSections(catalog, arc, startN) {
   const levels = allLevels(catalog, arc);
   const sr = catalog.series;
+  const academyCourseIds = new Set((catalog.academies || []).flatMap((a) => a.courses || []));
   const track = (id, title, lead, items, tag) => `
       <div class="track" id="track-${id}">
         <h3>${esc(title)}</h3>
@@ -38,11 +40,10 @@ export function catalogSections(catalog, arc, startN) {
   return `
     <section class="t-block" id="courses" aria-labelledby="crs-t">
       ${kicker(startN, 'Courses')}
-      <h2 id="crs-t">Practical courses, built around real work</h2>
+      <h2 id="crs-t">Every course, online, yours to keep</h2>
       <p class="sub">${esc(catalog.coursesLead)}</p>
       ${track('architecture', catalog.ladder.title, catalog.ladder.lead, levels, (l) => `Level ${l.n} of ${levels.length}`)}
-      ${catalog.tracks.map((t) => track(t.id, t.title, t.lead, sr.courses.filter((c) => c.track === t.id), () => 'Online course')).join('')}
-      <p class="catalog-academy-note">The original <a href="/training/cybersecurity/">Cybersecurity for the Agentic Era course</a> is part of the <a href="/training/cybersecurity/academy/">Cyber Security Academy</a>, not a separate general-course category.</p>
+      ${catalog.tracks.map((t) => track(t.id, t.title, t.lead, sr.courses.filter((c) => c.track === t.id && !academyCourseIds.has(c.id)), () => 'Online course')).join('')}
     </section>`;
 }
 
@@ -50,7 +51,6 @@ export function catalogSections(catalog, arc, startN) {
 export function academiesBlock(catalog, arc) {
   const list = catalog.academies || [];
   if (!list.length) return '';
-  const word = ['', 'One', 'Two', 'Three', 'Four'][list.length] || String(list.length);
   const levels = allLevels(catalog, arc);
   const nOpen = levels.filter((l) => Boolean(l.live || (l.course && l.course.enabled))).length;
   const card = (a) => {
@@ -65,9 +65,9 @@ export function academiesBlock(catalog, arc) {
         </article>`;
   };
   return `<section class="t-block" id="academies" aria-labelledby="acad-t">
-      <p class="eyebrow">Learning paths</p>
-      <h2 id="acad-t">${word} academies. Clear paths. Practical work.</h2>
-      <p class="sub">Each academy is one path through a field. Open levels are labelled open and planned levels are labelled planned, so you can see where the path goes. Join at the level that fits you.</p>
+      <p class="eyebrow">Professional development</p>
+      <h2 id="acad-t">Explore our academies</h2>
+      <p class="sub">Explore each academy’s progression, available courses and practical outcomes. Start at the level that matches your experience and goals.</p>
       <div class="cat-grid">${list.map(card).join('')}
       </div>
     </section>`;
@@ -76,11 +76,11 @@ export function academiesBlock(catalog, arc) {
 export function featuredBlock(catalog) {
   const f = catalog.featured, c = catalog.series.courses.find((x) => x.id === f.id);
   return `<section class="t-block feat" aria-labelledby="feat-t">
-      <p class="eyebrow">Featured course · Cyber Security Academy</p>
+      <p class="eyebrow">${esc(f.kicker)}</p>
       <h2 id="feat-t"><a href="${c.path}">${esc(f.title)}</a></h2>
       <p class="feat-line">${esc(f.line)}</p>
       <ul class="facts-list">${f.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-      <div class="actions"><a class="btn btn-primary" href="${c.path}">Explore the course</a>${academyOf(catalog, c.id) ? `<a class="btn btn-ghost" href="${academyOf(catalog, c.id).path}">${esc(academyOf(catalog, c.id).title)}</a>` : ''}<a class="btn btn-ghost" href="#courses">All courses</a></div>
+      <div class="actions"><a class="btn btn-primary" href="${c.path}">See the course</a>${academyOf(catalog, c.id) ? `<a class="btn btn-ghost" href="${academyOf(catalog, c.id).path}">${esc(academyOf(catalog, c.id).title)}</a>` : ''}<a class="btn btn-ghost" href="#courses">All courses</a></div>
     </section>`;
 }
 
@@ -103,10 +103,13 @@ const academyOf = (catalog, id) => (catalog.academies || []).find((a) => (a.cour
 
 export function coursePage(c, { catalog, levels, kindLabel, series }) {
   const lessons = lessonCount(c);
+  const isLive = Boolean(c.course && c.course.enabled);
   const interest = wa(`Hello, I would like to hear when "${c.title}" opens.`);
   const nav = levels
     ? `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/#track-architecture">Software architecture</a><span aria-hidden="true"> / </span>Level ${c.n}</p>`
-    : `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="${c.track === 'cyber-academy' ? '/training/cybersecurity/academy/' : '/training/#track-run'}">${c.track === 'cyber-academy' ? 'Cyber Security Academy' : 'Run and grow a business with agents'}</a><span aria-hidden="true"> / </span>${esc(c.short)}</p>`;
+    : c.id === 'cybersecurity'
+      ? `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/cybersecurity/academy/">Cyber Security Academy</a><span aria-hidden="true"> / </span><a href="/training/cybersecurity/academy/level-2/">Level 2</a></p>`
+      : `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/#track-${c.track || 'build'}">${c.track === 'run' ? 'Run and grow a business' : 'Build and secure agentic systems'}</a><span aria-hidden="true"> / </span>${esc(c.short)}</p>`;
   let n = 0;
   return `
     <nav class="subnav" aria-label="${esc(c.title)}">
@@ -119,10 +122,10 @@ export function coursePage(c, { catalog, levels, kindLabel, series }) {
         <p class="cat-tag"><span>${esc(kindLabel)}</span></p>
         <h1 id="c-title">${esc(c.title)}</h1>
         <p class="lead">${esc(c.lead)}</p>
-        ${c.course && c.course.enabled ? `<div class="actions"><a class="btn btn-primary" href="${c.path}course/">Start the free lessons</a><a class="btn btn-ghost" href="${c.path}course/#get-t">Buy the course, ${esc(c.course.price.label)}</a><a class="btn btn-ghost" href="#syllabus">See the syllabus</a></div>
-        <p class="fine">Lesson${c.course.free.length > 1 ? 's' : ''} ${c.course.free.join(' and ')} ${c.course.free.length > 1 ? 'are' : 'is'} free to open now. ${esc(c.course.price.note)} Questions? <a href="${esc(wa(`Hello, I would like to ask about "${c.title}".`))}" rel="noopener">Contact sales</a>.</p>` : `<div class="actions"><a class="btn btn-primary" href="${esc(interest)}" rel="noopener">Contact sales</a><a class="btn btn-ghost" href="#syllabus">See the syllabus</a></div>
-        <p class="fine">Enrol by message. We confirm what is ready today, send every module as it is released, and you keep every update to this edition.</p>`}${academyOf(catalog, c.id) ? `
-        <p class="fine">Part of the <a href="${academyOf(catalog, c.id).path}">${esc(academyOf(catalog, c.id).title)}</a>: where this course sits, the levels around it and what is planned.</p>` : ''}
+        ${c.course && c.course.enabled ? `<div class="actions"><a class="btn btn-primary" href="${c.path}course/">Preview course lessons</a><a class="btn btn-ghost" href="${c.path}course/#get-t">Enrol — ${esc(c.course.price.label)}</a><a class="btn btn-ghost" href="#syllabus">See the syllabus</a></div>
+        <p class="fine">Lessons ${c.course.free.join(' and ')} ${c.course.free.length > 1 ? 'are' : 'is'} available as free previews. ${esc(c.course.price.note)} Questions? <a href="${esc(wa(`Hello, I would like to ask about "${c.title}".`))}" rel="noopener">Contact sales</a>.</p>` : `<div class="actions"><a class="btn btn-primary" href="${esc(interest)}" rel="noopener">Request release information</a><a class="btn btn-ghost" href="#syllabus">Review curriculum outline</a></div>
+        <p class="fine">This level is in development. Contact Intellica for release information; this page will be updated as additional course materials are published.</p>`}${academyOf(catalog, c.id) ? `
+        <p class="fine">Part of the <a href="${academyOf(catalog, c.id).path}">${esc(academyOf(catalog, c.id).title)}</a>. ${c.academyPosition ? esc(c.academyPosition) : 'See the published level outcomes, progression routes and delivery status.'}</p>` : ''}
       </div>
     </section>
 ${levels ? `
@@ -130,28 +133,32 @@ ${levels ? `
 ` : ''}
     <section class="t-strip" aria-label="At a glance">
       <dl>
-        <div><dt>${lessons} lessons</dt><dd>in ${c.modules.length} modules</dd></div>
-        <div><dt>${c.lab.steps.length}-step lab</dt><dd>${esc(c.lab.title)}</dd></div>
-        <div><dt>Certificate</dt><dd>Verifiable and shareable</dd></div>
-        <div><dt>Your pace</dt><dd>Any device, no deadlines</dd></div>
+        ${isLive ? `<div><dt>${lessons} lessons</dt><dd>in ${c.modules.length} modules</dd></div>
+        <div><dt>${c.lab.steps.length}-step guided lab</dt><dd>${esc(c.lab.title)}</dd></div>
+        <div><dt>Course certificate</dt><dd>Verifiable completion record</dd></div>
+        <div><dt>Your pace</dt><dd>Self-paced; no fixed deadlines</dd></div>` : `<div><dt>Planned curriculum</dt><dd>${lessons} proposed lessons in ${c.modules.length} modules</dd></div>
+        <div><dt>Practical work</dt><dd>${c.lab.steps.length} proposed lab steps</dd></div>
+        <div><dt>Delivery status</dt><dd>In development</dd></div>`}
       </dl>
     </section>
 
     <section class="t-block" id="why" aria-labelledby="why-t">
-      ${kicker(++n, 'Why now')}
-      <h2 id="why-t">Why this course, and why now</h2>
+      ${kicker(++n, isLive ? 'Why now' : 'Rationale')}
+      <h2 id="why-t">${isLive ? 'Why this course, and why now' : 'Why this level matters'}</h2>
       <p class="pull">${esc(c.why)}</p>
+      ${c.benchmark ? `<p class="fine">External reference: <a href="${esc(c.benchmark.url)}" rel="noopener">${esc(c.benchmark.label)}</a>. ${esc(c.benchmark.note)}</p>` : ''}
     </section>
 
     <section class="t-block" id="able" aria-labelledby="able-t">
-      ${kicker(++n, 'Outcomes')}
-      <h2 id="able-t">What you will be able to do</h2>
+      ${kicker(++n, isLive ? 'Outcomes' : 'Target competencies')}
+      <h2 id="able-t">${isLive ? 'What you will be able to do' : 'Intended learning outcomes'}</h2>
       ${cols(c.outcomes, 'c4')}
     </section>
 
     <section class="t-block" id="syllabus" aria-labelledby="syl-t">
-      ${kicker(++n, 'Syllabus')}
-      <h2 id="syl-t">${lessons} lessons in ${c.modules.length} modules</h2>
+      ${kicker(++n, isLive ? 'Syllabus' : 'Planned scope')}
+      <h2 id="syl-t">${isLive ? `${lessons} lessons in ${c.modules.length} modules` : `Proposed scope: ${lessons} lessons in ${c.modules.length} modules`}</h2>
+      ${isLive ? '' : '<p class="sub">This outline describes the intended curriculum. Lesson materials and assessments are not yet available.</p>'}
       <div class="syl">${c.modules.map((m, i) => `
         <div class="syl-m"><h3><span>Module ${i + 1}</span>${esc(m.title)}</h3>${m.note ? `<p class="muted">${esc(m.note)}</p>` : ''}
           <ol>${m.lessons.map((l) => `<li>${esc(l)}</li>`).join('')}</ol></div>`).join('')}
@@ -160,44 +167,50 @@ ${levels ? `
     </section>
 
     <section class="t-block" id="lab" aria-labelledby="lab-t">
-      ${kicker(++n, 'The lab')}
+      ${kicker(++n, isLive ? 'The lab' : 'Planned practical work')}
       <h2 id="lab-t">${esc(c.lab.title)}</h2>
-      <p class="sub">${esc(c.lab.text)} ${esc(c.lab.intro)}</p>
+      <p class="sub">${isLive ? `${esc(c.lab.text)} ${esc(c.lab.intro)}` : `Proposed project: ${esc(c.lab.text)} This practical component will be developed and validated before the level opens.`}</p>
       <div class="two">
         <div><h3>The steps</h3><ol class="lab-steps">${c.lab.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
-        <div><h3>What the health check looks for</h3><ul class="lab-checks">${c.lab.checks.map((s) => `<li>${esc(s)}</li>`).join('')}</ul></div>
+        <div><h3>${isLive ? 'What the health check looks for' : 'Intended validation criteria'}</h3><ul class="lab-checks">${c.lab.checks.map((s) => `<li>${esc(s)}</li>`).join('')}</ul></div>
       </div>
     </section>
 
     <section class="t-block" id="learn" aria-labelledby="learn-t">
       ${kicker(++n, 'How you learn')}
-      <h2 id="learn-t">The same method as every Intellica course</h2>
+      <h2 id="learn-t">${isLive ? 'Evidence-led learning method' : 'Proposed learning design'}</h2>
       ${cols(catalog.learn, 'c4')}
-      <p class="muted">The method follows published research on retrieval practice, worked examples and spaced review. <a href="/training/arc42/#research">Read the evidence and sources</a>.</p>
+      <p class="muted">${isLive ? 'The method follows published research on retrieval practice, worked examples and spaced review.' : 'The proposed learning design draws on retrieval practice, worked examples and spaced review; detailed learner materials will be published before release.'} <a href="/training/#how-t">Read the evidence and sources</a>.</p>
     </section>
 
-    ${certificateBlock(catalog, ++n)}
+    ${isLive ? certificateBlock(catalog, ++n) : ''}
 
     <section class="t-block" id="who" aria-labelledby="who-t">
-      ${kicker(++n, 'Who it is for')}
+      ${kicker(++n, isLive ? 'Who it is for' : 'Intended audience')}
       <h2 id="who-t">${levels ? 'What it builds on' : 'What you need'}</h2>
       <p class="sub">${esc(c.needs)}</p>
-      <div class="actions"><a class="btn btn-primary" href="${esc(interest)}" rel="noopener">Contact sales</a><a class="btn btn-ghost" href="/training/">All training</a></div>
+      <div class="actions"><a class="btn btn-primary" href="${esc(interest)}" rel="noopener">${isLive ? "Contact sales" : "Request release information"}</a><a class="btn btn-ghost" href="/training/">All training</a></div>
     </section>`;
 }
 
-/* Small boxes for the training header: every course one click away. */
+/* Training hero: three balanced destinations, generated from the academy and course sources. */
 export function courseTiles(catalog, arc) {
-  const levels = allLevels(catalog, arc);
-  const courses = catalog.series.courses;
-  const general = courses.filter((c) => c.id !== 'cybersecurity');
-  const tile = (href, top, name, open) => `<a class="tile${open ? ' is-open' : ''}" href="${href}"><span class="tile-top">${esc(top)}</span><span class="tile-name">${esc(name)}</span></a>`;
-  const group = (label, note, tiles, className = '') => `<section class="tile-group ${className}" aria-label="${esc(label)}"><h2 class="tile-label">${esc(label)}</h2>${note ? `<p class="tile-note">${esc(note)}</p>` : ''}<div class="tiles">${tiles.join('')}</div></section>`;
-  return `<nav class="hero-tiles" aria-label="Explore Intellica learning paths">
-        ${group('Architecture Academy', 'Six levels in software architecture', levels.map((l) => tile(l.path, `Level ${l.n}`, l.short, false)), 'tile-architecture')}
-        ${group('Cyber Security Academy', 'The original professional course, within a six-level pathway', [tile('/training/cybersecurity/academy/', '6-level pathway', 'Explore the academy', false), tile('/training/cybersecurity/course/', 'Original 28-lesson course', 'Start the course', true)], 'tile-cyber')}
-        ${group('Run and grow a business with agents', 'Courses for building, analysing, operating and growing with AI', general.map((c) => tile(c.path, 'Course', c.short, false)), 'tile-general')}
-      </nav>`;
+  const architectureLevels = allLevels(catalog, arc);
+  const cyberAcademy = (catalog.academies || []).find((a) => a.id === 'cybersecurity');
+  const academyCourseIds = new Set((catalog.academies || []).flatMap((a) => a.courses || []));
+  const standalone = catalog.series.courses.filter((c) => !academyCourseIds.has(c.id));
+  const tile = (href, top, name, extra = '') => `<a class="tile${extra ? ' is-course-level' : ''}" href="${href}"><span class="tile-top">${esc(top)}</span><span class="tile-name">${esc(name)}</span>${extra ? `<span class="tile-note">${esc(extra)}</span>` : ''}</a>`;
+  const card = (id, label, title, href, lead, tiles) => `<section class="tile-group" aria-labelledby="${id}">
+      <p class="hero-card-kicker">${esc(label)}</p><h2 class="hero-card-title" id="${id}"><a href="${href}">${esc(title)}</a></h2><p class="hero-card-lead">${esc(lead)}</p>
+      <div class="tiles">${tiles.join('')}</div></section>`;
+  const architecture = architectureLevels.map((l) => tile(l.path, `Level ${l.n}`, l.short));
+  const cyber = CYBER_LEVELS.map((l) => tile(`${cyberAcademy.path}${l.id}/`, l.n === 2 ? 'Level 2 · 28 lessons' : `Level ${l.n}`, l.n === 2 ? 'Application Cyber Security' : l.short, l.n === 2 ? 'The Level 2 online course' : ''));
+  const other = standalone.map((c) => tile(c.path, 'Course', c.short));
+  return `<nav class="hero-tiles" aria-label="Explore academies and standalone courses">
+    ${card('hero-architecture', 'Professional learning path', 'Architecture Academy', '/training/architecture-academy/', 'Six levels in software architecture, from foundations to architecture leadership.', architecture)}
+    ${card('hero-cyber-security', 'Professional learning path', 'Agentic Cyber Security', cyberAcademy.path, 'Six levels in cyber security for agentic environments. Level 2 is the 28-lesson course.', cyber)}
+    ${card('hero-other-courses', 'Standalone learning', 'Other Courses', '#courses', 'Focused courses not yet grouped into an academy. Explore the current six offerings.', other)}
+  </nav>`;
 }
 
 /* The Architecture Academy page: the six levels with honest statuses, and what is and is not available. */
@@ -223,12 +236,12 @@ export function academyPage(catalog, arc) {
       <div class="t-hero-copy">
         <p class="cat-tag"><span>Software architecture · ${levels.length} levels</span></p>
         <h1 id="ac-title">Intellica Architecture Academy</h1>
-        <p class="lead">${esc(catalog.ladder.lead)} Today ${nOpen} of the ${levels.length} levels are open. The rest are planned and are marked that way, so you can see where the path goes without being sold something that does not exist yet.</p>
+        <p class="lead">${esc(catalog.ladder.lead)} ${nOpen} of the ${levels.length} levels currently have published courses available. The remaining levels are in development and are shown with their intended outcomes and scope.</p>
       </div>
     </section>
 
     <section class="cat-section" aria-labelledby="ac-levels">
-      <h2 id="ac-levels">The path, level by level</h2>
+      <h2 id="ac-levels">Six-level professional pathway</h2>
       ${levelPath(levels, 0)}
       <div class="cat-grid">${levels.map(row).join('')}
       </div>
@@ -237,19 +250,19 @@ export function academyPage(catalog, arc) {
     <section class="cat-section" aria-labelledby="ac-how">
       <h2 id="ac-how">How the academy works</h2>
       <div class="cols">
-        <div><h3>Hands on at every level</h3><p>Each open course has a lab that builds a real artefact, such as one architecture file for a system, and checks that work with tools you run yourself, not only quizzes.</p></div>
-        <div><h3>Free lessons first</h3><p>Every open course has lessons you can read before you pay, so you can judge the teaching before you decide.</p></div>
-        <div><h3>Join at your level</h3><p>Start at Level 1, or join where your experience fits. Each level page lists what it covers and what it expects you to know.</p></div>
+        <div><h3>Applied architecture work</h3><p>Each available course develops a practical architecture artefact through guided tasks, worked examples and structured self-review. The course page explains the scope and limits of its health checks.</p></div>
+        <div><h3>Preview before enrolment</h3><p>Each available course includes free preview lessons so you can inspect the teaching approach and course materials before enrolling.</p></div>
+        <div><h3>Clear progression requirements</h3><p>Each level page publishes its intended outcomes, prerequisites, available learning materials and current delivery status.</p></div>
       </div>
     </section>
 
     <section class="cat-section" aria-labelledby="ac-honest">
-      <h2 id="ac-honest">What the academy is not</h2>
+      <h2 id="ac-honest">Programme scope and credential status</h2>
       <ul class="plain">
-        <li>Level 1 is independent self-study that follows the topics of the iSAQB Certified Professional for Software Architecture, Foundation Level curriculum. It is not an iSAQB course, and Intellica is not an accredited training provider. The iSAQB exam is separate and is taken through a certification body; check its current rules there.</li>
-        <li>The mock exams are original practice questions written by Intellica. They are not real exam questions and do not guarantee a pass.</li>
-        <li>An Intellica certificate shows that you completed an Intellica course and met its published rule. Intellica's own assessed credentials for the higher levels are planned, not available.</li>
-        <li>Levels marked Planned have no open course yet. Message us on WhatsApp to hear when they open.</li>
+        <li>Level 1 is independent Intellica self-study aligned to the published iSAQB CPSA-F curriculum version 2025.1. It is not an iSAQB course, and Intellica is not an iSAQB-accredited training provider. The iSAQB examination is separate and is administered under the rules of an authorised certification body. The current public CPSA-F curriculum is 2025.1; a 2027.1 release candidate is published for an effective date of 1 April 2027, and Intellica will version its mapping before that date.</li>
+        <li>The mock examinations use original Intellica practice questions derived from public curriculum topics. They are not official iSAQB examination questions and cannot guarantee a pass.</li>
+        <li>The current course certificates record completion under their published course rules. They are not iSAQB credentials. Intellica’s independently assessed higher-level credentials remain in development.</li>
+        <li>Levels marked Planned do not yet have an available course. Their pages identify the intended scope; contact Intellica for release information.</li>
       </ul>
     </section>`;
 }

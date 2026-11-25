@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds the Cybersecurity for Agentic Environments Academy pages under /training/cybersecurity/academy/.
+// Builds the Cyber Security for Agentic Environments Academy pages under /training/cybersecurity/academy/.
 // Data: tools/cyber-academy/*.mjs. Lessons, free lessons and counts come from the live course data, so the academy
 // can never disagree with the course. Writes only inside site/training/cybersecurity/academy/ (own namespace).
 // Usage: node tools/build-cyber-academy.mjs [--check]   (--check writes nothing and fails if any page on disk is stale)
@@ -41,7 +41,7 @@ const plannedRow = (id) => `<li><span class="ac-ln">${id}</span><span><strong>${
 
 const NAV = [['', 'Overview'], ['placement/', 'Find your level'], ['paths/', 'Pathways'], ['lessons/', 'Lesson map'], ['gaips/', 'GAIPS mapping'], ['standards/', 'Standards and sources'], ['certification/', 'Certification policy'], ['roadmap/', 'Roadmap']];
 const nav = (cur) => `<nav aria-label="Academy sections"><ul class="ac-nav">${NAV.map(([p, t]) => `<li><a href="${BASE}${p}"${p === cur ? ' aria-current="page"' : ''}>${esc(t)}</a></li>`).join('')}<li><a href="${BASE}level-1/"${/^level-/.test(cur) ? ' aria-current="page"' : ''}>The six levels</a></li></ul></nav>`;
-const crumb = (label) => `<nav class="subnav" aria-label="Academy"><p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/cybersecurity/">Cybersecurity</a><span aria-hidden="true"> / </span>${label === 'Academy' ? 'Academy' : `<a href="${BASE}">Academy</a><span aria-hidden="true"> / </span>${esc(label)}`}</p><a class="sn-code" href="/training/my-courses/">Enter access code</a></nav>`;
+const crumb = (label) => `<nav class="subnav" aria-label="Academy"><p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/cybersecurity/">Cyber Security</a><span aria-hidden="true"> / </span>${label === 'Academy' ? 'Academy' : `<a href="${BASE}">Academy</a><span aria-hidden="true"> / </span>${esc(label)}`}</p><a class="sn-code" href="/training/my-courses/">Enter access code</a></nav>`;
 const hero = (h, lead, actions = '', tag = 'Academy') => `<section class="t-hero t-hero-single" aria-labelledby="ac-title"><div class="t-hero-copy"><p class="cat-tag"><span>${esc(tag)}</span></p><h1 id="ac-title">${esc(h)}</h1><p class="lead">${esc(lead)}</p>${actions ? `<div class="actions">${actions}</div>` : ''}</div></section>`;
 const btn = (href, text, primary) => `<a class="btn ${primary ? 'btn-primary' : 'btn-ghost'}" href="${href}">${esc(text)}</a>`;
 const INDEP = 'Intellica is independent of GIAC, ISC2, ISACA, CompTIA, CSA, IAPP, OWASP, MITRE and NIST. Mappings show how our lessons relate to published objectives. They are not an affiliation, an approval or a prediction of any exam result.';
@@ -76,19 +76,15 @@ const THESIS = [
   ['Assurance must be continuous', 'Model, prompt, tool, policy and data changes alter behaviour, so controls have to be measured again.'],
 ];
 emit('', {
-  title: 'Cybersecurity for Agentic Environments Academy', crumb: 'Academy', cur: '',
+  title: 'Cyber Security Academy', crumb: 'Academy', cur: '',
   description: 'A six-level programme for securing AI agents, their tools, identities, memory and infrastructure, with original teaching, practical evidence and an independent credential scheme in development.',
-  body: hero('Intellica Cybersecurity Academy', 'A six-level professional pathway for securing AI agents and the systems they can influence: from security foundations and secure application engineering to architecture, operations, adversarial assurance and enterprise governance. The curriculum is grounded in current research and mapped to published security frameworks and professional objectives.', btn(COURSE, 'Explore the 28-lesson technical course', true) + btn(`${BASE}placement/`, 'Find your level') + btn('#levels', 'View the six levels'), 'Cybersecurity for agentic systems · 6 levels')
-    + sect('delivery', 'Current course and academy status', 'The live course provides the delivered technical curriculum. The six-level pathway defines how that learning develops into specialist practice; each level is labelled according to its published content and assessment status.',
+  body: hero('Intellica Cyber Security Academy', 'A six-level professional pathway for cyber security in agentic environments: from foundations and application security to architecture, operations, adversarial assurance and governance. The curriculum is grounded in current research and mapped to published security frameworks and professional objectives.', btn('/training/cybersecurity/', 'View Level 2 course', true) + btn(`${BASE}placement/`, 'Find your level') + btn('#levels', 'View the six levels'), 'Agentic cyber security · 6 levels')
+    + sect('delivery', 'Current course and academy status', 'The complete 28-lesson Application Cyber Security for Agentic Environments course is the online course for Level 2. The six-level academy defines the broader progression, additional level outcomes and future assessments; selected course lessons also support outcomes elsewhere in the pathway.',
       `<ul class="ac-stats"><li><b>${num(claims.counts.lessons)}</b><span>lessons in the live course</span></li><li><b>${num(claims.counts.slides)}</b><span>teaching slides</span></li><li><b>${num(claims.counts.labSteps)}</b><span>guided lab steps</span></li><li><b>${num(claims.counts.quizQuestions)}</b><span>recall questions</span></li><li><b>${PLANNED ? Object.keys(PLANNED).length : 0}</b><span>curriculum extensions specified</span></li></ul>
 <div class="ac-note"><p><strong>Credential status.</strong> The course and its self-reported completion certificate are available. Intellica’s six-level assessed credential scheme is in design; no academy-level credential has been issued. Level pages distinguish published course lessons from additional curriculum and assessment work still in development.</p></div>`)
-    + sect('technical-core', 'The live technical core: Levels 2 and 3', 'The available 28-lesson course forms the academy’s technical core, with its strongest concentration in secure agent development and security architecture.',
-      `<div class="ac-grid">
-        <div class="ac-card"><h3><a href="${BASE}level-2/">Level 2 · Agentic Application Security</a></h3><p>Eight published lessons address prompt and context security, tools and MCP, identity and delegation, memory and retrieval, isolation, AI supply chain and secure implementation.</p></div>
-        <div class="ac-card"><h3><a href="${BASE}level-3/">Level 3 · Agentic Security Architecture</a></h3><p>Six published lessons address platform decomposition, least agency, zero trust, runtime enforcement, human approval and assurance of consequential actions.</p></div>
-      </div>
-      <p>The same 28-lesson course also includes foundation, operations, red-team assurance and governance material mapped to Levels 1, 4, 5 and 6. The course is delivered as one integrated programme; the level pages show how its lessons contribute to the wider pathway.</p>
-      <div class="actions"><a class="btn btn-primary" href="${COURSE}">Open the course</a><a class="btn btn-ghost" href="${BASE}lessons/">Review the lesson map</a></div>
+    + sect('level-2-course', 'Level 2 course: Application Cyber Security for Agentic Environments', 'One integrated 28-lesson course across seven modules, with a 28-step assurance-pack lab. It is the course attached to Level 2—not a separate course for each academy level.',
+      `<div class="ac-grid"><div class="ac-card"><h3><a href="/training/cybersecurity/">Application Cyber Security for Agentic Environments</a></h3><p>28 lessons · 7 modules · 28-step guided assurance-pack lab. The course covers secure agent applications, untrusted context, tools and MCP, identity, memory, execution, supply chain, monitoring and governance.</p><p>Selected lessons also support mapped outcomes in other academy levels, while the course itself remains one Level 2 course.</p></div></div>
+      <div class="actions"><a class="btn btn-primary" href="/training/cybersecurity/">Course details</a><a class="btn btn-ghost" href="${COURSE}">Open the course player</a><a class="btn btn-ghost" href="${BASE}lessons/">Review the lesson map</a></div>
       <p class="ac-fine">Course completion is not the same as passing an independently assessed academy level. The current completion certificate is self-reported and unproctored; its scope is stated on the <a href="/training/cybersecurity/">course page</a>.</p>`)
     + sect('cases', 'Recent incidents translated into practical study', 'The course and academy use current disclosures as engineering case studies. Evidence labels distinguish confirmed incidents from research demonstrations and attempted campaigns.',
       table(['Case study', 'Evidence class', 'What learners investigate'], CASE_STUDIES.map((c) => [{ html: `<a href="${esc(c.url)}" rel="noopener">${esc(c.title)}</a><div class="ac-fine">${esc(c.date)}</div>` }, c.evidence, c.detail])))
@@ -130,11 +126,11 @@ LEVELS.forEach((v, i) => {
   const prev = LEVELS[i - 1], next = LEVELS[i + 1];
   emit(`${v.id}/`, {
     title: `Level ${v.n}: ${v.title}`, crumb: `Level ${v.n}`, cur: v.id,
-    description: `${v.tagline} Modules, evidence, live lessons, planned lessons and honest external mapping for Level ${v.n} of the Cybersecurity for Agentic Environments Academy.`,
+    description: `${v.tagline} Modules, evidence, live lessons, planned lessons and honest external mapping for Level ${v.n} of the Cyber Security for Agentic Environments Academy.`,
     body: hero(`Level ${v.n}: ${v.title}`, v.tagline, btn(COURSE, 'Open the live course', true) + btn(`${BASE}paths/`, 'See pathways'), `Level ${v.n} \u00b7 ${v.short}`)
       + `<p>${pill(v.status.key, v.status.label)}</p><dl class="ac-facts"><div><dt>Who it is for</dt><dd>${esc(v.audience)}</dd></div><div><dt>Before you start</dt><dd>${esc(v.prereq)}</dd></div><div><dt>Capstone evidence</dt><dd>${esc(v.capstone)}</dd></div><div><dt>How it is assessed</dt><dd>${esc(v.assessment)}</dd></div></dl>`
       + sect('modules', 'Modules and evidence', 'Each module ends in an artefact that goes into your portfolio.', table(['Module', 'You will be able to', 'Evidence'], v.modules.map((m) => [m[0], m[1], m[2]])))
-      + sect('live', 'Live lessons for this level', `${v.core.length} lessons in the live course are currently mapped to this level.`, `<ul class="ac-lessons">${v.core.map(lessonRow).join('')}</ul><p class="ac-fine">The free lessons open without payment. Lesson order inside the course is by module, not by level.</p>`)
+      + sect('live', v.n === 2 ? 'Core Level 2 lessons within the course' : 'Live lessons for this level', v.n === 2 ? 'The complete 28-lesson Application Cyber Security course is the Level 2 online course. These eight lesson IDs are the academy’s core mapping for Level 2; other lessons in the same course support selected outcomes elsewhere in the pathway.' : `${v.core.length} lessons in the live course are currently mapped to this level.`, `<ul class="ac-lessons">${v.core.map(lessonRow).join('')}</ul><p class="ac-fine">The free lessons open without payment. Lesson order inside the course is by module, not by level.</p>`)
       + sect('planned', 'Planned lessons', v.planned.length ? 'These lessons are specified but not yet published. They address gaps identified in the curriculum review.' : null, v.planned.length ? `<ul class="ac-lessons">${v.planned.map(plannedRow).join('')}</ul>` : '<p>No new lessons are planned for this level.</p>')
       + sect('mapping', 'External mapping', 'Related published credentials, as benchmarks and optional pathways only.', table(['Credential or framework', 'How we use it'], v.mapping) + `<div class="ac-note"><p>${esc(v.caveat)}</p></div>`)
       + `<div class="ac-pager">${prev ? `<a href="${BASE}${prev.id}/">\u2190 Level ${prev.n}: ${esc(prev.short)}</a>` : '<span></span>'}${next ? `<a href="${BASE}${next.id}/">Level ${next.n}: ${esc(next.short)} \u2192</a>` : '<span></span>'}</div>`,
@@ -179,7 +175,7 @@ LEVELS.forEach((v, i) => {
 /* ---------- pathways ---------- */
 emit('paths/', {
   title: 'Pathways by role', crumb: 'Pathways', cur: 'paths/',
-  description: 'Six pathways through the Cybersecurity for Agentic Environments Academy, by role: newcomer, builder, architect, operations, assurance and governance.',
+  description: 'Six pathways through the Cyber Security for Agentic Environments Academy, by role: newcomer, builder, architect, operations, assurance and governance.',
   body: hero('Pathways by role', 'Pick the sequence that matches your job. Each pathway names the levels to work through and the live lessons that serve them.', btn(COURSE, 'Open the live course', true), 'Pathways')
     + PATHS.map((p) => sect(p.id, p.title, `${p.who} ${p.note}`, `<p class="ac-fine">Levels: ${p.levels.map((n) => `<a href="${BASE}level-${n}/">Level ${n}</a>`).join(', ')}</p><ul class="ac-lessons">${p.lessons.map(lessonRow).join('')}</ul>`)).join(''),
 });
@@ -197,7 +193,7 @@ emit('lessons/', {
 /* ---------- GAIPS ---------- */
 emit('gaips/', {
   title: 'GIAC GAIPS objective alignment', crumb: 'GAIPS mapping', cur: 'gaips/',
-  description: 'An independent, version-aware comparison between Cybersecurity Academy lessons and the published GIAC AI Platform Security objectives.',
+  description: 'An independent, version-aware comparison between Cyber Security Academy lessons and the published GIAC AI Platform Security objectives.',
   body: hero('GIAC GAIPS objective alignment', 'A documented comparison between the academy’s published lessons and GIAC’s current AI Platform Security objectives. The mapping identifies areas of coverage and curriculum development priorities.', btn(COURSE, 'Explore the technical course', true), 'External benchmark')
     + `<div class="ac-note"><p><strong>Independent curriculum mapping.</strong> Intellica is not affiliated with GIAC. This comparison uses public objectives and is not an endorsement, an accredited preparation course, or a prediction of exam performance. Confirm the current exam rules directly with GIAC before booking.</p></div>`
     + sect('facts', 'Current published exam information', `Checked ${REVIEWED}.`, `<dl class="ac-facts"><div><dt>Exam</dt><dd>One proctored examination</dd></div><div><dt>Format</dt><dd>GIAC lists CyberLive performance-based virtual-machine testing for GAIPS.</dd></div><div><dt>Length</dt><dd>54 questions; 2 hours</dd></div><div><dt>Passing score</dt><dd>65% for exam versions released on or after 25 July 2026</dd></div><div><dt>Objectives</dt><dd>Eight published outcome areas, including agentic systems, AI foundations, architecture, infrastructure, risk, MLOps, retrieval and model customisation.</dd></div></dl><p class="ac-fine">GIAC states that exam specifications may change. The candidate portal is authoritative for the version attached to an individual attempt.</p>`)
@@ -210,7 +206,7 @@ emit('gaips/', {
 /* ---------- standards ---------- */
 emit('standards/', {
   title: 'Standards and sources', crumb: 'Standards and sources', cur: 'standards/',
-  description: 'The dated, version-pinned source register behind the Cybersecurity for Agentic Environments Academy, with what was verified and what must be rechecked.',
+  description: 'The dated, version-pinned source register behind the Cyber Security for Agentic Environments Academy, with what was verified and what must be rechecked.',
   body: hero('Standards and sources', 'Every claim in the academy traces to a source with a version and a review date. This is the register, including what is verified and what still needs rechecking.', '', 'Sources')
     + sect('register', 'Source register', `Review date ${REVIEWED}. Verified means read in this review. Carried means kept from the research blueprint and rechecked before release.`,
       table(['Source', 'Role', 'Version and status', 'Notes'], SOURCES.map((s) => [{ html: (s.url ? `<a href="${esc(s.url)}" rel="noopener">${esc(s.name)}</a>` : esc(s.name)) + `<br><span class="ac-fine">${esc(s.owner)}</span>` }, s.role, { html: `${pill(s.status === 'verified' ? 'taught' : 'verify', s.status === 'verified' ? 'Verified' : 'Recheck')}<br>${esc(s.pin)}` }, s.note])))
@@ -243,7 +239,7 @@ emit('certification/', {
 /* ---------- roadmap ---------- */
 emit('roadmap/', {
   title: 'Roadmap and gap register', crumb: 'Roadmap', cur: 'roadmap/',
-  description: 'The phased build plan for the Cybersecurity for Agentic Environments Academy, the gap register from the audit and the lessons planned to close each gap.',
+  description: 'The phased build plan for the Cyber Security for Agentic Environments Academy, the gap register from the audit and the lessons planned to close each gap.',
   body: hero('Roadmap and gap register', 'What is done, what is next, the gaps the audit found, and the lessons planned to close them.', '', 'Roadmap')
     + sect('phases', 'Build phases', 'Each phase has an exit gate. A phase is not finished until its gate is met.', table(['Phase', 'Work', 'Exit gate', 'Status'], ROADMAP.map((r) => [`${r.n}. ${r.name}`, r.work, r.gate, { html: pill(r.status === 'done' ? 'done' : r.status === 'active' ? 'active' : 'verify', STATUS_LABEL[r.status]) }])))
     + sect('gaps', 'Gap register', 'Found by reconciling the research blueprint with the live course and with current sources.', table(['Gap', 'Finding', 'Source', 'Planned lesson'], GAPS.map((g) => [`${g.id}. ${g.topic}`, g.finding, g.source, g.planned])))

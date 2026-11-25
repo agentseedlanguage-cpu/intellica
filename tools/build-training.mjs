@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { researchHtml, boardHtml } from './lab-html.mjs';
 import { page, esc, kicker, cols, base } from './training-shell.mjs';
-import { courseTiles, featuredBlock, academiesBlock, catalogSections, certificateBlock, allLevels, levelPath } from './catalog-html.mjs';
+import { courseTiles, academiesBlock, catalogSections, certificateBlock, allLevels, levelPath } from './catalog-html.mjs';
 
 const SITE = path.resolve('site');
 const catalog = JSON.parse(fs.readFileSync(path.join(SITE, 'training', 'catalog.json'), 'utf8'));
@@ -251,7 +251,7 @@ ${subnav(w, '')}
 
     <aside class="t-notes" aria-label="Notes and sources">
       <p>${esc(w.affiliation)}</p>
-      <details><summary>Sources and how we use them</summary><p>${esc(w.sources).replace(esc(w.sourceLink[0]), `<a href="${esc(w.sourceLink[1])}" rel="noopener">${esc(w.sourceLink[0])}</a>`)}</p></details>
+      <details><summary>Sources and how we use them</summary><p>${(w.sourceLinks || [w.sourceLink]).reduce((out, link) => out.replace(esc(link[0]), `<a href="${esc(link[1])}" rel="noopener">${esc(link[0])}</a>`), esc(w.sources))}</p></details>
     </aside>`;
   return page({
     title: `${w.title}: ${w.headline.replace(/\.$/, '')} | Intellica Training`,
@@ -473,19 +473,17 @@ function indexPage() {
         <p class="eyebrow">Intellica Training</p>
         <h1 id="ti-t">${esc(ix.headline)}</h1>
         <p class="lead">${esc(ix.lead)}</p>
-        <div class="actions"><a class="btn btn-primary" href="#academies">Explore the academies</a><a class="btn btn-ghost" href="#live">Upcoming workshop</a><a class="btn btn-link" href="/training/my-courses/">I have an access code</a></div>
+        <div class="actions"><a class="btn btn-primary" href="#courses">Browse the courses</a><a class="btn btn-ghost" href="#live">Next live workshop</a><a class="btn btn-link" href="/training/my-courses/">I have an access code</a></div>
       </div>
       ${courseTiles(catalog, data.workshops[0])}
     </section>
 
-    <section class="t-strip" aria-label="What every course includes"><dl>
-      <div><dt>Hands-on lab</dt><dd>in every course</dd></div>
-      <div><dt>Verifiable certificate</dt><dd>to share on LinkedIn</dd></div>
-      <div><dt>Always current</dt><dd>amended as the research moves</dd></div>
-      <div><dt>Yours to keep</dt><dd>every update to your edition</dd></div>
+    <section class="t-strip" aria-label="What available courses provide"><dl>
+      <div><dt>Applied practice</dt><dd>in each available course</dd></div>
+      <div><dt>Course certificate</dt><dd>verifiable and shareable</dd></div>
+      <div><dt>Research-informed</dt><dd>versioned sources and review dates</dd></div>
+      <div><dt>Edition updates</dt><dd>included with enrolment</dd></div>
     </dl></section>
-
-${featuredBlock(catalog)}
 
 ${academiesBlock(catalog, data.workshops[0])}
 
@@ -493,8 +491,8 @@ ${catalogSections(catalog, data.workshops[0], 1)}
 
     <section class="t-block" id="live" aria-labelledby="ws-t">
       ${kicker(2, 'Live workshops')}
-      <h2 id="ws-t">Learn live, with expert guidance</h2>
-      <p class="sub">The courses are always there. Workshops are the dated part, and the dates change: small rooms, one real system, a printed workbook and time to ask. Each one sits on top of its online course, so you can prepare before and keep going after.</p>
+      <h2 id="ws-t">Instructor-led workshops</h2>
+      <p class="sub">Online courses are self-paced. Workshops are scheduled sessions with small groups, a real-world system, a printed workbook and dedicated time for questions. Each workshop builds on an online course, so participants can prepare in advance and continue practising afterwards.</p>
       <div class="ws-list">${cards}
       </div>
     </section>
@@ -504,18 +502,22 @@ ${certificateBlock(catalog, 3)}
     <section class="t-block" aria-labelledby="how-t">
       ${kicker(4, 'How we teach')}
       <h2 id="how-t">Every course follows the same loop</h2>
-      ${cols(ix.principles, 'c3')}
+      ${cols(ix.principles, 'c4')}
+      <div class="learning-evidence">
+        <p class="eyebrow">Research behind the method</p>
+        <ul>${(ix.evidence || []).map((e) => `<li><strong>${esc(e.title)}</strong><span>${esc(e.source)}</span><p>${esc(e.use)}</p><a href="${esc(e.url)}" rel="noopener">Read the research</a></li>`).join('')}</ul>
+      </div>
       <p class="pull">${esc(ix.honesty)}</p>
     </section>
 
     <section class="t-block" aria-labelledby="team-t">
       ${kicker(5, 'For teams')}
-      <h2 id="team-t">Build capability across your team</h2>
-      <p class="sub">Bring a real system, a team challenge or a capability goal. We can tailor a workshop or map a learning path across the academies and courses. <a href="/consulting/">Explore team engagements</a>, or contact us to discuss your needs.</p>
+      <h2 id="team-t">Training a whole team?</h2>
+      <p class="sub">We can run a workshop on your own system, or build a learning path across several courses for your staff. <a href="/consulting/">See how we work with teams</a>, or contact our team using the WhatsApp link.</p>
     </section>`;
   return page({
     title: 'Training | Intellica',
-    description: `Intellica's Architecture Academy and Cyber Security Academy, plus practical courses for building, analysing, operating and growing with AI. Hands-on learning with clear course status and scope. Next workshop: ${data.workshops[0].title}, ${data.workshops[0].dateLong}.`,
+    description: `Hands-on training from Intellica: professional academies in software architecture and cyber security, plus six focused courses for technology and business. Next workshop: ${data.workshops[0].title}, ${data.workshops[0].dateLong}.`,
     canonicalPath: '/training/',
     ld: null,
     css: ['/training/catalog.css'],

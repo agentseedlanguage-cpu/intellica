@@ -25,7 +25,7 @@ for (const c of catalog.ladder.levels) {
 for (const c of catalog.series.courses) {
   write(`training/${c.id}/index.html`, page({
     title: `${c.title} | Intellica Training`, description: c.lead, canonicalPath: c.path, ld: null, css: CSS,
-    body: coursePage(c, { catalog, levels: null, kindLabel: 'The agentic era' }),
+    body: coursePage(c, { catalog, levels: null, kindLabel: c.id === 'cybersecurity' ? 'Cyber Security Academy · Level 2' : 'The agentic era' }),
   }));
 }
 

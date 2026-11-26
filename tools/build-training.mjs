@@ -471,9 +471,7 @@ function indexPage() {
     <section class="t-hero t-hero-index" aria-labelledby="ti-t">
       <div class="t-hero-copy">
         <p class="eyebrow">Intellica Training</p>
-        <h1 id="ti-t">${esc(ix.headline)}</h1>
-        <p class="lead">${esc(ix.lead)}</p>
-        <div class="actions"><a class="btn btn-primary" href="#courses">Browse the courses</a><a class="btn btn-ghost" href="#live">Next live workshop</a><a class="btn btn-link" href="/training/my-courses/">I have an access code</a></div>
+        <h1 id="ti-t" class="t-title-sm">Choose your academy</h1>
       </div>
       ${courseTiles(catalog, data.workshops[0])}
     </section>
@@ -484,6 +482,8 @@ function indexPage() {
       <div><dt>Research-informed</dt><dd>versioned sources and review dates</dd></div>
       <div><dt>Edition updates</dt><dd>included with enrolment</dd></div>
     </dl></section>
+
+    <div class="t-hero-actions actions"><a class="btn btn-primary" href="#courses">Browse all courses</a><a class="btn btn-ghost" href="#live">Next live workshop</a><a class="btn btn-link" href="/training/my-courses/">I have an access code</a></div>
 
 ${academiesBlock(catalog, data.workshops[0])}
 
@@ -517,7 +517,7 @@ ${certificateBlock(catalog, 3)}
     </section>`;
   return page({
     title: 'Training | Intellica',
-    description: `Hands-on training from Intellica: professional academies in software architecture and cyber security, plus six focused courses for technology and business. Next workshop: ${data.workshops[0].title}, ${data.workshops[0].dateLong}.`,
+    description: `Hands-on training from Intellica: three academies: software architecture, cyber security for the AI age, and AI for business. Next workshop: ${data.workshops[0].title}, ${data.workshops[0].dateLong}.`,
     canonicalPath: '/training/',
     ld: null,
     css: ['/training/catalog.css'],

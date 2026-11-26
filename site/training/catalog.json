@@ -676,19 +676,36 @@
     {
       "id": "cybersecurity",
       "title": "Cyber Security Academy",
-      "tag": "Cyber security",
+      "tag": "Cyber security for the AI age",
       "path": "/training/cybersecurity/academy/",
       "courses": [
         "cybersecurity"
       ],
       "levels": 6,
       "status": "28-lesson Level 2 course available",
-      "lead": "Six levels for securing agentic systems, from foundations to governance. Level 2 is the complete 28-lesson Application Cyber Security for Agentic Environments course."
+      "lead": "Six levels for securing AI agents and the systems around them, from foundations to governance. Level 2 is the complete 28-lesson course."
+    },
+    {
+      "id": "aibusiness",
+      "title": "AI for Business Academy",
+      "tag": "AI for business",
+      "path": "/training/ai-business-academy/",
+      "courses": [
+        "ai-agents-business",
+        "data-analytics",
+        "software-development",
+        "digital-marketing",
+        "project-operations",
+        "entrepreneurship"
+      ],
+      "levels": 6,
+      "status": "Six courses in development",
+      "lead": "Six practical courses for putting AI agents to work in data, software, marketing, projects and your own business. Each page shows what is planned and what is open."
     }
   ],
   "series": {
     "title": "Focused courses for the agentic era",
-    "lead": "Six standalone courses for people applying AI agents across technology and business. Each pairs lessons with practical work and a clear course-completion record. The Cyber Security Academy course is presented within its Level 2 pathway.",
+    "lead": "Six practical courses for people applying AI agents in business. Each pairs lessons with practical work and a clear course-completion record.",
     "courses": [
       {
         "id": "ai-agents-business",
@@ -776,7 +793,7 @@
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
         },
         "path": "/training/ai-agents-business/",
-        "track": "run"
+        "track": "aibiz"
       },
       {
         "id": "cybersecurity",
@@ -918,7 +935,7 @@
           "intro": "One pack, built in steps after each lesson. Each step has instructions, a model solution and a rubric to mark your own work, and saves on your device. The health check confirms the pack is complete and free of placeholders and secrets. It does not judge whether your security design is right; that needs a human reviewer."
         },
         "path": "/training/cybersecurity/",
-        "track": "build",
+        "track": "cyber",
         "course": {
           "enabled": true,
           "headline": "Secure the agents you run, as a course you take at your own pace.",
@@ -1082,7 +1099,7 @@
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
         },
         "path": "/training/data-analytics/",
-        "track": "build"
+        "track": "aibiz"
       },
       {
         "id": "software-development",
@@ -1170,7 +1187,7 @@
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
         },
         "path": "/training/software-development/",
-        "track": "build"
+        "track": "aibiz"
       },
       {
         "id": "digital-marketing",
@@ -1258,7 +1275,7 @@
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
         },
         "path": "/training/digital-marketing/",
-        "track": "run"
+        "track": "aibiz"
       },
       {
         "id": "project-operations",
@@ -1346,7 +1363,7 @@
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
         },
         "path": "/training/project-operations/",
-        "track": "run"
+        "track": "aibiz"
       },
       {
         "id": "entrepreneurship",
@@ -1434,7 +1451,7 @@
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
         },
         "path": "/training/entrepreneurship/",
-        "track": "run"
+        "track": "aibiz"
       }
     ]
   },
@@ -1457,17 +1474,17 @@
   },
   "tracks": [
     {
-      "id": "build",
-      "title": "Build and secure agentic systems",
-      "lead": "For people who build software and data systems, and create the automation that agents use."
+      "id": "cyber",
+      "title": "Cyber Security for the AI Age",
+      "lead": "Six levels for securing AI agents and the systems around them. Level 2 is the complete 28-lesson online course, and the academy page shows which lessons serve each level."
     },
     {
-      "id": "run",
-      "title": "Run and grow a business with agents",
-      "lead": "For owners, managers and consultants who want agents doing real work in sales, projects and operations, with the controls to trust them."
+      "id": "aibiz",
+      "title": "AI for Business",
+      "lead": "Six practical courses for owners, managers and teams who want AI agents doing real work in data, software, marketing, projects and a business of their own."
     }
   ],
-  "coursesLead": "Explore six standalone online courses alongside the academy pathways. Available courses pair concise lessons with guided practice and a cumulative lab; planned learning is clearly identified. Live workshops are separately scheduled, in-person teaching.",
+  "coursesLead": "Every course is online, self-paced and yours to keep. Courses that are not open yet are marked as planned.",
   "featured": {
     "id": "cybersecurity",
     "kicker": "Cyber Security Academy · Level 2 course",

@@ -1,3 +1,15 @@
+# Checkpoint 38: Training page restructured around three academies
+
+**Training page.** The hero is now a small title, "Choose your academy", with three equal cards first: Software Architecture, Cyber Security for the AI Age, and AI for Business. Each card lists its six levels or courses and has its button at the bottom. The four fact boxes come next, then the page buttons. The long title and write-up are gone.
+
+**Third academy.** "AI for Business Academy" at `/training/ai-business-academy/`, built by `tools/build-ai-business-academy.mjs` from `catalog.json` (`academies` entry `aibusiness`, six courses). All six are in development and are marked that way. Standalone course breadcrumbs now read Training / AI for Business Academy / course.
+
+**Categories.** The catalogue tracks are now `cyber` (the six cyber levels, with Level 2 as the live 28-lesson course) and `aibiz` (six courses). The old "Build and secure" and "Run and grow" groups are removed.
+
+**Academy pages.** Smaller titles, and small boxes for each academy's levels or courses in the hero. Cyber breadcrumb now reads Training / Cyber Security Academy.
+
+**Checks.** `npm run check` includes the new page check. Browser test selector updated (not run).
+
 # Checkpoint 37: Training polish (fonts, hero, cards) and the Architecture Academy rebuilt to match the Cyber Security Academy
 
 **Fonts.** The font files in `site/assets/fonts` were never loaded: no `@font-face` existed, so every visitor saw their own device font. `site/kit/shell.css` now declares IBM Plex Sans (text), Bricolage Grotesque (headings) and IBM Plex Mono (labels), all self-hosted, with `font-display: swap`. `tokens.css` has `--font-sans`, `--font-display`, `--font-mono`. Kit files and the font files are copied to every product site by `tools/sync-kit.mjs`.

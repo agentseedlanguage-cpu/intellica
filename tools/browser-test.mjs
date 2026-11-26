@@ -673,7 +673,7 @@ await step('training: six architecture levels and seven agentic-era courses, eac
   const cat = JSON.parse(fs.readFileSync('site/training/catalog.json', 'utf8'));
   const idx = await open(`${HOME}/training/`);
   assert.equal(await idx.locator('#track-architecture .cat-card').count(), 6, 'six architecture levels');
-  assert.equal(await idx.locator('#track-build .cat-card, #track-run .cat-card').count(), 7, 'seven agentic-era courses');
+  assert.equal(await idx.locator('#track-cyber .cat-card, #track-aibiz .cat-card').count(), 12, 'six cyber levels and six AI for Business courses');
   assert.match(await idx.locator('#track-architecture .cat-card').first().innerText(), /Software Architecture Foundations/i);
   assert.match(await idx.locator('#track-architecture .cat-card').nth(1).innerText(), /Mastering arc42/i);
   assert.equal(await idx.locator('.cat-status').count(), 1, 'only the arc42 card mentions a live workshop');

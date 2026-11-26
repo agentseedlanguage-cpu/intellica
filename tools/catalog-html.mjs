@@ -16,12 +16,13 @@ export function levelPath(levels, current) {
   return `<ol class="lvl-path" aria-label="The ${levels.length} levels">${levels.map((l) => `<li${l.n === current ? ' aria-current="step" class="is-here"' : ''}><a href="${l.path}"><b>${l.n}</b><span>${esc(l.short)}</span>${l.live ? '<i>Live workshop</i>' : ''}</a></li>`).join('')}</ol>`;
 }
 
-const card = (c, tag) => `
+const isOpen = (c) => Boolean(c.live || (c.course && c.course.enabled));
+const card = (c, tag, planned = /^Level/.test(tag) && !isOpen(c)) => `
         <article class="cat-card">
-          <p class="cat-tag">${esc(tag)}${(c.price || (c.course && c.course.enabled && c.course.price && c.course.price.label)) ? `<span class="cat-price">${esc(c.price || c.course.price.label)}</span>` : ''}${c.live ? '<span class="cat-status is-live">Live workshop too</span>' : ''}${/^Level/.test(tag) && !c.live && !(c.course && c.course.enabled) ? '<span class="cat-status">Planned</span>' : ''}</p>
+          <p class="cat-tag">${esc(tag)}${(c.price || (c.course && c.course.enabled && c.course.price && c.course.price.label)) ? `<span class="cat-price">${esc(c.price || c.course.price.label)}</span>` : ''}${c.live ? '<span class="cat-status is-live">Live workshop too</span>' : ''}${planned ? '<span class="cat-status">Planned</span>' : ''}</p>
           <h3><a href="${c.path}">${esc(c.title)}</a></h3>
           <p>${esc(c.lead)}</p>
-          <a class="cat-go" href="${c.path}">${/^Level/.test(tag) && !c.live && !(c.course && c.course.enabled) ? 'See the outline' : 'See the course'} <span aria-hidden="true">\u2192</span></a>${c.live ? `
+          <a class="cat-go" href="${c.path}">${c.cta || (planned ? 'See the outline' : 'See the course')} <span aria-hidden="true">\u2192</span></a>${c.live ? `
           <a class="cat-go" href="${c.path}course/#get-t" data-access data-learn="${c.path}course/learn/" data-probe="${c.path}course/data/part-2-1-goals.json" data-probe-id="part-2-1-goals">Get access</a>` : ''}
         </article>`;
 
@@ -29,21 +30,28 @@ const card = (c, tag) => `
 export function catalogSections(catalog, arc, startN) {
   const levels = allLevels(catalog, arc);
   const sr = catalog.series;
-  const academyCourseIds = new Set((catalog.academies || []).flatMap((a) => a.courses || []));
-  const track = (id, title, lead, items, tag) => `
+  const cyberAcademy = catalog.academies.find((a) => a.id === 'cybersecurity');
+  const biz = catalog.academies.find((a) => a.id === 'aibusiness');
+  const cyberCourse = sr.courses.find((c) => c.id === 'cybersecurity');
+  const cyberLevels = CYBER_LEVELS.map((l) => l.n === 2 ? { ...cyberCourse, n: 2, title: l.title, lead: l.tagline } : { n: l.n, title: l.title, lead: l.tagline, path: `${cyberAcademy.path}${l.id}/`, cta: 'See the level' });
+  const bizCourses = biz.courses.map((id) => sr.courses.find((c) => c.id === id));
+  const nLive = (arr) => arr.filter(isOpen).length;
+  const track = (id, title, lead, items, tag, more, planned) => `
       <div class="track" id="track-${id}">
         <h3>${esc(title)}</h3>
-        <p class="sub">${esc(lead)}${id === 'architecture' ? ' <a href="/training/architecture-academy/">See the whole Architecture Academy</a>.' : ''}</p>
-        <div class="cat-grid">${items.map((l) => card(l, tag(l))).join('')}
+        <p class="sub">${esc(lead)}${more ? ` <a href="${more[0]}">${esc(more[1])}</a>.` : ''}</p>
+        <div class="cat-grid">${items.map((l) => card(l, tag(l), planned ? planned(l) : undefined)).join('')}
         </div>
       </div>`;
+  const t = Object.fromEntries(catalog.tracks.map((x) => [x.id, x]));
   return `
     <section class="t-block" id="courses" aria-labelledby="crs-t">
       ${kicker(startN, 'Courses')}
-      <h2 id="crs-t">Every course, online, yours to keep</h2>
+      <h2 id="crs-t">All courses</h2>
       <p class="sub">${esc(catalog.coursesLead)}</p>
-      ${track('architecture', catalog.ladder.title, `Six levels from foundations to leadership. ${levels.filter((l) => l.live || (l.course && l.course.enabled)).length} are live courses today; the rest are planned and marked as planned.`, levels, (l) => `Level ${l.n} of ${levels.length}`)}
-      ${catalog.tracks.map((t) => track(t.id, t.title, t.lead, sr.courses.filter((c) => c.track === t.id && !academyCourseIds.has(c.id)), () => 'Online course')).join('')}
+      ${track('architecture', catalog.ladder.title, `Six levels from foundations to leadership. ${nLive(levels)} are live courses today; the rest are planned and marked as planned.`, levels, (l) => `Level ${l.n} of ${levels.length}`, ['/training/architecture-academy/', 'See the whole Architecture Academy'])}
+      ${track('cyber', t.cyber.title, t.cyber.lead, cyberLevels, (l) => `Level ${l.n} of 6`, [cyberAcademy.path, 'See the whole Cyber Security Academy'], () => false)}
+      ${track('aibiz', t.aibiz.title, t.aibiz.lead, bizCourses, () => 'Online course', [biz.path, 'See the whole AI for Business Academy'], (c) => !isOpen(c))}
     </section>`;
 }
 
@@ -55,10 +63,11 @@ export function academiesBlock(catalog, arc) {
   const nOpen = levels.filter((l) => Boolean(l.live || (l.course && l.course.enabled))).length;
   const card = (a) => {
     const n = a.id === 'architecture' ? levels.length : a.levels;
+    const unit = a.id === 'aibusiness' ? 'courses' : 'levels';
     const status = a.id === 'architecture' ? `${nOpen} of ${levels.length} levels open` : a.status;
     return `
         <article class="cat-card">
-          <p class="cat-tag">${esc(a.tag)} \u00b7 ${n} levels<span class="cat-status is-live">${esc(status)}</span></p>
+          <p class="cat-tag">${esc(a.tag)} \u00b7 ${n} ${unit}<span class="cat-status is-live">${esc(status)}</span></p>
           <h3><a href="${a.path}">${esc(a.title)}</a></h3>
           <p>${esc(a.lead)}</p>
           <a class="cat-go" href="${a.path}">See the academy <span aria-hidden="true">\u2192</span></a>
@@ -109,7 +118,7 @@ export function coursePage(c, { catalog, levels, kindLabel, series }) {
     ? `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/architecture-academy/">Architecture Academy</a><span aria-hidden="true"> / </span><a href="/training/architecture-academy/level-${c.n}/">Level ${c.n}</a></p>`
     : c.id === 'cybersecurity'
       ? `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/cybersecurity/academy/">Cyber Security Academy</a><span aria-hidden="true"> / </span><a href="/training/cybersecurity/academy/level-2/">Level 2</a></p>`
-      : `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/#track-${c.track || 'build'}">${c.track === 'run' ? 'Run and grow a business' : 'Build and secure agentic systems'}</a><span aria-hidden="true"> / </span>${esc(c.short)}</p>`;
+      : `<p class="crumb"><a href="/training/">Training</a><span aria-hidden="true"> / </span><a href="/training/ai-business-academy/">AI for Business Academy</a><span aria-hidden="true"> / </span>${esc(c.short)}</p>`;
   let n = 0;
   return `
     <nav class="subnav" aria-label="${esc(c.title)}">
@@ -193,23 +202,23 @@ ${levels ? `
     </section>`;
 }
 
-/* Training hero: three balanced destinations, generated from the academy and course sources. */
+/* Training hero: three academy cards, each listing its six levels or courses, with its button at the bottom. */
 export function courseTiles(catalog, arc) {
   const architectureLevels = allLevels(catalog, arc);
-  const cyberAcademy = (catalog.academies || []).find((a) => a.id === 'cybersecurity');
-  const academyCourseIds = new Set((catalog.academies || []).flatMap((a) => a.courses || []));
-  const standalone = catalog.series.courses.filter((c) => !academyCourseIds.has(c.id));
+  const cyberAcademy = catalog.academies.find((a) => a.id === 'cybersecurity');
+  const biz = catalog.academies.find((a) => a.id === 'aibusiness');
   const tile = (href, top, name, extra = '') => `<a class="tile${extra ? ' is-course-level' : ''}" href="${href}">${top ? `<span class="tile-top">${esc(top)}</span>` : ''}<span class="tile-name">${esc(name)}${extra ? `<span class="tile-note">${esc(extra)}</span>` : ''}</span></a>`;
-  const card = (id, label, title, href, lead, tiles) => `<section class="tile-group" aria-labelledby="${id}">
+  const card = (id, label, title, href, lead, tiles, cta) => `<section class="tile-group" aria-labelledby="${id}">
       <p class="hero-card-kicker">${esc(label)}</p><h2 class="hero-card-title" id="${id}"><a href="${href}">${esc(title)}</a></h2><p class="hero-card-lead">${esc(lead)}</p>
-      <div class="tiles">${tiles.join('')}</div></section>`;
+      <div class="tiles">${tiles.join('')}</div>
+      <a class="btn btn-primary tile-cta" href="${href}">${esc(cta)}</a></section>`;
   const architecture = architectureLevels.map((l) => tile(l.path, `L${l.n}`, l.short));
-  const cyber = CYBER_LEVELS.map((l) => tile(`${cyberAcademy.path}${l.id}/`, `L${l.n}`, l.n === 2 ? 'Application Cyber Security' : l.short, l.n === 2 ? '28-lesson online course' : ''));
-  const other = standalone.map((c) => tile(c.path, '', c.short));
-  return `<nav class="hero-tiles" aria-label="Explore academies and standalone courses">
-    ${card('hero-architecture', 'Professional learning path', 'Architecture Academy', '/training/architecture-academy/', 'Six levels, from foundations to architecture leadership.', architecture)}
-    ${card('hero-cyber-security', 'Professional learning path', 'Agentic Cyber Security', cyberAcademy.path, 'Six levels for securing agentic systems. Level 2 is the 28-lesson course.', cyber)}
-    ${card('hero-other-courses', 'Standalone learning', 'Other Courses', '#courses', 'Six focused courses for technology and business teams.', other)}
+  const cyber = CYBER_LEVELS.map((l) => tile(l.n === 2 ? '/training/cybersecurity/' : `${cyberAcademy.path}${l.id}/`, `L${l.n}`, l.short === 'Understand' || l.n !== 2 ? l.short : 'Application Cyber Security', l.n === 2 ? '28-lesson online course' : ''));
+  const bizTiles = biz.courses.map((id) => { const c = catalog.series.courses.find((x) => x.id === id); return tile(c.path, '', c.short); });
+  return `<nav class="hero-tiles" aria-label="The three academies">
+    ${card('hero-architecture', 'Academy', 'Software Architecture', '/training/architecture-academy/', 'Six levels, from foundations to architecture leadership.', architecture, 'Explore the academy')}
+    ${card('hero-cyber-security', 'Academy', 'Cyber Security for the AI Age', cyberAcademy.path, 'Six levels for securing AI agents. Level 2 is open now.', cyber, 'Explore the academy')}
+    ${card('hero-ai-business', 'Academy', 'AI for Business', biz.path, 'Six practical courses for putting AI agents to work.', bizTiles, 'Explore the academy')}
   </nav>`;
 }
 

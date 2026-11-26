@@ -239,8 +239,25 @@ export async function labPage() {
       el('ol', { class: 'lab-do' }, d.do.map((t) => el('li', {}, inline(t)))),
       el('h3', {}, 'You are done when'),
       list,
+      helpPanel(d),
       d.experienced ? el('p', { class: 'lab-exp' }, el('strong', {}, 'Experienced? '), d.experienced) : null,
       exCard, nextBox);
+  }
+
+  /* ----- help: tiered hints, common mistakes and tips (built from each step's rubric) ----- */
+  function helpPanel(d) {
+    const hints = d.hints || [], mistakes = d.mistakes || [], tips = d.tips || [];
+    if (!hints.length && !mistakes.length && !tips.length) return null;
+    const tier = (title, body) => el('details', { class: 'lab-tier' }, el('summary', {}, title), el('div', { class: 'lab-tier-body' }, body));
+    const parts = [];
+    if (hints.length) {
+      parts.push(tier('Hint 1: questions to ask yourself', el('ul', {}, hints.map((h) => el('li', {}, el('strong', {}, h.criterion + ': '), 'Does your answer meet this? ', inline(h.nudge))))));
+      parts.push(tier('Hint 2: what a partial answer looks like', el('ul', {}, hints.map((h) => el('li', {}, el('strong', {}, h.criterion + ': '), 'A partial answer: ', inline(h.pointer), ' Aim past it.')))));
+    }
+    if (mistakes.length) parts.push(tier('Common mistakes to avoid', el('ul', {}, mistakes.map((m) => el('li', {}, inline(m))))));
+    if (tips.length) parts.push(tier('Tips for this lab', el('ul', {}, tips.map((t) => el('li', {}, inline(t))))));
+    parts.push(el('p', { class: 'muted small' }, 'Last resort: open the finished version below, after you have saved an attempt of your own.'));
+    return el('details', { class: 'lab-help' }, el('summary', {}, 'Stuck? Hints, common mistakes and tips'), ...parts);
   }
 
   /* ----- section tabs, editor, views ----- */

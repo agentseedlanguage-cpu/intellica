@@ -89,6 +89,7 @@ function buildLab(src, lessons, idOf) {
     const lesson = lessons.find((x) => x.id === idOf(l.title));
     steps.push({ id: idOf(l.title), title: l.lab.title, sections: [key], minutes: 20, brief: l.lab.intro,
       do: l.lab.tasks, done: [...l.rubric.map((r) => `${r.criterion}: ${r.competent}`), `Evidence: ${l.lab.evidence}`],
+      hints: l.rubric.map((r) => ({ criterion: r.criterion, nudge: r.competent, pointer: r.partial })), mistakes: l.rubric.flatMap((r) => [`${r.criterion}: ${r.missing}`, `${r.criterion}: ${r.partial}`]),
       experienced: 'Apply it to a real agent your organization runs, using the real tools, identities and data.', example: l.lab.model,
       free: lesson.free, lessonNum: lesson.num, lessonTitle: lesson.title,
       next: null });

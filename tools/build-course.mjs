@@ -175,6 +175,13 @@ function buildLessons(deck, freeIds, skip = []) {
 let base = '';
 let ENG = '/training/arc42/course'; // where this course's player files live
 let COPY = { noun: 'arc42', own: 'your own arc42', doc: 'Your arc42', file: 'arc42.md', extra: 'The Doubles-to-Go arc42 and working app, with its tests', labFor: 'Write your own arc42 documentation' };
+const LAB_TIPS = [
+  'Set a timer for the step and write a rough first version before you polish. A rough answer is easier to improve than a blank page.',
+  'Write for the next person who has to act on this, not for a marker. Use plain words and name things.',
+  'Stuck on your own system? Use the sample case in the worked example for this step, then come back to yours.',
+  'Prefer numbers, names and dates to adjectives. If you do not know a number, write your best estimate and label it as an estimate.',
+  'Save often. Your work stays in this browser only, so download your file at the end of every session.',
+];
 let LAB = null; // the hands-on lab (site/training/<id>/lab.json), loaded per workshop in the run block
 
 function page({ title, description, canonicalPath, body, bodyAttrs = '', extraHead = '' }) {
@@ -791,7 +798,7 @@ function buildOne({ w, c, deck, quiz, lab, key, engine = null, reading = null })
     fs.writeFileSync(path.join(out, 'data', 'lab-index.json'), JSON.stringify(idx));
     fs.writeFileSync(path.join(out, 'data', 'board-index.json'), JSON.stringify({ total: Object.values(QUIZ).reduce((n, q) => n + q.length, 0) }));
     for (const st of LAB.steps) {
-      const detail = { brief: st.brief, do: st.do, done: st.done, experienced: st.experienced || '', example: st.example !== undefined ? st.example : (EXAMPLES[st.sections[0]] || ''), exampleKey: st.sections[0] };
+      const detail = { brief: st.brief, do: st.do, done: st.done, experienced: st.experienced || '', hints: st.hints || [], mistakes: st.mistakes || [], tips: st.tips || LAB_TIPS, example: st.example !== undefined ? st.example : (EXAMPLES[st.sections[0]] || ''), exampleKey: st.sections[0] };
       const fid = `lab-${st.id}`;
       fs.writeFileSync(path.join(out, 'data', `${fid}.json`), JSON.stringify(st.free ? detail : encrypt(key, fid, detail)));
     }

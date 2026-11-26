@@ -64,10 +64,17 @@ code, pre { font-family: var(--font-mono); font-size: 0.9em; }
 .tabs a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 var(--s4); text-decoration: none; color: var(--muted); border-bottom: 3px solid transparent; white-space: nowrap; }
 .tabs a:hover { color: var(--text-hi); }
 .tabs a[aria-current="page"] { color: var(--text-hi); border-bottom-color: var(--accent); font-weight: 600; }
-.tr-strip { position: relative; }
-.tr-strip ul { scrollbar-width: thin; }
-.tr-strip a { min-height: 44px; padding: 0 var(--s3); font-size: var(--text-sm); }
-.tr-strip li:first-child a { color: var(--text); }
+.nav-drop-li { position: relative; }
+.nav-drop summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--s3); color: var(--text); border-bottom: 3px solid transparent; }
+.nav-drop summary::-webkit-details-marker { display: none; }
+.nav-drop summary::after { content: "\25BE"; margin-left: var(--s2); font-size: 0.8em; }
+.nav-drop summary:hover, .nav-drop[open] summary { color: var(--text-hi); }
+.nav-drop summary.is-current { color: var(--text-hi); border-bottom-color: var(--accent); font-weight: 600; }
+.nav-drop ul { position: absolute; left: 0; top: calc(100% + 6px); z-index: 30; display: block; margin: 0; padding: var(--s2); list-style: none; min-width: 260px; background: var(--card-hi); border: 1px solid var(--line-hi); border-radius: var(--r); }
+.nav-drop li a { display: flex; align-items: center; min-height: 44px; padding: 0 var(--s3); border-radius: 6px; border-bottom: 0; text-decoration: none; color: var(--text); }
+.nav-drop li a:hover { background: var(--card); color: var(--text-hi); }
+.nav-drop li a[aria-current="page"] { color: var(--accent-ink); font-weight: 600; }
+@media (max-width: 760px) { .nav-drop ul { right: auto; min-width: 230px; } .nav-drop summary { padding: 0 var(--s2); font-size: var(--text-sm); } }
 .status-strip { background: var(--bg); border-bottom: 1px solid var(--line); font-size: var(--text-sm); }
 .status-strip .container { display: flex; flex-wrap: wrap; gap: var(--s4); align-items: center; padding-block: var(--s2); }
 
@@ -382,3 +389,8 @@ body[data-tab="home"] .hero-copy { padding-top: var(--s5); }
   .family summary { padding-inline: var(--s3); }
 }
 @media (max-width: 400px) { .bar-right { flex-wrap: wrap; justify-content: flex-start; } .bar-nav a { padding: 0 var(--s2); } }
+/* Training dropdown: beat the .bar-nav row rules so the menu stacks */
+.bar-nav .nav-drop ul { display: block; gap: 0; }
+.bar-nav .nav-drop li { display: block; }
+.bar-nav .nav-drop li a { display: flex; width: 100%; white-space: nowrap; border-bottom: 0; padding: 0 var(--s3); }
+.bar-nav .nav-drop li a[aria-current="page"] { border-bottom: 0; }

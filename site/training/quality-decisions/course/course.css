@@ -324,3 +324,11 @@
 .reading { margin-top: var(--s6); max-width: 46rem; }
 .reading h2 { font-size: 1.3rem; margin: var(--s5) 0 var(--s2); }
 .reading p { line-height: 1.65; margin: 0 0 var(--s3); }
+
+/* cp40: lab help panel */
+.lab-help { margin: var(--s4) 0 0; border: 1px solid var(--line-hi); border-left: 4px solid var(--accent); border-radius: 4px; background: var(--card); padding: var(--s2) var(--s3); }
+.lab-help > summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; color: var(--text-hi); }
+.lab-tier { margin: var(--s2) 0; border-top: 1px solid var(--line); padding-top: var(--s2); }
+.lab-tier > summary { cursor: pointer; min-height: 40px; display: flex; align-items: center; color: var(--text); }
+.lab-tier-body { padding: 0 0 var(--s2); font-size: var(--text-sm); }
+.lab-tier-body ul { margin: 0; padding-left: 1.2em; display: grid; gap: var(--s2); }

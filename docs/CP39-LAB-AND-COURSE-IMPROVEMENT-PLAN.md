@@ -41,3 +41,14 @@ Guardrails: never claim a certificate is awarded by an agent; keep the 7-day ref
 
 ## 5. Next checkpoint order
 cp40: lab standard applied to Level 1 and Level 2 (needs course key). cp41: Levels 3 and cyber. cp42: Level 4 Agentic AI Architecture.
+
+## 6. Decisions taken 2026-11-26 (cp40)
+1. Level 4 Agentic AI Architecture: map to the seven topics of iSAQB AGENTA (read 2026-11-26 at isaqb.org: fundamentals; AI-assisted decisions; giving agents architectural knowledge; keeping agents aligned; architecture information extraction; governance and quality gates; the evolving discipline). Be more practical and more current than the module: a machine-readable architecture spec that a coding agent must obey, and a test that proves it. Independent study; no iSAQB credit, and only accredited providers may teach AGENTA for credit.
+2. Keep everything free for now and make it robust: scored checks are rule-based in the browser (no server, no spend). An agent-explained score waits until there is a spending cap.
+3. Sources read in full: AgentArcEval (arXiv 2510.21031, ATAM adapted to agents, 11 agent-specific scenarios, one qualitative case); Capilla et al. (arXiv 2603.28914, LLM on an ATAM exercise, preliminary). Leads not yet read: Open Agent Specification (arXiv 2510.04173), MCP and A2A governance, arXiv 2602.04445, 2603.07091, 2602.07609.
+4. Keys: the key stays in Codespaces. Run `npm run sync` there; source changes here are rebuilt and re-encrypted with the real key.
+
+## 7. Built in cp40
+- Training dropdown in the header (replaces the second header row).
+- Lab help panel in all four courses: hint 1 (questions from the rubric), hint 2 (what a partial answer looks like), common mistakes (the rubric's Missing and Partial descriptors), five tips, then the finished version as a last resort. Built from each step's rubric so it cannot drift from the marking criteria. Mastering arc42 shows tips only because its steps have no rubric yet.
+- Still to write by hand (cp41): per-step common-mistake examples, scored scenario and decision-record checks, Level 4.

@@ -32,6 +32,15 @@ if (!dry && (!process.env.CLOUDFLARE_API_TOKEN || !process.env.CLOUDFLARE_ACCOUN
   process.exit(2);
 }
 
+/* Which Pages project actually serves meeting-mind.com? Parsed from `wrangler pages project list`. Returns null if it cannot tell. */
+export function parseDomainProject(out, domain = 'meeting-mind.com') {
+  for (const line of String(out).split('\n')) {
+    const c = line.split(/[\u2502|]/).map((x) => x.trim()).filter(Boolean);
+    if (c.length >= 2 && !/project name/i.test(c[0]) && c.slice(1).some((x) => x.split(/[,\s]+/).includes(domain))) return c[0];
+  }
+  return null;
+}
+
 const run = (cmd, a, opts = {}) => {
   console.log(`\n$ ${cmd} ${a.join(' ')}`);
   if (dry) return { status: 0, stdout: '', stderr: '' };
@@ -48,7 +57,13 @@ if (!flags.includes('--no-gate')) {
 
 for (const t of targets) {
   const { dir } = cfg[t];
-  const project = projectOverride || cfg[t].project;
+  let project = projectOverride || cfg[t].project;
+  if (!dry && t === 'home' && !projectOverride) {
+    const l = spawnSync('npx', ['--yes', WRANGLER, 'pages', 'project', 'list'], { encoding: 'utf8', env: process.env });
+    const serving = parseDomainProject(`${l.stdout || ''}${l.stderr || ''}`);
+    if (serving && serving !== project) { console.log(`\nmeeting-mind.com is served by the Pages project "${serving}", not "${project}". Deploying to "${serving}".`); project = serving; }
+    else if (!serving) console.log('\nCould not tell which Pages project serves meeting-mind.com. After the upload the script checks the live site and says if it did not change.');
+  }
   if (!dry && !fs.existsSync(`${dir}/index.html`)) { console.error(`${dir}/index.html not found`); process.exit(1); }
   // create the project the first time; harmless if it exists
   const made = run('npx', ['--yes', WRANGLER, 'pages', 'project', 'create', project, '--production-branch', branch], { capture: true });
@@ -87,5 +102,18 @@ for (const t of targets) {
   if (secPlaceholder !== null) fs.writeFileSync(SEC_FILE, secPlaceholder);
   if (dep.status !== 0) { console.error(`\nDeploy of ${t} failed.`); process.exit(1); }
   console.log(`\n${t}: uploaded to the Pages project "${project}".`);
-  console.log('  Live at https://meeting-mind.com . Check https://meeting-mind.com/verify-site/ : it must say all files match.');
+  if (t === 'home' && !dry) {
+    // do not claim success until the live domain really serves what was just uploaded
+    const want = fs.readFileSync('dist/kit/VERSION', 'utf8').trim();
+    let got = '', ok = false;
+    for (let i = 0; i < 4 && !ok; i++) {
+      if (i) await new Promise((r) => setTimeout(r, 6000));
+      try { got = (await (await fetch(`https://meeting-mind.com/kit/VERSION?cb=${Date.now()}`, { cache: 'no-store' })).text()).trim(); ok = got === want; } catch (e) { got = String(e.message || e); }
+    }
+    if (ok) console.log(`  VERIFIED: https://meeting-mind.com serves kit version ${want}. Also check https://meeting-mind.com/verify-site/`);
+    else {
+      console.error(`\n  NOT LIVE YET: meeting-mind.com serves "${got.slice(0, 40)}" but the upload is kit version ${want}.\n  The domain is probably attached to a different Pages project. Run: npm run deploy:where\n  then: npm run deploy -- home --no-gate --project=<the project that lists meeting-mind.com>`);
+      process.exit(3);
+    }
+  } else console.log('  Check https://meeting-mind.com/verify-site/ : it must say all files match.');
 }

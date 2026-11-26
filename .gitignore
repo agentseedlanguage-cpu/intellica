@@ -8,3 +8,6 @@ dist/
 .wipay.json
 .pay.json
 .codes.log
+
+# Wrangler build leftovers
+.wrangler/

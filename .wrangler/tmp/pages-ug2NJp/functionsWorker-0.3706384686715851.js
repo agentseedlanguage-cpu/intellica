@@ -1333,7 +1333,7 @@ var onRequest2 = /* @__PURE__ */ __name((ctx) => handle3({ request: ctx.request,
 // api/pay/[[route]].js
 var onRequest3 = /* @__PURE__ */ __name((ctx) => handle2({ request: ctx.request, env: { ...ctx.env, SECRETS } }), "onRequest");
 
-// ../.wrangler/tmp/pages-8jejk5/functionsRoutes-0.4643783096775653.mjs
+// ../.wrangler/tmp/pages-ug2NJp/functionsRoutes-0.3174670255100218.mjs
 var routes = [
   {
     routePath: "/api/board/:route*",

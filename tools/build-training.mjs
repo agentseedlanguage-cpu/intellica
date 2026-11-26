@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { researchHtml, boardHtml } from './lab-html.mjs';
 import { page, esc, kicker, cols, base } from './training-shell.mjs';
-import { courseTiles, academiesBlock, catalogSections, certificateBlock, allLevels, levelPath } from './catalog-html.mjs';
+import { courseTiles, certificateBlock, allLevels, levelPath } from './catalog-html.mjs';
 
 const SITE = path.resolve('site');
 const catalog = JSON.parse(fs.readFileSync(path.join(SITE, 'training', 'catalog.json'), 'utf8'));
@@ -455,6 +455,72 @@ ${subnav(w, 'example/')}
   });
 }
 
+const DIFF = [
+  ['You build something real', 'One growing artefact per course: an architecture file, a decision record, a security assurance pack. You finish with work you can show a colleague, an employer or a client.'],
+  ['Labs that guide you', 'Each lab step comes with a brief, a template, snippets, a model solution and a rubric, so you are never facing a blank page.'],
+  ['Honest about status', 'Every page says what is open, what is planned and what a certificate does and does not mean. We are not an accredited provider and we never imply it.'],
+  ['Evidence, with dates', 'Lessons cite their sources and show when they were last reviewed. Where research is thin or not about adult professionals, we say so.'],
+  ['Practitioner built', 'The courses come from the same work that goes into our agent, security and architecture systems, not from a textbook summary.'],
+  ['Yours to keep', 'One payment, lifetime access to your edition and its updates, a 7-day refund window and free preview lessons so you can try before you pay.'],
+];
+const LABFLOW = [
+  ['1. Read the brief', 'What you are producing, why it matters and what done looks like.'],
+  ['2. Study the worked case', 'A finished example for a sample case, so you see the standard before you try.'],
+  ['3. Write your own', 'Work in the lab editor on your own system, starting from a template and snippets.'],
+  ['4. Compare', 'Open the model solution and see where yours differs and why.'],
+  ['5. Mark yourself', 'Score 0, 1 or 2 on four rubric criteria, then close the gaps you find.'],
+  ['6. Run the health check', 'A completeness check in your browser. Nothing is uploaded. Download the finished file at the end.'],
+];
+const TECH = [
+  ['Lab editor and health checks', 'Write in the browser, keep your progress on your device and run completeness checks locally. Your work is not sent to us.'],
+  ['Practice tools', 'Depending on the course: a scenario checker, a budget calculator, a policy tester and a trace spotter, all running in your browser.'],
+  ['Reference lab kit', 'The cyber security course includes a local lab (one Node file, no network, synthetic data) with seeded flaws to find and fix.'],
+  ['Mock exams', 'Level 1 includes three timed 40-question practice papers with a report by chapter and learning goal. They are original practice questions, not real exam questions.'],
+  ['Accessible lessons', 'Short slide lessons with a transcript for every slide, a read-aloud voice and recall questions that return for review.'],
+  ['Verifiable certificates', 'A credential ID and a public page that confirms completion under the published rule, shareable to LinkedIn or as a PDF.'],
+];
+const PROCESS = [
+  ['1. Research', 'We read the primary sources: standards, curricula, papers and incident reports, and register each with its version and date.'],
+  ['2. Design', 'We write outcomes first, then the lab that proves them, then the lessons that prepare you for it.'],
+  ['3. Check', 'Automated checks test counts, links, claims and wording before anything is published, so pages cannot disagree with the courses.'],
+  ['4. Publish and date', 'Each lesson shows its review date and each course keeps a changelog.'],
+  ['5. Update', 'Updates to your edition are free. Where a curriculum changes, such as the 2027 iSAQB release, we refresh the mapping before it applies.'],
+];
+const FAQ = [
+  ['Can I try before I pay?', 'Yes. Every open course has free preview lessons, and you can ask for a refund within 7 days of payment.'],
+  ['Is this an accredited qualification?', 'No. Completion certificates record that you met the published course rules. They are not iSAQB credentials, and no Intellica academy credential has been issued yet. Level 1 is independent self-study, not an iSAQB course.'],
+  ['How do I get access?', 'Pay by bank deposit from the course page, upload the receipt, and your access code opens the course. Keep the code private; it is personal.'],
+];
+const isLiveCourse = (c) => Boolean(c && c.course && c.course.enabled);
+function openNow() {
+  const arc = data.workshops[0];
+  const lv = catalog.ladder.levels;
+  const lessons = (c) => c.modules.reduce((n, m) => n + m.lessons.length, 0);
+  const cyber = catalog.series.courses.find((c) => c.id === 'cybersecurity');
+  const arcLessons = arc.course.modules.reduce((n, m) => n + m.lessons.length, 0);
+  const items = [
+    { tag: 'Software Architecture \u00b7 Level 1', title: lv[0].title, path: lv[0].path, price: lv[0].course.price.label, facts: [`${lessons(lv[0])} lessons`, `${lv[0].lab.steps.length}-step lab`, '3 mock exams'], lead: 'Describe, design and test software architecture, with exam-style practice if you want it.', free: lv[0].course.free.length },
+    { tag: 'Software Architecture \u00b7 Level 2', title: 'Mastering arc42', path: arc.path, price: arc.course.price.label, facts: [`${arcLessons} lessons`, 'Build your own arc42', 'Worked example'], lead: 'Document a real system with arc42, section by section, in a lab on your own document.', free: arc.course.free.length, course: true },
+    { tag: 'Software Architecture \u00b7 Level 3', title: lv[1].title, path: lv[1].path, price: lv[1].course.price.label, facts: [`${lessons(lv[1])} lessons`, `${lv[1].lab.steps.length}-step lab`, 'Scenario and budget tools'], lead: 'Turn vague goals into numbers, weigh options honestly and record the decisions.', free: lv[1].course.free.length },
+    { tag: 'Cyber Security for the AI Age \u00b7 Level 2', title: cyber.title, path: cyber.path, price: cyber.course.price.label, facts: [`${lessons(cyber)} lessons`, `${cyber.lab.steps.length}-step lab`, 'Local reference lab kit'], lead: 'Secure agents that read untrusted content, use tools, keep memory and run code.', free: cyber.course.free.length },
+  ];
+  return `<section class="t-block" id="courses" aria-labelledby="open-t">
+      <p class="eyebrow">Open now</p>
+      <h2 id="open-t">Four courses you can start today</h2>
+      <p class="sub">Each has free preview lessons, a guided lab and a verifiable completion certificate. The other levels in each academy are planned and marked as planned.</p>
+      <div class="open-grid">${items.map((c) => `
+        <article class="open-card">
+          <p class="cat-tag">${esc(c.tag)}</p>
+          <h3><a href="${c.path}">${esc(c.title)}</a></h3>
+          <p>${esc(c.lead)}</p>
+          <ul class="open-facts">${c.facts.map((x) => `<li>${esc(x)}</li>`).join('')}<li>${c.free} free preview lessons</li></ul>
+          <p class="open-price">${esc(c.price)}</p>
+          <div class="actions"><a class="btn btn-primary" href="${c.path}course/">Preview free lessons</a><a class="btn btn-ghost" href="${c.path}">See the course</a></div>
+        </article>`).join('')}
+      </div>
+    </section>`;
+}
+
 /* ---------- training index ---------- */
 
 function indexPage() {
@@ -476,31 +542,39 @@ function indexPage() {
       ${courseTiles(catalog, data.workshops[0])}
     </section>
 
-    <section class="t-strip" aria-label="What available courses provide"><dl>
-      <div><dt>Applied practice</dt><dd>in each available course</dd></div>
-      <div><dt>Course certificate</dt><dd>verifiable and shareable</dd></div>
-      <div><dt>Research-informed</dt><dd>versioned sources and review dates</dd></div>
-      <div><dt>Edition updates</dt><dd>included with enrolment</dd></div>
-    </dl></section>
+    ${openNow()}
 
-    <div class="t-hero-actions actions"><a class="btn btn-primary" href="#courses">Browse all courses</a><a class="btn btn-ghost" href="#live">Next live workshop</a><a class="btn btn-link" href="/training/my-courses/">I have an access code</a></div>
+    <div class="t-hero-actions actions"><a class="btn btn-primary" href="#courses">Start a course today</a><a class="btn btn-ghost" href="#different">How we are different</a><a class="btn btn-ghost" href="#live">Live workshops</a><a class="btn btn-link" href="/training/my-courses/">I have an access code</a></div>
 
-${academiesBlock(catalog, data.workshops[0])}
-
-${catalogSections(catalog, data.workshops[0], 1)}
-
-    <section class="t-block" id="live" aria-labelledby="ws-t">
-      ${kicker(2, 'Live workshops')}
-      <h2 id="ws-t">Instructor-led workshops</h2>
-      <p class="sub">Online courses are self-paced. Workshops are scheduled sessions with small groups, a real-world system, a printed workbook and dedicated time for questions. Each workshop builds on an online course, so participants can prepare in advance and continue practising afterwards.</p>
-      <div class="ws-list">${cards}
-      </div>
+    <section class="t-block" id="different" aria-labelledby="diff-t">
+      ${kicker(1, 'Why Intellica')}
+      <h2 id="diff-t">Training that ends with work you can show</h2>
+      <p class="sub">Most courses end with a certificate of attendance. Ours end with a document, a design or a security pack for a system you know, built step by step and checked as you go.</p>
+      <div class="cols c3">${DIFF.map(([h, t]) => `<div><h3>${esc(h)}</h3><p>${esc(t)}</p></div>`).join('')}</div>
     </section>
 
-${certificateBlock(catalog, 3)}
+    <section class="t-block" id="labs" aria-labelledby="labs-t">
+      ${kicker(2, 'Hands-on labs')}
+      <h2 id="labs-t">Inside a lab</h2>
+      <p class="sub">Every lesson is followed by a lab step. You write real work for your own system, never a throwaway exercise. Each step follows the same six moves, so you always know what to do next.</p>
+      <ol class="lab-flow">${LABFLOW.map(([h, t]) => `<li><strong>${esc(h)}</strong><span>${esc(t)}</span></li>`).join('')}</ol>
+      <p class="muted">A health check confirms the work is complete and free of placeholders and secrets. It does not judge whether your design is right; the rubric and model solution do that, and you mark yourself. We say so on every course page.</p>
+    </section>
 
-    <section class="t-block" aria-labelledby="how-t">
-      ${kicker(4, 'How we teach')}
+    <section class="t-block" id="technology" aria-labelledby="tech-t">
+      ${kicker(3, 'Technology')}
+      <h2 id="tech-t">Tools you run, not slides you watch</h2>
+      <div class="cols c3">${TECH.map(([h, t]) => `<div><h3>${esc(h)}</h3><p>${esc(t)}</p></div>`).join('')}</div>
+    </section>
+
+    <section class="t-block" id="process" aria-labelledby="proc-t">
+      ${kicker(4, 'Process')}
+      <h2 id="proc-t">How a course is made and kept current</h2>
+      <ol class="lab-flow">${PROCESS.map(([h, t]) => `<li><strong>${esc(h)}</strong><span>${esc(t)}</span></li>`).join('')}</ol>
+    </section>
+
+    <section class="t-block" aria-labelledby="how-t" id="how">
+      ${kicker(5, 'Pedagogy')}
       <h2 id="how-t">Every course follows the same loop</h2>
       ${cols(ix.principles, 'c4')}
       <div class="learning-evidence">
@@ -510,8 +584,24 @@ ${certificateBlock(catalog, 3)}
       <p class="pull">${esc(ix.honesty)}</p>
     </section>
 
+    <section class="t-block" id="live" aria-labelledby="ws-t">
+      ${kicker(6, 'Live workshops')}
+      <h2 id="ws-t">Instructor-led workshops</h2>
+      <p class="sub">Online courses are self-paced. Workshops are scheduled sessions with small groups, a real-world system, a printed workbook and dedicated time for questions. Each workshop builds on an online course, so you can prepare in advance and keep practising afterwards.</p>
+      <div class="ws-list">${cards}
+      </div>
+    </section>
+
+${certificateBlock(catalog, 7)}
+
+    <section class="t-block" id="faq" aria-labelledby="faq-t">
+      ${kicker(8, 'Before you enrol')}
+      <h2 id="faq-t">Straight answers</h2>
+      <div class="cols c3">${FAQ.map(([h, t]) => `<div><h3>${esc(h)}</h3><p>${esc(t)}</p></div>`).join('')}</div>
+    </section>
+
     <section class="t-block" aria-labelledby="team-t">
-      ${kicker(5, 'For teams')}
+      ${kicker(9, 'For teams')}
       <h2 id="team-t">Training a whole team?</h2>
       <p class="sub">We can run a workshop on your own system, or build a learning path across several courses for your staff. <a href="/consulting/">See how we work with teams</a>, or contact our team using the WhatsApp link.</p>
     </section>`;

@@ -109,6 +109,24 @@ function primaryNav(site) {
     el('li', {}, el('a', { href: l.href, 'aria-current': location.pathname.startsWith(l.href) ? 'page' : null }, l.label)))));
 }
 
+/* Every page under /training/ gets a second header row that links to all three academies. */
+const TRAINING_STRIP = [
+  { label: 'All training', href: '/training/', own: [], exact: true },
+  { label: 'Software Architecture', href: '/training/architecture-academy/', own: ['/training/architecture-academy/', '/training/software-architecture-foundations/', '/training/arc42/', '/training/quality-decisions/', '/training/agentic-architecture/', '/training/architecture-governance/', '/training/lead-architect/'] },
+  { label: 'Cyber Security for the AI Age', href: '/training/cybersecurity/academy/', own: ['/training/cybersecurity/'] },
+  { label: 'AI for Business', href: '/training/ai-business-academy/', own: ['/training/ai-business-academy/', '/training/ai-agents-business/', '/training/data-analytics/', '/training/software-development/', '/training/digital-marketing/', '/training/project-operations/', '/training/entrepreneurship/'] },
+  { label: 'My courses', href: '/training/my-courses/', own: ['/training/my-courses/'] },
+];
+function trainingStrip() {
+  const p = location.pathname.replace(/index\.html$/, '');
+  if (!p.startsWith('/training/')) return null;
+  const here = TRAINING_STRIP.find((t) => t.exact ? p === t.href : t.own.some((x) => p.startsWith(x)));
+  return el('nav', { class: 'tabs tr-strip', 'aria-label': 'Training academies' },
+    el('div', { class: 'container' },
+      el('ul', {}, TRAINING_STRIP.map((t) =>
+        el('li', {}, el('a', { href: t.href, 'aria-current': t === here ? 'page' : null }, t.label))))));
+}
+
 function renderHeader(site, family, page) {
   const host = $('#shell-header');
   if (!host) return;
@@ -120,6 +138,8 @@ function renderHeader(site, family, page) {
         el('a', { class: 'brand', href: '/', 'aria-label': 'Intellica, home' }, brandLogo()),
         BASE ? el('a', { class: 'product-name', href: u('/'), 'aria-label': `${site.name}, overview` }, site.name) : null),
       el('div', { class: 'bar-right' }, primaryNav(site), familyMenu(site, family), contactButton(site, family)))));
+
+  parts.push(trainingStrip());
 
   const tabs = (site.tabs || []).filter((t) => TABS[t]);
   if (tabs.length) {

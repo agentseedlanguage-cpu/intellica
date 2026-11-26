@@ -212,7 +212,7 @@ export function courseTiles(catalog, arc) {
       <p class="hero-card-kicker">${esc(label)}</p><h2 class="hero-card-title" id="${id}"><a href="${href}">${esc(title)}</a></h2><p class="hero-card-lead">${esc(lead)}</p>
       <div class="tiles">${tiles.join('')}</div>
       <a class="btn btn-primary tile-cta" href="${href}">${esc(cta)}</a></section>`;
-  const architecture = architectureLevels.map((l) => tile(l.path, `L${l.n}`, l.short));
+  const architecture = architectureLevels.map((l) => tile(l.path, `L${l.n}`, l.short, (l.live || (l.course && l.course.enabled)) ? 'Online course' : ''));
   const cyber = CYBER_LEVELS.map((l) => tile(l.n === 2 ? '/training/cybersecurity/' : `${cyberAcademy.path}${l.id}/`, `L${l.n}`, l.short === 'Understand' || l.n !== 2 ? l.short : 'Application Cyber Security', l.n === 2 ? '28-lesson online course' : ''));
   const bizTiles = biz.courses.map((id) => { const c = catalog.series.courses.find((x) => x.id === id); return tile(c.path, '', c.short); });
   return `<nav class="hero-tiles" aria-label="The three academies">

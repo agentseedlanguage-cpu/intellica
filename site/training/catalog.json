@@ -447,6 +447,10 @@
           {
             "title": "Document for agents",
             "text": "Write architecture notes that people and coding agents can both read."
+          },
+          {
+            "title": "Keep agents inside the design",
+            "text": "Turn architecture rules into checks, so a coding agent cannot quietly break them."
           }
         ],
         "modules": [
@@ -454,47 +458,60 @@
             "title": "Agents as components",
             "note": "What an agent is, architecturally.",
             "lessons": [
-              "Workflows and agents: choosing between them",
-              "Tools as contracts",
-              "Levels of autonomy",
-              "Context and memory"
+              "Workflows, assistants and agents: choosing the shape",
+              "The agentic loop and tools as contracts",
+              "Levels of autonomy and the human in the loop",
+              "Context and memory as architecture"
             ]
           },
           {
-            "title": "Designing agent systems",
-            "note": "Patterns, limits and failure.",
+            "title": "Deciding with AI",
+            "note": "Use AI to widen your options without handing over the decision.",
             "lessons": [
-              "Orchestration patterns",
-              "Human approval and handover",
+              "Decisions as testable hypotheses",
+              "Design exploration with AI: options, drivers and review points"
+            ]
+          },
+          {
+            "title": "Knowledge and control for coding agents",
+            "note": "Make the architecture something an agent can read and cannot quietly break.",
+            "lessons": [
+              "Architecture knowledge agents can read: decision records, rules and specifications",
+              "Delivering knowledge at the right moment: retrieval, skills and tool servers",
+              "A harness of preventive and detective controls",
+              "Architecture tests and drift checks in the pipeline",
+              "Extracting architecture from existing code, and checking what the agent found"
+            ]
+          },
+          {
+            "title": "Running agent systems you can trust",
+            "note": "Patterns, limits, evidence and responsibility.",
+            "lessons": [
+              "Orchestration patterns and when multi-agent designs help",
               "Failure modes, retries and cost budgets",
-              "Multi-agent systems: when they help and when they do not"
-            ]
-          },
-          {
-            "title": "Making them trustworthy",
-            "note": "Evidence, visibility and safety.",
-            "lessons": [
-              "Evaluation plans",
-              "Observability and tracing",
-              "Security boundaries and prompt injection",
-              "Documenting an agent architecture"
+              "Evaluation plans and tracing",
+              "Governance, law and safe integrations",
+              "Keeping judgment: ownership, skill and the architect's changing role"
             ]
           }
         ],
         "lab": {
           "title": "Your agent system design",
-          "text": "Design and document an agent system for a real task in your own field, with limits you can defend.",
+          "text": "Design and document an agent system for a real task in your own field, then write the rules and tests that keep an agent inside your design.",
           "steps": [
             "Describe the task and decide workflow or agent",
             "Define the tools and their contracts",
             "Set permissions, budgets and approval points",
             "Design the memory and context",
-            "Write the evaluation plan",
+            "Write the machine-readable architecture rules an agent must follow",
+            "Write the tests or checks that prove each rule, or mark it as a human review",
+            "Write the evaluation and tracing plan",
             "Write the architecture note an agent could read"
           ],
           "checks": [
             "Every tool has a contract and a permission",
             "There is a stated limit on cost and on actions",
+            "Every rule names the check that verifies it, or says a person reviews it",
             "The evaluation plan names a measurable pass mark"
           ],
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
@@ -502,8 +519,8 @@
         "path": "/training/agentic-architecture/",
         "benchmark": {
           "label": "iSAQB CPSA-A AGENTA — Architecture for Agentic Software Engineering Contexts",
-          "url": "https://www.isaqb.org/certifications/cpsa-certifications/advanced-level/",
-          "note": "The published module awards 10 technological and 20 methodical credit points within the CPSA-A scheme. Intellica's level is independently designed and does not confer iSAQB credit or accreditation."
+          "url": "https://www.isaqb.org/certifications/cpsa-certifications/cpsa-advanced-level/agenta-architecture-for-agentic-engineering-contexts/",
+          "note": "Read 2026-11-27 (curriculum 2026.1-rev5, 31 July 2026): seven sections, 34 learning goals, 15 hours with at least three days of training, 10 technological and 20 methodical credit points within the CPSA-A scheme. Intellica's level is independently designed and does not confer iSAQB credit or accreditation. Only providers accredited by iSAQB can teach the module for credit."
         }
       },
       {

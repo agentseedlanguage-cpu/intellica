@@ -1,3 +1,10 @@
+# Checkpoint 41: Level 4 outline rebuilt against AGENTA, source register, research brief
+
+**Level 4 outline.** Rebuilt against the official iSAQB AGENTA curriculum (2026.1-rev5, read 2026-11-27): 4 modules, 16 lessons, 8 lab steps, a new health check ("every rule names the check that verifies it, or says a person reviews it"). Still "In development": no course, no price, no credential.
+**Academy pages.** Level 4 mapping states what was read; source register adds S13 to S17 (AGENTA, MCP update press report, focus group, A-SAW, harness study) and corrects S8.
+**Plan.** `docs/CP41-RESEARCH-AND-BUILD-PLAN.md`: deploy path to meeting-mind.com, sources and their limits, changes for Levels 1 to 3, Level 4 design.
+**Not changed.** Lesson text, encrypted data, payments, keys, certificates. Checks and tests pass; browser test not run.
+
 # Checkpoint 38: Training page restructured around three academies
 
 **Training page.** The hero is now a small title, "Choose your academy", with three equal cards first: Software Architecture, Cyber Security for the AI Age, and AI for Business. Each card lists its six levels or courses and has its button at the bottom. The four fact boxes come next, then the page buttons. The long title and write-up are gone.

@@ -491,7 +491,7 @@
               "Failure modes, retries and cost budgets",
               "Evaluation plans and tracing",
               "Governance, law and safe integrations",
-              "Keeping judgment: ownership, skill and the architect's changing role"
+              "Keeping judgment: ownership, skill and the architect’s changing role"
             ]
           }
         ],
@@ -499,19 +499,27 @@
           "title": "Your agent system design",
           "text": "Design and document an agent system for a real task in your own field, then write the rules and tests that keep an agent inside your design.",
           "steps": [
-            "Describe the task and decide workflow or agent",
+            "Describe the task and decide the shape",
             "Define the tools and their contracts",
             "Set permissions, budgets and approval points",
             "Design the memory and context",
+            "Turn three decisions into testable hypotheses",
+            "Explore design options with AI and review them",
             "Write the machine-readable architecture rules an agent must follow",
-            "Write the tests or checks that prove each rule, or mark it as a human review",
+            "Design delivery of knowledge and test it",
+            "Design the harness: a matrix of controls",
+            "Write the tests that prove each rule, or mark it as a human review",
+            "Extract an architecture view and verify what the agent found",
+            "Choose an orchestration pattern and contain failure between agents",
+            "Design failures, retries and cost budgets",
             "Write the evaluation and tracing plan",
-            "Write the architecture note an agent could read"
+            "Write the governance and safe-integration record",
+            "Assign ownership and adoption, then write the architecture note an agent could read"
           ],
           "checks": [
-            "Every tool has a contract and a permission",
+            "Every tool has a contract, a class and an enforced limit",
+            "Every rule names the check that verifies it, or a named reviewer",
             "There is a stated limit on cost and on actions",
-            "Every rule names the check that verifies it, or says a person reviews it",
             "The evaluation plan names a measurable pass mark"
           ],
           "intro": "One project, built in steps after each lesson. Each step has instructions, a finished example, a health check, and saves on your device."
@@ -521,6 +529,89 @@
           "label": "iSAQB CPSA-A AGENTA — Architecture for Agentic Software Engineering Contexts",
           "url": "https://www.isaqb.org/certifications/cpsa-certifications/cpsa-advanced-level/agenta-architecture-for-agentic-engineering-contexts/",
           "note": "Read 2026-11-27 (curriculum 2026.1-rev5, 31 July 2026): seven sections, 34 learning goals, 15 hours with at least three days of training, 10 technological and 20 methodical credit points within the CPSA-A scheme. Intellica's level is independently designed and does not confer iSAQB credit or accreditation. Only providers accredited by iSAQB can teach the module for credit."
+        },
+        "course": {
+          "enabled": true,
+          "headline": "Design agent systems you can trust, and rules a coding agent cannot quietly break.",
+          "lead": "Sixteen lessons on choosing between workflows and agents, writing tools as contracts, setting autonomy and approval, giving coding agents architecture knowledge they can read, and turning rules into checks. Each lesson has four slides you control, a field guide, a worked case, three recall questions and a lab. Across the sixteen labs you build one agent system design, with the rules and checks that keep an agent inside it.",
+          "honesty": "This is self-study: slides, a field guide, a worked case and a lab for every lesson, marked against a rubric you apply yourself. Its topics are informed by the public iSAQB AGENTA curriculum, but it is not AGENTA training, it gives no iSAQB credit and it is not an accredited qualification. Intellica is not an iSAQB accredited training provider. Legal topics are orientation, not legal advice. Facts were read on the dates shown in each lesson; research cited is early and mostly preprints.",
+          "free": [
+            1,
+            7
+          ],
+          "method": [
+            {
+              "title": "Short lessons you control",
+              "text": "Four focused slides a lesson, each with a transcript. Move at your own pace and go back whenever you like."
+            },
+            {
+              "title": "One growing design",
+              "text": "After every lesson a lab asks you to produce real work for your own agent system: shape decision, tool contracts, approvals, memory, rules, checks, evaluation, governance. The sixteen answers join into one design you download at the end."
+            },
+            {
+              "title": "Rules with checks",
+              "text": "You write architecture rules in a form an agent can read, and every rule must name the test that verifies it or the person who reviews it. A rules checker tells you which rules are finished."
+            },
+            {
+              "title": "Built on current sources",
+              "text": "The lessons follow the seven topics of the iSAQB AGENTA curriculum (2026.1) and the AI chapter of the 2027.1 Foundation release candidate, and cite 2026 research with its limits stated."
+            },
+            {
+              "title": "Practice tools you can run",
+              "text": "A rules checker and a tool contract checker run in your browser. They check structure, not wisdom, and say so."
+            },
+            {
+              "title": "Mark your own work",
+              "text": "Each lab has a model solution and a four-criterion rubric. Score yourself 0, 1 or 2 on each, then close the gaps."
+            },
+            {
+              "title": "Pause and recall",
+              "text": "Three questions at the end of each lesson, with the reason for each answer. Your progress is stored in this browser only."
+            }
+          ],
+          "evidence": [
+            "Retrieval practice and spacing are among the best-studied learning techniques, so each lesson ends by asking what you remember before it shows you."
+          ],
+          "faq": [
+            {
+              "q": "Who is this for?",
+              "a": "Developers and architects who add AI agents to products, or who let coding agents change a codebase, and need to decide how much to trust them and how to stop them breaking the design."
+            },
+            {
+              "q": "Do I need Level 3, Quality, Decisions and Evaluation?",
+              "a": "No, but you should be comfortable with quality goals, scenarios and decision records. The lab builds on a system you can describe in detail."
+            },
+            {
+              "q": "Is this iSAQB AGENTA training?",
+              "a": "No. It covers similar topics but it is independent self-study. It gives no iSAQB credit, and only iSAQB accredited providers can teach AGENTA for credit. Intellica is not one."
+            },
+            {
+              "q": "Do I need to write code?",
+              "a": "You will write rules, contracts and plans. For the check-writing lab you describe real tests; a short script or configuration in your own language is best, but the course does not require a particular language."
+            },
+            {
+              "q": "How do I get access?",
+              "a": "Pay by bank deposit from the buy button on this page, then upload a photo of the receipt. If the automatic check reads it cleanly, your course opens at once. If it cannot read the receipt, your course still opens at once as provisional access and the owner is told to check it against the bank statement; if the payment cannot be confirmed, access is closed again. Your access code is a decryption key and cannot be recalled once issued, so keep it private."
+            },
+            {
+              "q": "Can I share my code?",
+              "a": "Please do not. The code is personal and your name appears on every lesson."
+            },
+            {
+              "q": "What about refunds?",
+              "a": "Free lessons come first, so you can try before you pay. You can ask for a refund within 7 days of payment by WhatsApp, saying why, and we repay the account you paid from within 10 business days. After a refund your access code is withdrawn and you agree to stop using the course. No refund once you have claimed a certificate. If the course does not work as described and we cannot fix it, you get a full refund even after 7 days."
+            }
+          ],
+          "preview": {
+            "lesson": 1,
+            "slide": 3
+          },
+          "price": {
+            "label": "US$249",
+            "ttd": 1749,
+            "note": "One payment. Visitors in Trinidad and Tobago pay TT$1,749 by bank deposit."
+          },
+          "priceNote": "Lifetime access to this edition and every update to it. Includes all lessons, all labs and the model solutions."
         }
       },
       {
@@ -1477,7 +1568,7 @@
     "software-architecture-foundations": 149,
     "arc42": 129,
     "quality-decisions": 199,
-    "agentic-architecture": 299,
+    "agentic-architecture": 249,
     "architecture-governance": 299,
     "lead-architect": 399,
     "architecture-bundle": 999,

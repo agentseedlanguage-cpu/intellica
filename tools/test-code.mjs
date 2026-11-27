@@ -10,6 +10,6 @@ assert.equal(a.b, 'Ada'); assert.equal(a.k, master.toString('base64url'));
 assert.equal(c.k, deriveKey(master, 'cybersecurity').toString('base64url'));
 assert.notEqual(a.k, c.k);
 assert.throws(() => makeCode('nope', 'x', master), /Unknown course/);
-assert.deepEqual(Object.keys(COURSES), ['arc42', 'cybersecurity', 'software-architecture-foundations', 'quality-decisions']);
+assert.deepEqual(Object.keys(COURSES), ['arc42', 'cybersecurity', 'software-architecture-foundations', 'quality-decisions', 'agentic-architecture']);
 assert.equal(dec(makeCode('quality-decisions', 'Q', master)).k, deriveKey(master, 'quality-decisions').toString('base64url'));
 console.log('code command: ok');

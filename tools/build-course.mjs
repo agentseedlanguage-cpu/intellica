@@ -869,6 +869,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     COPY = q2.COPY;
     buildOne({ w: lv.w, c: lv.c, deck: lv.deck, quiz: lv.quiz, lab: lv.lab, key: deriveKey(master, q2.ID), engine: (out) => q2.writeEngine(out, lv.w, SITE), reading: lv.reading });
   }
+  // Level 4, Agentic AI Architecture: built from training-private/agentic-architecture (see tools/agent-course.mjs)
+  const a4 = await import('./agent-course.mjs');
+  const ag = a4.load(SITE);
+  if (ag) {
+    EXAMPLES = {};
+    COPY = a4.COPY;
+    buildOne({ w: ag.w, c: ag.c, deck: ag.deck, quiz: ag.quiz, lab: ag.lab, key: deriveKey(master, a4.ID), engine: (out) => a4.writeEngine(out, ag.w, SITE), reading: ag.reading });
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}` && BUILT.length) {

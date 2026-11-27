@@ -1,3 +1,11 @@
+# Checkpoint 42: Level 4 Agentic AI Architecture built (first edition)
+
+**Course.** 16 lessons, 16 lab steps with model answers and rubrics, 48 recall questions, lessons 1 and 7 free. Rules checker and tool contract checker. Health check has six checks, including "every rule names VERIFIED_BY or REVIEWED_BY". Price US$249 / TT$1,749. Source in `training-private/agentic-architecture/`.
+**Wiring.** `tools/agent-course.mjs`, `tools/build-course.mjs`, `worker/pay-api.js`, `worker/cert-api.js`, `tools/code.mjs`, `tools/test-agent.mjs` (added to `npm test`).
+**Academy.** Level 4 live; live lessons counted from the catalogue (69 live, 24 outlined); roadmap, gap G11 and source S18 added.
+**Not done.** 82 extra Level 1 questions (files not in the repo), improvements to Levels 1 to 3, Level 5 build. See `docs/CP42-LEVEL-4-AND-NEXT-PLAN.md`.
+**Deploy.** `npm run deploy -- home` builds the Level 4 course files with your key; commit them afterwards.
+
 # Checkpoint 41: Level 4 outline rebuilt against AGENTA, source register, research brief
 
 **Level 4 outline.** Rebuilt against the official iSAQB AGENTA curriculum (2026.1-rev5, read 2026-11-27): 4 modules, 16 lessons, 8 lab steps, a new health check ("every rule names the check that verifies it, or says a person reviews it"). Still "In development": no course, no price, no credential.

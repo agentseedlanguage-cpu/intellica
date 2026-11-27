@@ -14,6 +14,7 @@ export const COURSES = {
   cybersecurity: { title: 'Application Cyber Security for Agentic Environments, online course', path: '/training/cybersecurity/course/' },
   'software-architecture-foundations': { title: 'Software Architecture Foundations, online course', path: '/training/software-architecture-foundations/course/' },
   'quality-decisions': { title: 'Quality, Decisions and Evaluation, online course', path: '/training/quality-decisions/course/' },
+  'agentic-architecture': { title: 'Agentic AI Architecture, online course', path: '/training/agentic-architecture/course/' },
 };
 
 export function makeCode(course, name, master) {

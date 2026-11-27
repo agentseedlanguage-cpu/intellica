@@ -1,33 +1,22 @@
 # 7. Deployment view
 
-## 7.1 Layout
+## 7.1 Infrastructure
 
-| Cloudflare Pages project | Repo | Root directory | Output | Domain |
-| --- | --- | --- | --- | --- |
-| intellica | IntellicaWeb | (repo root) | `site` | `meeting-mind.com` |
-| verichain | verichain | (repo root) | `site` | `verichain.meeting-mind.com` |
-| vericrypt | vericrypt | (repo root) | `site` | `vericrypt.meeting-mind.com` |
-| sovereign-erp | Sovereign-ERP | (repo root) | `site` | `erp.meeting-mind.com` |
-| omc | Operating-Margin-Controller- | (repo root) | `site` | `omc.meeting-mind.com` |
-| agentseed | agentseed (agentseedlanguage-cpu) | (repo root) | `site` | `agentseed.meeting-mind.com` |
+| Node | What runs | Managed in |
+|---|---|---|
+| Cloudflare Pages project `intellica-web` | Static files from `dist/` and Functions from `functions/` | Wrangler direct upload (code); dashboard (domain, bindings) |
+| D1 database | Tables for purchases, codes, certificates, board | Dashboard |
+| Workers AI | Vision model | Dashboard binding `AI` |
+| GitHub | Source, CI (`.github/workflows/check.yml` runs `npm run verify`) | Repository |
+| Owner machine | Course key, API token, deploys | Local |
 
-Build command: none. Framework preset: none.
+There is exactly one production target: `home` in `tools/deploy.config.json` = `{dir:'dist', project:'intellica-web'}`.
 
-## 7.2 DNS
+## 7.2 The one allowed deploy path
+`npm run deploy -- home` (branch main, project from config). Safeguards in `deploy.mjs` (cp43): a non-main branch needs `--preview`; another project needs `--allow-other-project`; a checkout behind `origin/main` is refused; success is claimed only when the live manifest root hash equals the upload. Branch main of the production project is the production deployment; any other branch or project yields a separate `*.pages.dev` address that visitors do not use. Past mistakes came from uploading to such addresses.
 
-- Keep the existing MX and TXT records.
-- Attach the apex to the Intellica project first, then add each subdomain from its own project (Custom domains tab).
-- Remove the old MeetingMind project's domain binding before attaching.
+## 7.3 Secrets during deploy
+`worker/secrets.js` (`SECRETS = null`) and `worker/proof.js` (`PROOF = ''`) are committed as placeholders. The deploy tool writes the real values, uploads, then restores the placeholders. Risk R-03: an interrupted deploy can leave real values in the working tree. Proposed fix (ADR-016): read secrets from Pages environment bindings only, so no file is rewritten.
 
-## 7.3 Cutover
-
-1. Upload this repo to `IntellicaWeb`; check the gate passes.
-2. Create the Pages project; confirm the preview URL looks right.
-3. Run `npm run legacy -- <old web folder>` so the old sector pages keep working under `/legacy/`.
-4. Move the domain: detach from the old project, attach to the new one.
-5. Repeat per product when its repo has pages.
-6. Retire the old MeetingMind repo.
-
-## 7.4 Rollback
-
-Cloudflare Pages keeps prior deployments; roll back to the previous one from the dashboard.
+## 7.4 Not in code
+D1 schema, bindings, custom domain attachment and the API token are in the dashboard/owner machine with no infrastructure-as-code (risk R-02). A `wrangler.toml` plus migrations folder is proposed (ADR-017).

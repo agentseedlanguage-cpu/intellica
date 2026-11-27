@@ -1,38 +1,32 @@
 # 1. Introduction and goals
 
+Amended at cp43 (2026-11-27). Method: arc42 template; decisions as ADRs (section 9); quality model ISO/IEC 25010; documentation viewpoints aligned with ISO/IEC/IEEE 42010. The previous edition described a subdomain-per-product site with no backend. It was written early and no longer matches the system. See `13-amendment-log.md`.
+
 ## 1.1 Requirements overview
 
-The Intellica web system is the public face of five products: **VeriChain**, **VeriCrypt**, **Sovereign ERP**, **OMC** and **AgentSeed**. It is one company home plus one site per product, all served under a single domain, `meeting-mind.com`.
+Intellica publishes one website at meeting-mind.com that does four jobs:
+1. Company home and product sites (verichain, vericrypt, sovereign-erp, omc, agentseed) under one domain.
+2. Training: free lessons and paid, encrypted online courses, with practice tools, self-reported certificates and a leaderboard.
+3. Academies (architecture, cyber, AI business) that organise the courses into levels with honest status, evidence and gaps.
+4. Selling: price list, bank-deposit purchase, receipt reading, owner approval, access codes.
 
-Each product site works like a small company page. It has six tabs:
+Everything a visitor sees must be checkable: the site publishes a fingerprint of every file (`site-manifest.json`, `/verify-site/`), loads nothing from third parties, and states honestly what is live, planned or unreviewed.
 
-| Tab | Purpose |
-| --- | --- |
-| Overview | What the product is, who it is for, how to verify a claim yourself |
-| Demo | A browser-run demo of the product (engine supplied by the product's own repo) |
-| Download | Binaries with checksums, driven by `downloads.json` |
-| Docs | User manual, installation manual, reference, architecture (Diátaxis groups) |
-| Verify | How to reproduce a result without trusting Intellica |
-| Support | Contact and support entry point |
+## 1.2 Quality goals (top five, in order)
 
-The company home at the apex routes visitors by role and lists the five products.
-
-## 1.2 Quality goals
-
-| Priority | Goal | Meaning |
-| --- | --- | --- |
-| 1 | Verifiability | Every page says how to check a claim yourself; the site itself loads nothing from third parties |
-| 2 | Independence of products | Each product repo, site and release cycle stands alone |
-| 3 | Consistency | One shell, one set of tokens; products differ by accent and content only |
-| 4 | Accessibility | WCAG 2.2 AA, keyboard-first, reduced motion respected |
-| 5 | Speed | LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1 on a mid-range phone |
-| 6 | Low cost | Static hosting, one domain, no paid services required |
+| # | Goal | Meaning here |
+|---|---|---|
+| 1 | Trustworthiness | No false claims: statuses, credentials, prices and counts are derived from data and checked by tests. |
+| 2 | Integrity of delivery | What is deployed to meeting-mind.com is exactly what was built and verified; no preview or stray sites. |
+| 3 | Confidentiality of paid content and keys | Lessons are encrypted at rest in git; keys and bank-flow secrets never enter the repository. |
+| 4 | Changeability by independent workstreams | One academy can be built in one chat or by one person without breaking another. (Currently weak: see sections 5 and 11.) |
+| 5 | Simplicity and low running cost | Static files, one hosting project, three small APIs, no framework, no runtime dependencies. |
 
 ## 1.3 Stakeholders
 
-| Stakeholder | Expectation |
-| --- | --- |
-| Visitors (CISO, CFO, auditor, agent builder, partner) | Find their product in one click, try it, verify it |
-| Owner (Intellica) | One place to keep consistent; no extra domains |
-| Product chats / repos | A clear contract for demo, downloads, docs |
-| Regulators and auditors | Reproducible verification steps |
+| Role | Interest |
+|---|---|
+| Owner (single maintainer) | Builds, commits and deploys; wants fast, safe checkpoints. |
+| Learners and buyers | Accurate content, working access codes, fair prices. |
+| Reviewers and partners | Verifiable claims; honest status. |
+| AI assistants (chat sessions) | Need a short, current state document and clear boundaries (`CLAUDE.md`). They are treated as contributors with no memory between chats. |

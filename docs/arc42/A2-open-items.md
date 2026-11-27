@@ -1,4 +1,4 @@
-# Appendix B. Open items
+# Appendix B. Open items (product items; system items are in section 11 and ADR-015 to 019)
 
 1. Sovereign ERP arc42 file (repo is empty).
 2. (Resolved) OMC is Operating-Margin Controller.

@@ -1,14 +1,11 @@
 # 4. Solution strategy
 
 | Goal | Approach |
-| --- | --- |
-| Consistency across five repos | A shared **kit** (CSS tokens, shell, helpers) copied into each repo by a sync script, with a hash manifest that flags hand edits |
-| Independence | Each product is a standalone static site; it works with only its own files |
-| Safety | No inline script or style; strict CSP; JSON data is inserted as text; Markdown is escaped before rendering |
-| Content without code | `site.json`, `downloads.json`, `docs.json` and Markdown files drive every page |
-| Demos from product chats | A **mount contract**: `export async function mount(root, ctx)` returns `{ unmount() }`. The shell supplies the frame |
-| Honesty before engines exist | A labeled placeholder demo so pages are never empty or misleading |
-| Verifiability | A Verify tab per product and a "Run it yourself" command panel in each demo |
-| Speed | Static files, no framework, system fonts, wasm loaded only on `/demo/*` |
+|---|---|
+| Trustworthiness | Data-driven pages (catalogue, academy data) plus checks that fail the build when text and data disagree (`check*.mjs`, per-course tests). |
+| Integrity of delivery | One `dist/` build, a content fingerprint (`site-manifest.json`), a single deploy command that verifies the live fingerprint (ADR-004, ADR-014). |
+| Confidentiality | AES-256-GCM lesson files; keys derived per course; secrets injected only into the uploaded Function and restored (ADR-007, ADR-016). |
+| Changeability | Course engine pattern: one engine, many course modules (ADR-008). Academy ownership and a registry are proposed to remove shared-file collisions (ADR-015, ADR-018). |
+| Simplicity | Plain Node scripts, no framework, static output, three small APIs. |
 
-Key decisions are recorded in chapter 9.
+Key shape: build time does the heavy work (generate, encrypt, prerender, fingerprint); run time is static files plus three small APIs.

@@ -1,27 +1,21 @@
 # 11. Risks and technical debt
 
-| ID | Item | Mitigation |
-| --- | --- | --- |
-| R1 | Kit copies drift between repos | Manifest and `npm run check`; keep versions in `VERSION` |
-| R2 | Placeholder demos left in place | Label is visible; `CONTENT-TODO.md` tracks each product |
-| R3 | Sovereign ERP has no arc42 yet | Page shows only what is defined; fill when arc42 exists |
-| R4 | Legacy pages need a loose CSP | Confined to `/legacy/*`; rebuild pages over time |
-| R5 | Domain moves can break email | Keep MX/TXT records; change only web records |
-| R6 | Support chat has no owner or backend | Support tab is a contact page until decided |
-| R7 | Binary hosting undecided | Download tab links to wherever files live; checksums required |
-| R8 | Products' verify commands not confirmed | Marked in `CONTENT-TODO.md` |
-| R9 | Hand-written Markdown renderer | Tested; escapes first; keep scope small |
-| R10 | A product's marketing text runs ahead of its claims registry (VeriCrypt) | Site follows `CLAIMS.md`; revisit when the registry changes |
-| R11 | Product statuses go stale | Status is one field per product in `family.json` and `site.json`; update at each checkpoint |
-| R12 | Cloudflare features rewrite pages and inject scripts | Turn off Email Address Obfuscation and Rocket Loader (and Auto Minify where it exists); Verify-this-site shows it if they are on |
-| R13 | Manifest and files drift if someone edits without syncing | The gate runs sync first; the browser audit checks every site's manifest |
-| R14 | The same-origin manifest cannot expose a compromised host | Stated on the page; compare the root hash with the repository copy. A signed manifest (SLH-DSA, via VeriCrypt's tooling) is a future option |
-| R15 | Briefs go stale | Regenerate each checkpoint; product chats are authoritative |
-| R16 | A path missing from `_headers` is served without a Content-Security-Policy (as `/verify-site/` was) | Browser audit checks every HTML page of every site for a strict policy |
-| R17 | The slide deck, which holds all course content, is reachable by anyone who learns its unlisted address | Put `/training/arc42/deck-*` behind Cloudflare Access (free for up to 50 users) or do not deploy it; the course gates only the course pages |
-| R18 | A buyer shares their access code | Name shown on every lesson; re-encrypt with a new key and re-issue codes if it spreads (needs `COURSE_KEY` rotation) |
-| R19 | The course key is lost, or changed by accident | Back it up when first created; changing it locks out every existing buyer. Stored in `.course-key` (git-ignored) or the `COURSE_KEY` secret |
-| R20 | Browser read-aloud voices are poor on some devices | Offer recorded audio per slide (`course/audio/<lesson>/NN.mp3`); the transcript is always there |
-| R21 | A certificate is read as proof of skill, but it attests a self-reported record (ADR-34) | The scope statement says self-reported, not proctored and not accredited; the test fails if it is removed. If employers start relying on it, add human-marked lab review before claiming more |
-| R22 | Revoking a buyer or rotating the course key is not possible per buyer: the access code is the decryption key | Name on every lesson; rotate the key and re-issue codes only if a code spreads. Documented in R18 and R19 |
-| R23 | The Rego policy for the cybersecurity course is mirrored in JavaScript and could drift | `tools/test-cyber.mjs` checks decisions against a hand-written table and the Rego structurally; CI installs OPA and runs `opa test`. Not executed in the authoring environment |
+| ID | Risk or debt | Impact | Likelihood | Action |
+|---|---|---|---|---|
+| R-01 | **Shared registries and one catalogue.** Courses are registered by hand in about nine shared files; overlay zips replace whole files. Parallel chats can erase each other's entries. | High | High | ADR-019 now; ADR-018, ADR-015 next. Interim rules in `CLAUDE.md` section 6. |
+| R-02 | **Infrastructure not in code.** D1 schema, bindings, domain attachment and token only in the dashboard/owner machine. | High | Medium | ADR-017; export schema and document rebuild. |
+| R-03 | **Secret swap at deploy.** Interruption can leave real values in tracked files; `git add -A` would commit them. | High | Low | Short term: pre-commit check that `SECRETS = null` and `PROOF = ''`; long term ADR-016. |
+| R-04 | **Single point of release.** One machine, one key, one maintainer. | High | Medium | Back up the master key offline; document recovery; consider a second authorised deployer. |
+| R-05 | **Stale checkout or stale overlay.** Publishing old files over new. | High | Medium | Mitigated for deploy (ADR-014); overlay staleness needs ADR-019. |
+| R-06 | Bank details and offer prices in public client-visible code. | Low | Certain | Accept as payee details; confirm with owner; derive prices from catalogue (ADR-018). |
+| R-07 | **Text-patched engines.** `replaceAll` over engine source breaks silently if the shared source changes. | Medium | Medium | Replace with parameters (engine takes a COPY object) and a test that every patch matched at least once. |
+| R-08 | Generated files in git cause noisy diffs and two-commit deploys. | Low | Certain | Keep (ADR-013) but add CI check that regenerated output equals committed output (needs key-free path for non-encrypted parts). |
+| R-09 | Monolith files: `build-course.mjs` (about 890 lines), `browser-test.mjs` (about 1,260), `build-training.mjs` (about 670). | Medium | Certain | Split by course/concern while keeping output identical. |
+| R-10 | Sync order is an undocumented-in-code dependency chain in one npm script. | Medium | Medium | Move the chain into `tools/pipeline.mjs` with named steps and declared inputs/outputs. |
+| R-11 | CI runs sync with a temporary key, so it cannot prove the real ciphertext is current. | Medium | Medium | Document; verify ciphertext decrypts with the real key during deploy gate. |
+| R-12 | Level 4 is a first edition with no outside review and no learner trial (academy gap G11). Level 1 bank incomplete until 82 questions arrive. | Medium | Certain | Reviewer; learner pilot; supply files. |
+| R-13 | Handover documents drift from the repo (this happened: the old arc42 described a different system). | Medium | High | `CLAUDE.md` and arc42 updated in every checkpoint; a check that `CLAUDE.md` lists every course in `code.mjs`. |
+| R-14 | Receipt reading by an AI model could be fooled or wrong. | Medium | Low | Already advisory with human approval; keep it so. |
+
+## Standards alignment (what "international standard" means here)
+Documented with arc42 and ADRs; viewpoints per ISO/IEC/IEEE 42010; quality model per ISO/IEC 25010; delivery practice per continuous-delivery principles (single build, verified release, fast rollback) and the twelve-factor idea of config in the environment (ADR-016). Gaps against that bar are R-01, R-02, R-03, R-08, R-10. No claim of formal certification is made.

@@ -3,7 +3,9 @@
 //   npm run deploy -- home                 one target: home | verichain | vericrypt | erp | omc | agentseed
 //   npm run deploy -- all                  every target
 //   options: --dry (print what would run), --no-gate (skip sync and check), --branch=main,
-//            --project=NAME (upload to this Pages project instead of the one in deploy.config.json)
+//            --project=NAME --allow-other-project   (upload to a different Pages project: refused unless both are given)
+//            --preview --branch=NAME   (a non-main branch makes a throwaway preview URL, not meeting-mind.com: refused unless --preview is given)
+//            --no-git-check            (skip the check that this checkout is not behind origin/main)
 //   npm run deploy:where                   list your Pages projects and which domains each one serves
 // Needs two environment variables (Codespaces secrets, see INSTALL.md):
 //   CLOUDFLARE_API_TOKEN   token with Account > Cloudflare Pages > Edit
@@ -12,6 +14,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { loadKey } from './build-course.mjs';
+import { parseDomainProject, sameRelease, gitBehind } from './deploy-lib.mjs';
 
 const WRANGLER = 'wrangler@4';
 const cfg = JSON.parse(fs.readFileSync('tools/deploy.config.json', 'utf8'));
@@ -26,6 +29,13 @@ const targets = names.includes('all') ? Object.keys(cfg).filter((k) => k !== 'no
 if (!targets.length || targets.some((t) => !cfg[t] || t === 'note')) {
   console.error(`Usage: npm run deploy -- <${Object.keys(cfg).filter((k) => k !== 'note').join('|')}|all> [--dry] [--no-gate] [--branch=main]`);
   process.exit(2);
+}
+if (branch !== 'main' && !flags.includes('--preview')) { console.error(`--branch=${branch} would publish a preview URL, not meeting-mind.com. Use the default (main), or add --preview if a preview is really what you want.`); process.exit(2); }
+if (projectOverride && !flags.includes('--allow-other-project')) { console.error(`--project=${projectOverride} would upload to a project that may not serve meeting-mind.com. Add --allow-other-project only if you are sure.`); process.exit(2); }
+if (!dry && !flags.includes('--no-git-check')) {
+  const g = gitBehind();
+  if (g.note) console.log(g.note);
+  if (!g.ok) { console.error('Nothing was deployed.'); process.exit(2); }
 }
 if (!dry && (!process.env.CLOUDFLARE_API_TOKEN || !process.env.CLOUDFLARE_ACCOUNT_ID)) {
   console.error('Missing CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID. See INSTALL.md, "Deploy from the Codespace".');
@@ -48,7 +58,13 @@ if (!flags.includes('--no-gate')) {
 
 for (const t of targets) {
   const { dir } = cfg[t];
-  const project = projectOverride || cfg[t].project;
+  let project = projectOverride || cfg[t].project;
+  if (!dry && t === 'home' && !projectOverride) {
+    const l = spawnSync('npx', ['--yes', WRANGLER, 'pages', 'project', 'list'], { encoding: 'utf8', env: process.env });
+    const serving = parseDomainProject(`${l.stdout || ''}${l.stderr || ''}`);
+    if (serving && serving !== project) { console.log(`\nmeeting-mind.com is served by the Pages project "${serving}", not "${project}". Deploying to "${serving}".`); project = serving; }
+    else if (!serving) console.log('\nCould not tell which Pages project serves meeting-mind.com. After the upload the script checks the live site and says if it did not change.');
+  }
   if (!dry && !fs.existsSync(`${dir}/index.html`)) { console.error(`${dir}/index.html not found`); process.exit(1); }
   // create the project the first time; harmless if it exists
   const made = run('npx', ['--yes', WRANGLER, 'pages', 'project', 'create', project, '--production-branch', branch], { capture: true });
@@ -57,7 +73,7 @@ for (const t of targets) {
   if (made.status === 0 && !dry) console.log(`created project ${project}`);
   // only the home project carries the leaderboard API (the functions/ folder); the other projects are deployed from an empty folder so they stay static
   const cwd = t === 'home' ? process.cwd() : fs.mkdtempSync(`${process.env.TMPDIR || '/tmp'}/deploy-`);
-  const abs = fs.realpathSync(dir);
+  const abs = fs.existsSync(dir) ? fs.realpathSync(dir) : dir;
   // the leaderboard's invisible gate: only browsers that hold a real access code can join. The value comes from the course key and is
   // written into the uploaded Function only; the committed placeholder is restored right after.
   const PROOF_FILE = 'worker/proof.js', placeholder = t === 'home' && !dry ? fs.readFileSync(PROOF_FILE, 'utf8') : null;
@@ -87,5 +103,19 @@ for (const t of targets) {
   if (secPlaceholder !== null) fs.writeFileSync(SEC_FILE, secPlaceholder);
   if (dep.status !== 0) { console.error(`\nDeploy of ${t} failed.`); process.exit(1); }
   console.log(`\n${t}: uploaded to the Pages project "${project}".`);
-  console.log('  Live at https://meeting-mind.com . Check https://meeting-mind.com/verify-site/ : it must say all files match.');
+  if (t === 'home' && !dry) {
+    // do not claim success until the live domain really serves what was just uploaded: compare the manifest root hash (it changes with every
+    // served file; the kit version does not, so it cannot tell a new upload from the previous one)
+    const wantText = fs.readFileSync('dist/site-manifest.json', 'utf8');
+    let r = { ok: false, reason: '', live: '', want: '' };
+    for (let i = 0; i < 6 && !r.ok; i++) {
+      if (i) await new Promise((res) => setTimeout(res, 8000));
+      try { r = sameRelease(await (await fetch(`https://meeting-mind.com/site-manifest.json?cb=${Date.now()}`, { cache: 'no-store' })).text(), wantText); } catch (e) { r = { ok: false, reason: String(e.message || e), live: '', want: '' }; }
+    }
+    if (r.ok) console.log(`  VERIFIED: https://meeting-mind.com serves exactly this upload (manifest root ${r.want.slice(0, 16)}). Also open https://meeting-mind.com/verify-site/`);
+    else {
+      console.error(`\n  NOT LIVE YET: ${r.reason}\n  live root:   ${r.live ? r.live.slice(0, 16) : '(none)'}\n  upload root: ${r.want ? r.want.slice(0, 16) : '(none)'}\n  The domain is probably attached to a different Pages project. Run: npm run deploy:where\n  then: npm run deploy -- home --no-gate --project=<the project that lists meeting-mind.com> --allow-other-project`);
+      process.exit(3);
+    }
+  } else console.log('  Check https://meeting-mind.com/verify-site/ : it must say all files match.');
 }

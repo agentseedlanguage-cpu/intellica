@@ -1,3 +1,12 @@
+# Checkpoint 43: architecture amendment, CLAUDE.md state transfer, safer deploy
+
+**Docs.** `docs/arc42/` rewritten to the real system (sections 1 to 12, new `13-amendment-log.md`): ADR-001 to 013 reconstructed, ADR-014 to 019 added (guard rails accepted; ownership guard, course manifests, split catalogue, secrets via bindings, infrastructure as code proposed), risk register R-01 to R-14, quality scenarios. New root `CLAUDE.md` for any new chat.
+**Code.** `tools/deploy.mjs`: refuses preview branches and other projects without explicit flags, refuses a checkout behind origin/main, verifies the live site by manifest root hash. `tools/deploy-lib.mjs` and `tools/test-deploy-lib.mjs` (in `npm test`).
+**Not done.** The proposed ADRs; the Level 1 questions; Level 5. See `CLAUDE.md` section 2.
+**Deploy.** `npm run deploy -- home`.
+
+---
+
 # Checkpoint 42: Level 4 Agentic AI Architecture built (first edition)
 
 **Course.** 16 lessons, 16 lab steps with model answers and rubrics, 48 recall questions, lessons 1 and 7 free. Rules checker and tool contract checker. Health check has six checks, including "every rule names VERIFIED_BY or REVIEWED_BY". Price US$249 / TT$1,749. Source in `training-private/agentic-architecture/`.

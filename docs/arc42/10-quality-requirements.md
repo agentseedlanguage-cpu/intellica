@@ -1,28 +1,20 @@
 # 10. Quality requirements
 
-## 10.1 Quality tree
-
-Verifiability, Consistency, Accessibility, Speed, Independence, Low cost.
+## 10.1 Quality tree (ISO/IEC 25010 headings)
+Reliability (a deploy never publishes a wrong or stale site) · Security (confidentiality of lessons and keys; integrity of purchases) · Maintainability (modularity, modifiability, testability across academies) · Performance efficiency (static, fast first load) · Compatibility (older browsers with Web Crypto) · Usability (plain language, accessibility) · Functional suitability (claims match product).
 
 ## 10.2 Scenarios
 
-| ID | Scenario | Response |
-| --- | --- | --- |
-| Q1 | Visitor opens the home on a phone | Role cards and products readable; no horizontal scroll at 390px |
-| Q2 | Visitor tampers with a demo input | Result changes visibly and the demo can be reset |
-| Q3 | Someone adds an inline script | `npm run check` fails |
-| Q4 | Someone hand-edits a kit file | Manifest check reports drift |
-| Q5 | Product has no binaries yet | Download tab says nothing is published; no broken links |
-| Q6 | Keyboard-only visitor | Skip link first; all controls reachable |
-| Q7 | Product chat delivers a WASM demo | Replaces `demo.js`; no shell change needed |
-| Q8 | Page load on mid-range phone | LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1 |
-| Q9 | Docs link to another Markdown file | Navigates inside the Docs tab |
-| Q10 | Hostile Markdown | Rendered as escaped text |
-| Q11 | Visitor wants to know the site was not altered | Verify-this-site reports every file as matching, or names the files that differ |
-| Q12 | A product replaces the placeholder but forgets the label | Checker warns that `demo.engine` is stale |
-| Q13 | A product still shows the placeholder but claims `wasm` | Checker fails |
-| Q14 | A crawler or link preview fetches a page without JavaScript | Gets title, description, canonical URL and a text summary |
-| Q15 | Cloudflare rewrites HTML | Verify-this-site fails visibly; the install notes say which settings to turn off |
-| Q16 | Page loads on a phone | No layout shift above 0.1; no page over 150 KB |
-| Q17 | Visitor looks for "exit code" in a manual | Search lists the matching sections |
-| Q18 | Zoomed to 320 px | No horizontal scroll on any page |
+| ID | Scenario | Response measure | Today |
+|---|---|---|---|
+| Q-01 | Owner deploys; domain still serves an older build | Deploy ends NOT LIVE YET and exit code 3; never prints VERIFIED | Met (cp43; was weak: kit version compared) |
+| Q-02 | Deploy typed with a preview branch or another project | Refused before upload | Met (cp43) |
+| Q-03 | Deploy from a checkout behind origin/main | Refused with instruction | Met (cp43) when origin is reachable |
+| Q-04 | A chat adds a course while another edits a different academy | Neither overlay overwrites the other's lines | Not met (shared files, R-01); target ADR-019, ADR-015 |
+| Q-05 | A new course is added | At most one new folder and one manifest; no edits to shared files | Not met (9 shared places); target ADR-015 |
+| Q-06 | Deploy interrupted | No real secret left in the working tree | Not met (R-03); target ADR-016 |
+| Q-07 | Text claims a lesson count or status | Build fails if it disagrees with data | Met for academies and catalogue |
+| Q-08 | Rebuild the environment from nothing | Documented steps, under half a day | Not met (bindings are manual, R-02) |
+| Q-09 | Any page tries to load a third-party script | Blocked by CSP and caught by check | Met |
+| Q-10 | A learner enters a wrong access code | Lesson stays encrypted; clear message | Met |
+| Q-11 | Change to the shared engine text | Every dependent engine still builds; tests fail otherwise | Partly met (tests exist per course; patch strings unchecked, R-07) |

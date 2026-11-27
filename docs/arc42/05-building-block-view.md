@@ -1,71 +1,53 @@
 # 5. Building block view
 
-## 5.1 Level 1: repositories
-
-| Repo | Owns |
-| --- | --- |
-| `IntellicaWeb` (this system) | Kit, home, template, tools, arc42, legacy pages |
-| `verichain`, `vericrypt`, `Sovereign-ERP`, `Operating-Margin-Controller-`, `agentseed` | Product site content, demo engine, binaries, docs |
-
-## 5.2 Level 2: inside a site
+## 5.1 Level 1: the system
 
 ```
-site/
-  index.html        Overview (or home)
-  site.json         name, accent, tagline, tabs, audience, highlights
-  demo/             index.html + demo.js (exports mount)
-  download/         index.html + downloads.json
-  docs/             index.html + docs.json + markdown (use/ install/ reference/ architecture/)
-  verify/           index.html + verify.md
-  support/          index.html
-  kit/              shared, synced, do not edit
-  family.json       product list, synced from the home
-  _headers  404.html
+ repo ──(npm run sync)──> generated files ──(assemble)──> dist/ ──(deploy)──> Cloudflare Pages: meeting-mind.com
+                                                                          └─ Functions: /api/board  /api/cert  /api/pay  ── D1, Workers AI, secrets
 ```
 
-## 5.3 The kit
+| Block | Folder | Responsibility |
+|---|---|---|
+| Shared shell (kit) | `site/kit/` | Tokens, shell CSS/JS, markdown renderer, theme init. Versioned (`VERSION`), copied into each product by `sync-kit`. |
+| Company site | `site/` | Home, training, academies, consulting, industries, verify-site. |
+| Product sites | `products/<name>/site/` | One static site per product, assembled under `/<name>/`. |
+| Build tools | `tools/` (about 60 files) | Generators, checks, tests, deploy. |
+| Course sources | `training-private/<course>/` | Lesson source in compact format. |
+| APIs | `functions/api/*`, `worker/*` | Board (leaderboard), cert (certificates), pay (purchases). |
+| Documentation | `docs/`, `CLAUDE.md`, `CHECKPOINTS.md` | Architecture, plans, history, state transfer. |
 
-| File | Responsibility |
-| --- | --- |
-| `tokens.css` | Colors, spacing, type; dark and light themes; per-product `--accent` |
-| `shell.css` | Layout and components |
-| `shell.js` | Header, family menu, tab bar, footer, theme button, hydrates each page by `body[data-tab]` |
-| `dom.js` | `el()`, safe hrefs, JSON and text loading |
-| `markdown.js` | Safe renderer for Docs and Verify |
-| `placeholder-demo.js` | Labeled hash-chain demo used until a real engine exists |
-| `theme-init.js` | Applies saved theme before paint |
-| `VERSION`, `MANIFEST.json` | Kit version and file hashes for drift detection |
+## 5.2 Level 2: build tools by concern
 
-## 5.4 Tools
+| Concern | Files |
+|---|---|
+| Assemble and fingerprint | `assemble.mjs`, `manifest.mjs`, `sync-kit.mjs`, `prerender.mjs` |
+| Pages and catalogue | `build-training.mjs`, `build-catalog.mjs`, `catalog-html.mjs`, `training-shell.mjs`, `my-courses-html.mjs`, `lab-html.mjs` |
+| Academies | `build-cyber-academy.mjs` + `cyber-academy/`; `build-arch-academy.mjs` + `arch-academy/` (`levels`, `meta`, `sources`, `data`); `build-ai-business-academy.mjs`; `build-consulting.mjs`; `build-industries.mjs` |
+| Course engine | `build-course.mjs` (encrypt, emit, dispatch to each course), `cyber-course.mjs` (shared engine files and helpers), `foundations-course.mjs`, `level-course.mjs`, `agent-course.mjs` |
+| Per course | `*-health.js` (pure checks), `*-tools/` (practice tools), `test-*.mjs` |
+| Access | `code.mjs` (COURSES list, access codes), `course-code.mjs`, `course-check.mjs` |
+| Quality gates | `check.mjs`, `check-links.mjs`, `check-cyber-claims.mjs`, `check-*-academy.mjs`, `browser-test.mjs` (Playwright) |
+| Release | `deploy.mjs`, `deploy-lib.mjs` (pure, tested), `deploy.config.json`, `doctor.mjs`, `serve.mjs` |
 
-| Tool | Purpose |
-| --- | --- |
-| `serve.mjs` | Local server that applies `_headers` |
-| `check.mjs` | Gate: no inline script/style, no third-party loads, no missing files, valid JSON, no kit drift |
-| `sync-kit.mjs` | Regenerates the manifest and copies kit and `family.json` to targets |
-| `new-product.mjs` | Scaffolds a product site from the template and a prefill |
-| `import-legacy.mjs` | Copies old pages into `site/legacy/` |
-| `test-markdown.mjs` | Tests for the renderer |
-| `prerender.mjs` | Bakes title, description, canonical and link-preview tags and a no-JavaScript summary into every page; writes sitemap, robots and security.txt |
-| `manifest.mjs` | Writes `site-manifest.json`: SHA-256 of every served file plus a root hash |
-| `browser-test.mjs` | Real-browser audit (Playwright): tabs, demo, docs, accessibility, metadata, verify-this-site |
+## 5.3 Level 2: the course engine pattern
 
-## 5.5 Content schemas
+`cyber-course.mjs` holds the shared browser engine files (`engineFiles`), the compact lesson parser (`fromCompact`) and `slug`. `foundations`, `level` and `agent` modules import them and adapt wording by `replaceAll` on the engine source (a text patch, see risk R-07). `build-course.mjs` calls each module's `load(SITE)` and `buildOne(...)` with that course's derived key. The newest instance is `agent-course.mjs` (Level 4).
 
-Full field list: `docs/CONTENT-SCHEMAS.md`. Per-product hand-back instructions: `docs/briefs/`.
+## 5.4 Where the per-course registries are (the coupling map)
 
+Adding or changing a course touches these shared places. This is the main reason independent chats collide (risk R-01):
 
-- **site.json:** `id`, `name`, `accent`, `tagline`, `tabs`, `status`, `audience[]`, `highlights[]`, `verifyIt`, `demo{title,intro,sampleInput,command}`.
-- **downloads.json:** items with `name`, `platform`, `version`, `url`, `sha256`, `size`.
-- **docs.json:** `groups[]` of `{title, items[{title, md}]}`.
-- **family.json:** home URL, contact, `products[]`, `roles[]`, `standards[]`, `sectors[]`.
+| Shared place | What a course adds |
+|---|---|
+| `tools/build-course.mjs` | An import block and a `buildOne` call |
+| `worker/pay-api.js` | Entry in `OFFERS` (price, welcome and learn paths) |
+| `worker/cert-api.js` | Entry in `ISSUABLE` (lessons, sections, checks, questions) |
+| `tools/code.mjs`, `tools/test-code.mjs` | Entry in `COURSES` and the expected list |
+| `site/training/catalog.json` | Modules, lab, outcomes, `course` block, `prices` |
+| `site/kit/shell.js` (about line 107) | Course path list for navigation |
+| `package.json` | Test script entry; sync chain if a new generator |
+| `tools/browser-test.mjs` | Cases for the course |
+| `tools/arch-academy/*` or `cyber-academy/*` | Level status, evidence, counts |
 
-## 5.x Training and the online course
-| Block | Responsibility | Where |
-| --- | --- | --- |
-| Training generator | Pages for the index, workshop, guide, register and worked example from `training.json` | `tools/build-training.mjs` |
-| Course builder | Reads the slide deck, makes one lesson per Part, writes the course pages, the scoped slide CSS and the plain or encrypted lesson files | `tools/build-course.mjs`, `site/training/course-layout.css` |
-| Course player | Loads a lesson, decrypts it with the buyer's code, runs the slides, transcript, read-aloud, recall cards and review; stores progress in the browser | `site/training/arc42/course/course.js` |
-| Access-code tool | Makes a code for a buyer from the course key | `tools/course-code.mjs` |
-| Video exporter | Renders a lesson to MP4 with ffmpeg and Chromium | `tools/export-lesson-video.mjs` |
-| Worked example | Doubles-to-Go arc42, app and tests; packed as a download | `training-material/doubles-to-go/`, `tools/pack-example.py` |
+Proposed target (ADR-015, ADR-018): each course declares itself in one manifest file `courses/<id>/course.json` (price, certificate rules, paths, catalogue fragment, owner), and the shared files read a generated registry instead of being edited by hand.

@@ -1,7 +1,7 @@
 // The Level 1 course, "Software Architecture Foundations": turns training-private/foundations (lessons, question bank, curriculum map) and the
 // "course" block of the software-architecture-foundations entry in site/training/catalog.json (ladder.levels) into what build-course.mjs needs.
 // It reuses the cyber course's engine copy (cyber-course.mjs engineFiles) with its own storage prefix, health check and wording, and adds
-// three timed mock exams whose questions are encrypted with the course key like the lessons.
+// five timed mock exams whose questions are encrypted with the course key like the lessons.
 import fs from 'node:fs';
 import path from 'node:path';
 import { page, esc as xesc } from './training-shell.mjs';
@@ -89,7 +89,7 @@ const levelText = (src) => src
   .replaceAll('n <= 12', 'n <= 14').replaceAll('arc42.md', 'architecture-file.md')
   .replaceAll("/:?\\s*architecture documentation.*$/i", "/:?\\s*architecture file.*$/i").replaceAll('.*arc42.*$', '.*architecture file.*$');
 
-/* Practice pages: three timed mock exams (questions encrypted like the lessons) and a public curriculum map. */
+/* Practice pages: five timed mock exams (questions encrypted like the lessons) and a public curriculum map. */
 const goalRows = () => MAP.goals.map((g) => `<tr><td>${xesc(g.id)}</td><td>${xesc(g.title)}</td><td>${xesc(g.r)}</td><td>${g.lessons.join(', ')}</td></tr>`).join('');
 
 function writeTools(out, w, key, encrypt, built) {
@@ -98,14 +98,14 @@ function writeTools(out, w, key, encrypt, built) {
   put('tools/score.js', fs.readFileSync(path.resolve('tools/foundations-tools/score.mjs'), 'utf8'));
   put('tools/mock.js', fs.readFileSync(path.resolve('tools/foundations-tools/mock.js'), 'utf8').replaceAll('__BASE__', `${w.path}course/`));
   put('tools/tools.css', fs.readFileSync(path.resolve('tools/cyber-tools/tools.css'), 'utf8') + fs.readFileSync(path.resolve('tools/foundations-tools/mock.css'), 'utf8'));
-  // Encrypted mock forms: data/mock-1.json .. mock-3.json under the course folder, same scheme as the lessons.
+  // Encrypted mock forms: data/mock-1.json .. mock-5.json under the course folder, same scheme as the lessons.
   const payload = (items) => items.map((it) => ({ id: it.id, type: it.type, ch: it.ch, lg: it.lg, stem: it.stem, options: it.options, key: it.key, pick: it.pick, cats: it.cats, items: it.items, why: it.why, wrong: it.wrong }));
   fs.mkdirSync(path.join(out, 'data'), { recursive: true });
   built.mock.forms.forEach((f, i) => fs.writeFileSync(path.join(out, 'data', `mock-${i + 1}.json`), JSON.stringify(encrypt(key, `mock-${i + 1}`, payload(f)))));
   const css = [`${base}tools/tools.css`];
   const cfg = JSON.stringify({ base: `${w.path}course/`, learn: `${w.path}course/learn/`, prefix: 'iwf-', forms: built.mock.forms.length, items: built.mock.forms[0].length, lessons: built.lessonSlugs, quota: SC.QUOTA, ready: SC.READY, chapters: MAP.chapters });
   const mock = `${nav('Mock exams')}
-    <section class="t-hero t-hero-single"><div class="t-hero-copy"><p class="eyebrow">Practice</p><h1>Mock exams</h1><p class="lead">Three different timed practice papers of ${built.mock.forms[0].length} questions each, written by Intellica from the public curriculum topics. They are practice, not real exam questions, and they do not predict your result.</p></div></section>
+    <section class="t-hero t-hero-single"><div class="t-hero-copy"><p class="eyebrow">Practice</p><h1>Mock exams</h1><p class="lead">Five different timed practice papers of ${built.mock.forms[0].length} questions each, written by Intellica from the public curriculum topics. They are practice, not real exam questions, and they do not predict your result.</p></div></section>
     <div class="xt" data-mock data-cfg='${xesc(cfg)}'>
       <div data-gate></div>
       <div data-menu hidden>
@@ -128,7 +128,7 @@ function writeTools(out, w, key, encrypt, built) {
       <table class="tbl"><thead><tr><th>Goal</th><th>Title</th><th>Relevance</th><th>Lessons</th></tr></thead><tbody>${goalRows()}</tbody></table>
       <p class="muted small">Source: <a href="${xesc(MAP.curriculum.url)}" rel="noopener">${xesc(MAP.curriculum.url)}</a>. Intellica Level 1 is independent self-study that follows these topics. It is not an iSAQB course, and Intellica is not an accredited training provider. Lesson 13 (AI-assisted work) and lesson 14 (exam strategy) are Intellica additions. The next curriculum release candidate (2027.1) is provisional.</p>
     </div>`;
-  put('mock/index.html', page({ title: 'Mock exams | Software Architecture Foundations', description: 'Three timed practice papers with a readiness report.', canonicalPath: `${base}mock/`, body: mock, css }));
+  put('mock/index.html', page({ title: 'Mock exams | Software Architecture Foundations', description: 'Five timed practice papers with a readiness report.', canonicalPath: `${base}mock/`, body: mock, css }));
   put('map/index.html', page({ title: 'Curriculum map | Software Architecture Foundations', description: 'How the lessons map to the public CPSA-F learning goals.', canonicalPath: `${base}map/`, body: map, css }));
 }
 

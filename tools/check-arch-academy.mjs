@@ -31,7 +31,7 @@ LEVELS.forEach((v, i) => {
 const l1 = ladder[1];
 if (byLevel[1].length !== 14 || l1.modules.length !== 6) errs.push('Level 1 should have 14 lessons in 6 modules');
 if (l1.lab.steps.length !== 14) errs.push('Level 1 lab steps should be 14');
-if (S.mocks < 3) errs.push(`only ${S.mocks} mock papers; the pages promise at least three`);
+if (S.mocks < 5) errs.push(`only ${S.mocks} mock papers; the pages promise five`);
 if (S.bank < 120) errs.push(`question bank has ${S.bank} items`);
 
 // pathways point at real lessons and real levels

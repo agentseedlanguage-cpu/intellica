@@ -1125,7 +1125,7 @@ await step('level 1: with its own code all 14 lessons play without overflow, and
   assert.deepEqual(bad, [], 'slides overflow their stage');
   assert.deepEqual(errs, []);
   await q.goto(F1 + 'lab/mock/'); await q.waitForSelector('[data-forms] > *', { timeout: 8000 });
-  assert.ok(await q.locator('[data-forms] > *').count() >= 3, 'three mock exams are listed');
+  assert.ok(await q.locator('[data-forms] > *').count() >= 5, 'five mock exams are listed');
   await ctx.close();
   const raw = await (await fetch(F1 + 'data/mock-1.json')).text();
   assert.ok(!/"stem"|clinic/i.test(raw), 'mock data is encrypted');

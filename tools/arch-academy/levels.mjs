@@ -12,7 +12,7 @@ export const LEVELS = [
     status: { key: 'available', label: 'Live online course' },
     evidence: ['A glossary and a one-page statement of the architect’s role', 'Stakeholder list, constraints and measurable quality scenarios', 'Decomposition, interface and data-model sketches with reasons', 'Context, building-block, runtime and deployment views', 'A short assessment of the design against its own scenarios', 'A verified AI-use note and a readiness report from the mock exams'],
     capstone: 'One architecture file for a system you know, built across all 14 lessons, and a mock-exam readiness report.',
-    assessment: 'Five quiz questions per lesson, a lab health check of six items, and three timed mock exams. The certificate shows you finished the course; it is not proctored.',
+    assessment: 'Five quiz questions per lesson, a lab health check of six items, and five timed mock exams. The certificate shows you finished the course; it is not proctored.',
     mapping: [
       ['iSAQB CPSA-F curriculum 2025.1-rev2', 'Lessons 1 to 12 and 14 follow its six chapters and learning goals. Lesson 13 (AI) is Intellica extension content. See the mapping page.'],
       ['arc42 (Level 2)', 'The file you build here is the starting point for the Level 2 documentation baseline.'],

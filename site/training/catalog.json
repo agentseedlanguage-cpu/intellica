@@ -38,7 +38,7 @@
         "id": "software-architecture-foundations",
         "title": "Software Architecture Foundations",
         "short": "Foundations",
-        "lead": "What software architecture is and how to practise it: requirements, quality, design, documentation and analysis. Fourteen lessons, a hands-on lab, three timed mock exams and readiness guidance for the iSAQB Foundation exam.",
+        "lead": "What software architecture is and how to practise it: requirements, quality, design, documentation and analysis. Fourteen lessons, a hands-on lab, five timed mock exams and readiness guidance for the iSAQB Foundation exam.",
         "why": "Most people learn architecture by absorbing it from the one or two systems they have worked on. This level gives you the shared vocabulary and the working method first: requirements and constraints, structure, patterns, views, evaluation, and how to decide when and how to use AI. It follows the topics of the iSAQB Foundation Level curriculum, so it is also a way to prepare for that exam.",
         "needs": "No earlier level. Some experience building or maintaining software helps, and basic UML and object-oriented ideas are assumed.",
         "honesty": "This level follows the topics of the iSAQB CPSA-F curriculum (version 2025.1). It is Intellica self-study, not an iSAQB course, and Intellica is not an accredited training provider. The exam is booked separately with an iSAQB certification body; training is not required to sit it. Check the current exam format with the certification body before you book.",
@@ -57,7 +57,7 @@
           },
           {
             "title": "Evaluate and prepare",
-            "text": "Test a design with evidence, verify AI-drafted architecture content, and take three timed mock exams with a readiness report."
+            "text": "Test a design with evidence, verify AI-drafted architecture content, and take five timed mock exams with a readiness report."
           }
         ],
         "modules": [
@@ -145,7 +145,7 @@
         "course": {
           "enabled": true,
           "headline": "Learn to describe, design and test software architecture, with exam-style practice if you want it.",
-          "lead": "Fourteen lessons that follow the topics of the iSAQB Foundation curriculum. Each lesson has eight slides you control, a field guide, a worked case, five recall questions and a lab. Across the labs you build one architecture file for a system you know. Three timed mock exams and a curriculum map help if you plan to sit the iSAQB CPSA-F exam.",
+          "lead": "Fourteen lessons that follow the topics of the iSAQB Foundation curriculum. Each lesson has eight slides you control, a field guide, a worked case, five recall questions and a lab. Across the labs you build one architecture file for a system you know. Five timed mock exams and a curriculum map help if you plan to sit the iSAQB CPSA-F exam.",
           "honesty": "This level follows the topics of the iSAQB CPSA-F curriculum (version 2025.1). It is Intellica self-study, not an iSAQB course, and Intellica is not an accredited training provider. The exam is booked separately with an iSAQB certification body; training is not required to sit it. Check the current exam format with the certification body before you book.",
           "free": [
             1,
@@ -165,8 +165,8 @@
               "text": "Every lesson is mapped to the learning goals of the iSAQB CPSA-F curriculum 2025.1. A curriculum map shows which lessons cover which goals and which goals are examined (R1), may be examined (R2) or are not (R3)."
             },
             {
-              "title": "Three timed mock exams",
-              "text": "Three different papers of 40 questions, balanced by chapter, with single choice, choose-several and allocation questions. They are original Intellica practice questions, not real exam questions. A report shows your score by chapter and learning goal, time used and confidence."
+              "title": "Five timed mock exams",
+              "text": "Five different papers of 40 questions, balanced by chapter, with single choice, choose-several and allocation questions. They are original Intellica practice questions, not real exam questions. A report shows your score by chapter and learning goal, time used and confidence."
             },
             {
               "title": "AI in architecture work",
@@ -223,7 +223,7 @@
             "ttd": 1049,
             "note": "One payment. Visitors in Trinidad and Tobago pay TT$1,049 by bank deposit."
           },
-          "priceNote": "Lifetime access to this edition and every update to it. Includes all lessons, all labs, the model solutions and three mock exams."
+          "priceNote": "Lifetime access to this edition and every update to it. Includes all lessons, all labs, the model solutions and five mock exams."
         },
         "benchmark": {
           "label": "iSAQB CPSA-F curriculum",
@@ -778,7 +778,7 @@
       "title": "Architecture Academy",
       "tag": "Software architecture",
       "path": "/training/architecture-academy/",
-      "lead": "Six levels from foundations to architecture leadership. Three courses are live today, including a 14-lesson foundations course with three timed mock exams.",
+      "lead": "Six levels from foundations to architecture leadership. Three courses are live today, including a 14-lesson foundations course with five timed mock exams.",
       "status": "Three courses available"
     },
     {

@@ -1,3 +1,13 @@
+# Checkpoint 44: Level 1 question bank 206 and five mock papers
+
+**Questions.** 82 new original items (chapter 1: 10, chapter 2: 14, chapter 3: 30, chapter 4: 18, chapter 5: 10) in `training-private/foundations/bank-c1n.mjs`, `bank-c3n.mjs`, `bank-c4n.mjs`. They test only R1 and R2 learning goals (the validator rejects R3-only goals), each wrong option has a misconception note. Not yet reviewed by the owner.
+**Mocks.** `assemble()` now builds 5 forms of 40 (quota per chapter 5/7/14/9/5, bank has 26/36/72/46/26). Wording changed from three to five in the catalogue, course pages, academy data, tests and browser test; the academy check now requires 5 mocks. Practice-ready guidance (80 percent on three different mocks, no chapter below 70) is unchanged.
+**Also in this zip (cumulative from cp42).** cp43 documents and deploy tool, CLAUDE.md update.
+**Checked.** `npm test`, `npm run sync` and `npm run check` pass in a throwaway copy with a temporary key. The browser test could not be run reliably in the build sandbox (fonts and timing); CI or your machine must run `npm run verify`.
+**Deploy.** `npm run deploy -- home`, then commit the generated course files.
+
+---
+
 # Checkpoint 43: architecture amendment, CLAUDE.md state transfer, safer deploy
 
 **Docs.** `docs/arc42/` rewritten to the real system (sections 1 to 12, new `13-amendment-log.md`): ADR-001 to 013 reconstructed, ADR-014 to 019 added (guard rails accepted; ownership guard, course manifests, split catalogue, secrets via bindings, infrastructure as code proposed), risk register R-01 to R-14, quality scenarios. New root `CLAUDE.md` for any new chat.

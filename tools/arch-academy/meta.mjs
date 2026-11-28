@@ -32,7 +32,7 @@ export const RC = {
 };
 
 export const GAPS = [
-  { id: 'G1', topic: 'Question bank depth', source: 'Blueprint v2 target of 600 reviewed items', planned: 'Grow the bank in steps. 124 items shipped with checkpoint 36; this checkpoint adds more and a fourth and fifth mock paper.', finding: 'The Level 1 bank is a first edition. It is smaller than the blueprint target and is the main limit on how many different mock papers a learner can take.' },
+  { id: 'G1', topic: 'Question bank depth', source: 'Blueprint v2 target of 600 reviewed items', planned: 'Grow the bank in steps. 124 items shipped with checkpoint 36; checkpoint 44 raised it to 206 items and five mock papers, still far short of the target.', finding: 'The Level 1 bank is a first edition. It is smaller than the blueprint target and is the main limit on how many different mock papers a learner can take.' },
   { id: 'G2', topic: 'Independent review of questions', source: 'Blueprint v2 risk: weak question bank', planned: 'A person who did not write the items reviews every item against its learning goal. Record the reviewer and date.', finding: 'Items were written and machine-checked. No human reviewer has read them yet, and correct options tend to be the longest.' },
   { id: 'G3', topic: 'Question types', source: 'Curriculum learning goals; external exam format', planned: 'More choose-several and allocation items, and scenario items that need a short reasoned choice.', finding: 'Most items are single choice. The real exam mixes types, so practice should too.' },
   { id: 'G4', topic: 'The 2027.1 release candidate', source: 'iSAQB RC1, 13 November 2026', planned: 'Run a formal comparison when the final text is published and update the lessons, bank and mock quotas.', finding: 'The candidate adds a chapter on AI. Lesson 13 already teaches verification and provenance, but it is Intellica extension content, not a match to the final goals.' },
@@ -47,7 +47,7 @@ export const GAPS = [
 
 export const ROADMAP = [
   { n: 0, name: 'Discovery and audit', status: 'done', work: 'Reconcile the blueprint with the live site and the existing courses; decide the six-level ladder.', gate: 'A ladder with honest statuses on the catalogue.' },
-  { n: 1, name: 'Foundations course (Level 1)', status: 'done', work: 'Fourteen lessons, a lab, health check, certificate rule, curriculum map and three mock exams.', gate: 'Tests, build checks and browser checks pass; claims match the code.' },
+  { n: 1, name: 'Foundations course (Level 1)', status: 'done', work: 'Fourteen lessons, a lab, health check, certificate rule, curriculum map and five mock exams.', gate: 'Tests, build checks and browser checks pass; claims match the code.' },
   { n: 2, name: 'Question bank growth and review', status: 'active', work: 'Grow the bank, add question types, add papers four and five, and have every item reviewed by a person.', gate: 'Reviewer recorded for each item; chapter quotas met for every paper.' },
   { n: 3, name: 'Level 4: Agentic AI Architecture', status: 'done', work: 'Sixteen lessons, a lab with a seven-part health check, a rules checker and a tool contract checker. First edition.', gate: 'Every lesson has a lab that runs and sources with dates. Outside review is still to come (gap G11).' },
   { n: 4, name: 'Level 5: Architecture Governance and Evolution', status: 'next', work: 'Research, then write the lessons and lab, built on Levels 3 and 4.', gate: 'Every lesson has a lab that runs and sources with dates.' },

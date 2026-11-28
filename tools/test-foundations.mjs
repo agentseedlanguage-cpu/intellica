@@ -22,9 +22,9 @@ assert.equal(scoreItem(single, 2), 1); assert.equal(scoreItem(single, 1), 0); as
 assert.equal(scoreItem(multi, [0, 2]), 1); assert.equal(scoreItem(multi, [0]), 0.5); assert.equal(scoreItem(multi, [0, 1]), 0); assert.equal(scoreItem(multi, [1, 3]), 0);
 assert.equal(scoreItem(cls, [0, 1, 0, 1]), 1); assert.equal(scoreItem(cls, [0, 1, 1, 0]), 0.5);
 
-// mock assembly: three distinct forms of 40, chapter quotas, no overlap, answer positions spread
+// mock assembly: five distinct forms of 40, chapter quotas, no overlap, answer positions spread
 const forms = assemble(bank).forms || assemble(bank);
-assert.equal(forms.length, 3);
+assert.equal(forms.length, 5);
 const seen = new Set();
 for (const f of forms) {
   assert.equal(f.length, 40);
@@ -47,4 +47,4 @@ assert.match(fs.readFileSync('worker/pay-api.js', 'utf8'), /'software-architectu
 assert.match(fs.readFileSync('worker/cert-api.js', 'utf8'), /'software-architecture-foundations': \{ lessons: 14, sections: 14, checks: 6, questions: 70 \}/);
 assert.equal((fs.readFileSync('tools/foundations-health.js', 'utf8').match(/out\.push\(/g) || []).length, 6);
 assert.equal(lessons.reduce((n, l) => n + l.quiz.length, 0), 70);
-console.log(`foundations ok: 14 lessons, ${lessons.reduce((n, l) => n + l.slides.length, 0)} slides, 70 quiz questions, ${bank.length} bank items, 3 mocks of 40`);
+console.log(`foundations ok: 14 lessons, ${lessons.reduce((n, l) => n + l.slides.length, 0)} slides, 70 quiz questions, ${bank.length} bank items, 5 mocks of 40`);

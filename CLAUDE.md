@@ -19,7 +19,7 @@ One static website plus three small APIs, published as ONE Cloudflare Pages proj
 | Area | State |
 |---|---|
 | Architecture Academy (`tools/arch-academy/`, `build-arch-academy.mjs`) | Levels 1 to 4 live as courses; Level 5 (Governance and Evolution) is next; Level 6, platform foundations, beta, credential launch are later. 69 lessons live, 24 outlined. |
-| Level 1 Foundations (`foundations-course.mjs`, `training-private/foundations/`) | Live. Question bank is 124; the owner's extra 82 questions (`bank-c1x/c3x/c4x.mjs`) are NOT in the repo yet; ask for the three files, then bank 206 and mocks 5. Independent self-study, not an iSAQB course. |
+| Level 1 Foundations (`foundations-course.mjs`, `training-private/foundations/`) | Live. Question bank is 206 and there are 5 mock papers (cp44). The 82 added items (`bank-c1n.mjs`, `bank-c3n.mjs`, `bank-c4n.mjs`) were written by Claude in cp44 WITHOUT owner review; the owner reviews them while taking the course and reports problems. The owner's older 82 questions (`bank-c1x/c3x/c4x.mjs`) were never found and are replaced by these. Independent self-study, not an iSAQB course. |
 | Level 2 Mastering arc42 | Live (arc42 course, master key used directly). |
 | Level 3 Quality, Decisions, Evaluation (`level-course.mjs`) | Live, 20 lessons, US$199. |
 | Level 4 Agentic AI Architecture (`agent-course.mjs`, `agent-health.js`, `agent-tools/`, `training-private/agentic-architecture/`) | Live first edition (cp42): 16 lessons, US$249 / TT$1,749. Independent self-study, not AGENTA training, no iSAQB credit. No outside review yet (gap G11). Lessons 1 and 7 free. |
@@ -28,7 +28,12 @@ One static website plus three small APIs, published as ONE Cloudflare Pages proj
 
 Honesty rules (do not weaken): no Intellica academy credential is issued; certificates are self-reported and checked against `ISSUABLE` in `worker/cert-api.js`; Level 1 and Level 4 are independent self-study with no iSAQB credit; case figures in lessons are invented and labelled Illustrative.
 
-Pending work, in order: (1) attach-needed Level 1 questions; (2) Levels 1 to 3 improvements (`docs/CP41-RESEARCH-AND-BUILD-PLAN.md` section 4); (3) Level 5 research and build (`docs/CP42-LEVEL-4-AND-NEXT-PLAN.md` section 4); (4) marketing-eye audit of all training/academy sub pages; (5) outside review of Level 4; (6) the architecture improvements in `docs/arc42/11-risks-and-technical-debt.md` and `docs/arc42/09-architecture-decisions.md` (ADR-014 to ADR-019).
+Pending work, in order: (1) fix Level 1 questions the owner flags; (2) Levels 1 to 3 improvements (`docs/CP41-RESEARCH-AND-BUILD-PLAN.md` section 4); (3) Level 5 research and build (`docs/CP42-LEVEL-4-AND-NEXT-PLAN.md` section 4); (4) marketing-eye audit of all training/academy sub pages; (5) outside review of Level 4; (6) the architecture improvements in `docs/arc42/11-risks-and-technical-debt.md` and `docs/arc42/09-architecture-decisions.md` (ADR-014 to ADR-019).
+
+## 2a. Reading course content without the key
+
+The key is only needed to ENCRYPT. Every course's plain text is already in the repo: `training-private/<course>/` (Level 1 foundations, Level 3 quality-decisions, Level 4 agentic-architecture, plus `cybersecurity-source.json` and `arc42-quiz.json`) and the Level 2 slide deck at `site/training/arc42/deck-*/slides.js`. A chat given the repo (or just `training-private/` and `site/training/catalog.json`) can read every lesson, quiz and rubric. Do this before writing any new level: read the neighbouring levels and the catalogue, list what they already teach, and avoid overlap (cross-level uniqueness check). Never ship `.course-key`.
+
 
 ## 3. Commands
 

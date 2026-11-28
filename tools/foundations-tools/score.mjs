@@ -20,8 +20,8 @@ export function scoreItem(it, ans) {
 }
 export const answered = (it, ans) => ans != null && (!Array.isArray(ans) || ans.some((x) => x !== undefined && x !== null));
 
-// Deterministic forms: item i of a chapter goes to form i mod 3 until that form's quota is met. Leftovers are reserve.
-export function assemble(bank, forms = 3) {
+// Deterministic forms: item i of a chapter goes to form i mod 5 until that form's quota is met. Leftovers are reserve.
+export function assemble(bank, forms = 5) {
   const out = Array.from({ length: forms }, () => []), reserve = [];
   for (const ch of Object.keys(QUOTA)) {
     const items = bank.filter((x) => x.ch === +ch).sort((a, b) => a.id.localeCompare(b.id));
